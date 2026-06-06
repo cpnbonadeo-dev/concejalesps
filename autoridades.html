@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoridades Locales · Partido Socialista Santa Fe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--rojo:#C41230;--rojo-vivo:#E8192C;--rojo-dark:#8B0A1F;--negro:#0D0509;--gris-10:#1A0C0F;--gris-sf:#F8F4F4;--texto:#2C1A1D;--texto-suave:#6B4A50;--borde:#EDE5E6;--sombra:0 2px 16px rgba(0,0,0,.07);--sombra-md:0 6px 32px rgba(0,0,0,.12);--r:12px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--texto);background:var(--gris-sf);-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:500;height:56px;background:rgba(13,5,9,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,18,48,.35);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.nav-escudo{width:30px;height:30px;border-radius:50%;background:var(--rojo);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.85rem;color:white}
+.nav-texto strong{color:white;font-size:.78rem;display:block}
+.nav-texto span{color:rgba(255,255,255,.4);font-size:.65rem;letter-spacing:.05em;text-transform:uppercase}
+.nav-back{color:rgba(255,255,255,.5);font-size:.75rem;text-decoration:none;display:flex;align-items:center;gap:.35rem;transition:color .18s}
+.nav-back:hover{color:white}
+.page-header{background:linear-gradient(160deg,var(--negro) 0%,var(--gris-10) 50%,#2C0812 100%);padding:3.5rem 2rem 2.5rem;position:relative;overflow:hidden}
+.page-header::after{content:'';position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(196,18,48,.18) 0%,transparent 70%);pointer-events:none}
+.header-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+.header-kicker{display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.4);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.header-kicker::before{content:'';display:block;width:20px;height:2px;background:var(--rojo)}
+.header-inner h1{font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:900;color:white;line-height:1.1;margin-bottom:.6rem}
+.header-inner h1 em{font-style:italic;color:var(--rojo-vivo)}
+.header-inner p{color:rgba(255,255,255,.5);font-size:.9rem;max-width:560px;line-height:1.65}
+.stats-bar{background:var(--rojo);padding:0 2rem}
+.stats-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:center;flex-wrap:wrap}
+.stat-item{padding:1rem 2.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.15)}
+.stat-item:last-child{border-right:none}
+.stat-item .n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:white;display:block;line-height:1}
+.stat-item .l{font-size:.72rem;color:rgba(255,255,255,.7);font-weight:600;margin-top:.2rem}
+.main-layout{max-width:1160px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
+.mapa-card{background:white;border-radius:var(--r);border:1px solid var(--borde);box-shadow:var(--sombra);overflow:hidden;position:sticky;top:70px}
+.mapa-header{padding:1rem 1.25rem;border-bottom:1px solid var(--borde);display:flex;justify-content:space-between;align-items:center}
+.mapa-header h3{font-size:.88rem;font-weight:700;color:var(--negro)}
+.mapa-header p{font-size:.72rem;color:var(--texto-suave)}
+#mapa{height:480px;width:100%}
+.mapa-leyenda{padding:.85rem 1.25rem;border-top:1px solid var(--borde);display:flex;gap:1.25rem;flex-wrap:wrap}
+.leyenda-item{display:flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:600;color:var(--texto-suave)}
+.leyenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.filtros-card{background:white;border-radius:var(--r);border:1px solid var(--borde);box-shadow:var(--sombra);padding:1.25rem;margin-bottom:1.25rem}
+.filtros-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.filtro-label{font-size:.72rem;font-weight:700;color:var(--texto-suave);text-transform:uppercase;letter-spacing:.07em}
+.filtro-select,.filtro-input{padding:.45rem .85rem;border:1px solid var(--borde);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--texto);background:var(--gris-sf);outline:none;transition:border-color .18s;cursor:pointer}
+.filtro-select:focus,.filtro-input:focus{border-color:var(--rojo);background:white}
+.filtro-input{flex:1;min-width:180px}
+.btn-reset{background:none;border:1px solid var(--borde);border-radius:8px;padding:.45rem .85rem;font-size:.78rem;color:var(--texto-suave);cursor:pointer;font-family:inherit;transition:all .18s}
+.btn-reset:hover{border-color:var(--rojo);color:var(--rojo)}
+.filtros-result{font-size:.75rem;color:var(--texto-suave);margin-top:.75rem}
+.filtros-result strong{color:var(--negro)}
+.depto-section{margin-bottom:1rem}
+.depto-header{background:white;border:1px solid var(--borde);border-radius:var(--r);padding:.9rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .2s;user-select:none}
+.depto-header:hover{border-color:rgba(196,18,48,.3)}
+.depto-header.open{border-radius:var(--r) var(--r) 0 0;border-color:var(--rojo)}
+.depto-nombre{font-weight:700;font-size:.9rem;color:var(--negro);display:flex;align-items:center;gap:.6rem}
+.depto-badge{font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:rgba(196,18,48,.08);color:var(--rojo);padding:.15rem .5rem;border-radius:10px}
+.depto-count{font-size:.75rem;color:var(--texto-suave);display:flex;align-items:center;gap:.5rem}
+.depto-arrow{transition:transform .25s;font-size:.75rem}
+.depto-header.open .depto-arrow{transform:rotate(180deg)}
+.depto-body{background:white;border:1px solid var(--rojo);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden;display:none}
+.depto-body.open{display:block}
+.autoridad-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:.5rem 1.25rem;align-items:center;padding:.9rem 1.25rem;border-bottom:1px solid var(--borde);transition:background .15s}
+.autoridad-row:last-child{border-bottom:none}
+.autoridad-row:hover{background:var(--gris-sf)}
+.cargo-badge{display:inline-flex;align-items:center;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .55rem;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.cargo-intendente{background:#FFF3CD;color:#856404;border:1px solid #FFE69C}
+.cargo-concejal{background:#FDE8E9;color:var(--rojo-dark);border:1px solid #FAC5C8}
+.cargo-presidente{background:#D1ECF1;color:#0C5460;border:1px solid #ABD8E1}
+.aut-lugar{font-size:.78rem;color:var(--texto-suave)}
+.aut-lugar strong{color:var(--negro);font-weight:600;display:block;font-size:.82rem}
+.aut-nombre{font-size:.88rem;font-weight:600;color:var(--negro)}
+.aut-ig{font-size:.78rem;color:var(--texto-suave);display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.aut-ig a{color:#833AB4;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:.3rem}
+.aut-ig a:hover{text-decoration:underline}
+.ig-sin{color:rgba(0,0,0,.2);font-size:.72rem;font-style:italic}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--texto-suave)}
+.empty-state span{font-size:2rem;display:block;margin-bottom:.75rem}
+.leaflet-popup-content-wrapper{border-radius:10px!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important}
+.popup-content{padding:.25rem 0}
+.popup-cargo{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.popup-nombre{font-weight:700;font-size:.92rem;color:#0D0509;margin-bottom:.15rem}
+.popup-lugar{font-size:.78rem;color:#6B4A50}
+@media(max-width:900px){.main-layout{grid-template-columns:1fr}.mapa-card{position:static}#mapa{height:350px}.autoridad-row{grid-template-columns:auto 1fr}.aut-ig{grid-column:2}.stats-inner{justify-content:flex-start;overflow-x:auto}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-escudo">PS</div>
+    <div class="nav-texto"><strong>Foro Autoridades Locales</strong><span>Partido Socialista · Santa Fe</span></div>
+  </a>
+  <a href="index.html" class="nav-back">← Volver al sitio principal</a>
+</nav>
+
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-kicker">Directorio oficial · Actualizado 2026</div>
+    <h1>Autoridades locales del<br><em>Partido Socialista</em> en Santa Fe</h1>
+    <p>Intendentes, concejales y presidentes comunales del PS en toda la provincia. Un mapa vivo de nuestra presencia territorial.</p>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="n" id="statTotal">0</span><div class="l">Autoridades en la red</div></div>
+    <div class="stat-item"><span class="n" id="statIntendenteN">0</span><div class="l">Intendentes</div></div>
+    <div class="stat-item"><span class="n" id="statConcejal">0</span><div class="l">Concejales/as</div></div>
+    <div class="stat-item"><span class="n" id="statPresidente">0</span><div class="l">Presidentes comunales</div></div>
+    <div class="stat-item"><span class="n" id="statDeptos">0</span><div class="l">Departamentos</div></div>
+    <div class="stat-item"><span class="n" id="statLocalidades">0</span><div class="l">Localidades</div></div>
+  </div>
+</div>
+
+<div class="main-layout">
+  <div>
+    <div class="filtros-card">
+      <div class="filtros-row">
+        <span class="filtro-label">Filtrar</span>
+        <input class="filtro-input" type="text" id="buscar" placeholder="🔍 Buscar nombre, localidad...">
+        <select class="filtro-select" id="filtroDepto"><option value="">Todos los departamentos</option></select>
+        <select class="filtro-select" id="filtroCargo"><option value="">Todos los cargos</option><option value="intendente">Intendentes</option><option value="concejal">Concejales</option><option value="presidente">Presidentes comunales</option></select>
+        <button class="btn-reset" onclick="resetFiltros()">Limpiar</button>
+      </div>
+      <div class="filtros-result" id="filtrosResult"></div>
+    </div>
+    <div id="listaDeptos"></div>
+  </div>
+
+  <div>
+    <div class="mapa-card">
+      <div class="mapa-header"><div><h3>🗺 Presencia territorial PS</h3><p>Hacé clic en un punto para ver el detalle</p></div></div>
+      <div id="mapa"></div>
+      <div class="mapa-leyenda">
+        <div class="leyenda-item"><div class="leyenda-dot" style="background:#856404"></div>Intendente</div>
+        <div class="leyenda-item"><div class="leyenda-dot" style="background:#C41230"></div>Concejal/a</div>
+        <div class="leyenda-item"><div class="leyenda-dot" style="background:#0C5460"></div>Pte. Comunal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const AUTORIDADES=[
+  {depto:"CASEROS",lugar:"San José de la Esquina",tipo:"municipio",cargo:"Intendente",nombre:"Ezequiel Ruani",ig:"",coords:[-33.218,-61.234]},
+  {depto:"CASEROS",lugar:"San José de la Esquina",tipo:"municipio",cargo:"Concejal",nombre:"Yoana Dalbello",ig:"",coords:[-33.218,-61.234]},
+  {depto:"CASEROS",lugar:"San José de la Esquina",tipo:"municipio",cargo:"Concejal",nombre:"Juan Pablo Coniglio",ig:"",coords:[-33.218,-61.234]},
+  {depto:"CASEROS",lugar:"Bigand",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Natalia Valeri",ig:"",coords:[-33.468,-61.185]},
+  {depto:"CASTELLANOS",lugar:"Sunchales",tipo:"municipio",cargo:"Intendente",nombre:"Pablo Pinotti",ig:"",coords:[-30.944,-61.561]},
+  {depto:"CASTELLANOS",lugar:"Sunchales",tipo:"municipio",cargo:"Concejal",nombre:"José Delmastro",ig:"",coords:[-30.944,-61.561]},
+  {depto:"CASTELLANOS",lugar:"Sunchales",tipo:"municipio",cargo:"Concejal",nombre:"Brenda Torrini",ig:"",coords:[-30.944,-61.561]},
+  {depto:"CASTELLANOS",lugar:"Sunchales",tipo:"municipio",cargo:"Concejal",nombre:"Juano Astor",ig:"",coords:[-30.944,-61.561]},
+  {depto:"CASTELLANOS",lugar:"San Vicente",tipo:"municipio",cargo:"Concejal",nombre:"Juan Carlos Marchese",ig:"",coords:[-31.367,-61.000]},
+  {depto:"CASTELLANOS",lugar:"Eusebia",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Susana Gimenez",ig:"",coords:[-30.966,-61.617]},
+  {depto:"CASTELLANOS",lugar:"Colonia Raquel",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Luciana Peter",ig:"",coords:[-30.817,-61.617]},
+  {depto:"CASTELLANOS",lugar:"Aldao",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Lorena Eberhardt",ig:"",coords:[-30.883,-61.450]},
+  {depto:"CASTELLANOS",lugar:"Colonia Margarita",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Titi Muratore",ig:"",coords:[-30.833,-61.667]},
+  {depto:"CASTELLANOS",lugar:"Zenon Pereyra",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Veronica Gallo",ig:"",coords:[-31.000,-61.100]},
+  {depto:"CASTELLANOS",lugar:"Colonia Iturraspe",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Dario Picco",ig:"",coords:[-31.133,-61.500]},
+  {depto:"CASTELLANOS",lugar:"Colonia Maua",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Ricardo Garbagnolli",ig:"",coords:[-31.017,-61.483]},
+  {depto:"CONSTITUCIÓN",lugar:"Villa Constitución",tipo:"municipio",cargo:"Concejal",nombre:"Diego Martin",ig:"",coords:[-33.229,-60.334]},
+  {depto:"CONSTITUCIÓN",lugar:"Villa Constitución",tipo:"municipio",cargo:"Concejal",nombre:"Francisco Bracalenti",ig:"",coords:[-33.229,-60.334]},
+  {depto:"CONSTITUCIÓN",lugar:"Cañada Rica",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Oscar Fernandez",ig:"",coords:[-33.167,-60.233]},
+  {depto:"CONSTITUCIÓN",lugar:"J.B. Molina",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Ignacio Galligani",ig:"",coords:[-33.317,-60.433]},
+  {depto:"CONSTITUCIÓN",lugar:"Sargento Cabral",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Juan Ignacio Genzano",ig:"",coords:[-33.367,-60.500]},
+  {depto:"GARAY",lugar:"Santa Rosa de Calchines",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Carlos Yossen",ig:"",coords:[-30.217,-60.783]},
+  {depto:"GENERAL LÓPEZ",lugar:"Venado Tuerto",tipo:"municipio",cargo:"Concejal",nombre:"Micaela Mineiro",ig:"",coords:[-33.744,-61.969]},
+  {depto:"GENERAL LÓPEZ",lugar:"Firmat",tipo:"municipio",cargo:"Concejal",nombre:"Alina Vargas Amato",ig:"",coords:[-33.457,-61.487]},
+  {depto:"GENERAL LÓPEZ",lugar:"Diego de Alvear",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Pablo Sosa",ig:"",coords:[-34.033,-62.317]},
+  {depto:"GENERAL LÓPEZ",lugar:"Aaron Castellanos",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Wualther Ramanzin",ig:"",coords:[-33.800,-61.650]},
+  {depto:"GENERAL LÓPEZ",lugar:"Christophersen",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Javier Martinez",ig:"",coords:[-33.900,-62.050]},
+  {depto:"GENERAL LÓPEZ",lugar:"San Francisco",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Ignacio Freytes",ig:"",coords:[-33.950,-61.650]},
+  {depto:"GENERAL OBLIGADO",lugar:"Las Toscas",tipo:"municipio",cargo:"Intendente",nombre:"Ivan Sanchez",ig:"",coords:[-28.360,-59.260]},
+  {depto:"GENERAL OBLIGADO",lugar:"Las Toscas",tipo:"municipio",cargo:"Concejal",nombre:"Alejandro Delssin",ig:"",coords:[-28.360,-59.260]},
+  {depto:"GENERAL OBLIGADO",lugar:"Las Toscas",tipo:"municipio",cargo:"Concejal",nombre:"Miguel Gutierrez",ig:"",coords:[-28.360,-59.260]},
+  {depto:"GENERAL OBLIGADO",lugar:"Reconquista",tipo:"municipio",cargo:"Concejal",nombre:"Marisa Flores",ig:"",coords:[-29.150,-59.650]},
+  {depto:"GENERAL OBLIGADO",lugar:"Villa Ocampo",tipo:"municipio",cargo:"Concejal",nombre:"Daina Ramirez",ig:"",coords:[-28.410,-59.353]},
+  {depto:"GENERAL OBLIGADO",lugar:"Villa Ocampo",tipo:"municipio",cargo:"Concejal",nombre:"Andrea Cracogna",ig:"",coords:[-28.410,-59.353]},
+  {depto:"GENERAL OBLIGADO",lugar:"San Antonio de Obligado",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Jorge Ale",ig:"",coords:[-28.517,-59.667]},
+  {depto:"IRIONDO",lugar:"Correa",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Nahuel Cejas",ig:"",coords:[-32.917,-61.053]},
+  {depto:"IRIONDO",lugar:"Villa Eloisa",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Luciano Pallotti",ig:"",coords:[-32.717,-61.367]},
+  {depto:"LA CAPITAL",lugar:"Recreo",tipo:"municipio",cargo:"Intendente",nombre:"Omar Colombo",ig:"",coords:[-31.483,-60.733]},
+  {depto:"LA CAPITAL",lugar:"Recreo",tipo:"municipio",cargo:"Concejal",nombre:"Omar Picard",ig:"",coords:[-31.483,-60.733]},
+  {depto:"LA CAPITAL",lugar:"San José del Rincón",tipo:"municipio",cargo:"Concejal",nombre:"Camila Rodriguez del Curto",ig:"",coords:[-31.600,-60.567]},
+  {depto:"LA CAPITAL",lugar:"Laguna Paiva",tipo:"municipio",cargo:"Concejal",nombre:"Melina Andrés",ig:"",coords:[-31.283,-60.650]},
+  {depto:"LA CAPITAL",lugar:"Santo Tomé",tipo:"municipio",cargo:"Concejal",nombre:"Alejandra Chena",ig:"",coords:[-31.667,-60.767]},
+  {depto:"LAS COLONIAS",lugar:"Santo Domingo",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Patricia Arber",ig:"",coords:[-30.583,-60.883]},
+  {depto:"LAS COLONIAS",lugar:"San Carlos Centro",tipo:"municipio",cargo:"Concejal",nombre:"Judith Perren",ig:"",coords:[-31.733,-61.100]},
+  {depto:"LAS COLONIAS",lugar:"San Carlos Centro",tipo:"municipio",cargo:"Concejal",nombre:"Gabriel Otazo",ig:"",coords:[-31.733,-61.100]},
+  {depto:"NUEVE DE JULIO",lugar:"Esteban Rams",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Jose Luis Busto",ig:"",coords:[-29.000,-61.400]},
+  {depto:"NUEVE DE JULIO",lugar:"Juan de Garay",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Leonardo Vera",ig:"",coords:[-29.350,-61.350]},
+  {depto:"NUEVE DE JULIO",lugar:"Villa Minetti",tipo:"municipio",cargo:"Concejal",nombre:"Pedro Junco",ig:"",coords:[-28.667,-61.017]},
+  {depto:"ROSARIO",lugar:"Alvear",tipo:"municipio",cargo:"Intendente",nombre:"Carlos Pighin",ig:"",coords:[-33.383,-60.017]},
+  {depto:"ROSARIO",lugar:"Alvear",tipo:"municipio",cargo:"Concejal",nombre:"Benjamín Perruccio",ig:"",coords:[-33.383,-60.017]},
+  {depto:"ROSARIO",lugar:"Alvear",tipo:"municipio",cargo:"Concejal",nombre:"Flavia Banfi",ig:"",coords:[-33.383,-60.017]},
+  {depto:"ROSARIO",lugar:"Pueblo Esther",tipo:"municipio",cargo:"Intendente",nombre:"Martin Gherardi",ig:"",coords:[-33.050,-60.683]},
+  {depto:"ROSARIO",lugar:"Rosario",tipo:"municipio",cargo:"Concejal",nombre:"Federico Lifschitz",ig:"",coords:[-32.944,-60.650]},
+  {depto:"ROSARIO",lugar:"Rosario",tipo:"municipio",cargo:"Concejal",nombre:"Manuel Sciutto",ig:"",coords:[-32.944,-60.650]},
+  {depto:"ROSARIO",lugar:"Rosario",tipo:"municipio",cargo:"Concejal",nombre:"Alicia Pino",ig:"",coords:[-32.944,-60.650]},
+  {depto:"ROSARIO",lugar:"Villa Gobernador Gálvez",tipo:"municipio",cargo:"Intendente",nombre:"Alberto Ricci",ig:"",coords:[-33.033,-60.633]},
+  {depto:"ROSARIO",lugar:"Villa Gobernador Gálvez",tipo:"municipio",cargo:"Concejal",nombre:"Esteban Lenci",ig:"",coords:[-33.033,-60.633]},
+  {depto:"ROSARIO",lugar:"Villa Gobernador Gálvez",tipo:"municipio",cargo:"Concejal",nombre:"Patricia González",ig:"",coords:[-33.033,-60.633]},
+  {depto:"ROSARIO",lugar:"Villa Gobernador Gálvez",tipo:"municipio",cargo:"Concejal",nombre:"José Bulsicco",ig:"",coords:[-33.033,-60.633]},
+  {depto:"ROSARIO",lugar:"Acebal",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Lala Lucci",ig:"",coords:[-33.233,-60.783]},
+  {depto:"ROSARIO",lugar:"Coronel Domínguez",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Mónica Villegas",ig:"",coords:[-33.217,-60.567]},
+  {depto:"ROSARIO",lugar:"Villa Amelia",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Javier Ruggeri",ig:"",coords:[-33.133,-60.767]},
+  {depto:"SAN CRISTÓBAL",lugar:"Suardi",tipo:"municipio",cargo:"Concejal",nombre:"Agustin Peretti",ig:"",coords:[-30.533,-62.417]},
+  {depto:"SAN CRISTÓBAL",lugar:"Suardi",tipo:"municipio",cargo:"Concejal",nombre:"Gonzalo Rui",ig:"",coords:[-30.533,-62.417]},
+  {depto:"SAN JERÓNIMO",lugar:"Gálvez",tipo:"municipio",cargo:"Concejal",nombre:"Santiago Pestarini",ig:"",coords:[-32.033,-61.217]},
+  {depto:"SAN JERÓNIMO",lugar:"Gálvez",tipo:"municipio",cargo:"Concejal",nombre:"Monica Rivelo",ig:"",coords:[-32.033,-61.217]},
+  {depto:"SAN JERÓNIMO",lugar:"Barrancas",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Gustavo Ramos",ig:"",coords:[-32.167,-60.783]},
+  {depto:"SAN MARTÍN",lugar:"San Jorge",tipo:"municipio",cargo:"Concejal",nombre:"Rodrigo Duín",ig:"",coords:[-31.883,-61.867]},
+  {depto:"SAN MARTÍN",lugar:"El Trébol",tipo:"municipio",cargo:"Concejal",nombre:"Laura Raspantti",ig:"",coords:[-31.817,-61.717]},
+  {depto:"SAN MARTÍN",lugar:"San Martín de las Escobas",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Marcos Alarcon",ig:"",coords:[-31.800,-61.933]},
+  {depto:"VERA",lugar:"La Gallareta",tipo:"comuna",cargo:"Presidente Comunal",nombre:"Fernando Nicola",ig:"",coords:[-29.433,-60.167]},
+  {depto:"VERA",lugar:"Vera",tipo:"municipio",cargo:"Concejal",nombre:"Ana Paula Capello",ig:"",coords:[-29.467,-60.217]},
+];
+
+function colorCargo(c){if(c==='Intendente')return'#856404';if(c==='Concejal')return'#C41230';return'#0C5460'}
+function classBadge(c){if(c==='Intendente')return'cargo-intendente';if(c==='Concejal')return'cargo-concejal';return'cargo-presidente'}
+
+function calcStats(data){
+  return{
+    total:data.length,
+    intendentes:data.filter(a=>a.cargo==='Intendente').length,
+    concejales:data.filter(a=>a.cargo==='Concejal').length,
+    presidentes:data.filter(a=>a.cargo==='Presidente Comunal').length,
+    deptos:[...new Set(data.map(a=>a.depto))].length,
+    localidades:[...new Set(data.map(a=>a.lugar))].length
+  }
+}
+
+function renderStats(data){
+  const s=calcStats(data);
+  document.getElementById('statTotal').textContent=s.total;
+  document.getElementById('statIntendenteN').textContent=s.intendentes;
+  document.getElementById('statConcejal').textContent=s.concejales;
+  document.getElementById('statPresidente').textContent=s.presidentes;
+  document.getElementById('statDeptos').textContent=s.deptos;
+  document.getElementById('statLocalidades').textContent=s.localidades;
+}
+
+const map=L.map('mapa',{center:[-31.2,-60.5],zoom:6,scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:17}).addTo(map);
+
+let marcadores=[];
+function renderMapa(data){
+  marcadores.forEach(m=>map.removeLayer(m));marcadores=[];
+  const grupos={};
+  data.forEach(a=>{const k=a.coords.join(',');if(!grupos[k])grupos[k]=[];grupos[k].push(a)});
+  Object.entries(grupos).forEach(([k,arr])=>{
+    const[lat,lon]=k.split(',').map(Number);
+    const color=colorCargo(arr[0].cargo);
+    const sz=Math.min(12+arr.length*3,26);
+    const icon=L.divIcon({html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;">${arr.length>1?arr.length:''}</div>`,className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]});
+    const html=arr.map(p=>`<div style="margin-bottom:${arr.length>1?'8px':'0'};padding-bottom:${arr.length>1?'8px':'0'};border-bottom:${arr.length>1?'1px solid #eee':'none'}"><div class="popup-cargo" style="color:${colorCargo(p.cargo)}">${p.cargo}</div><div class="popup-nombre">${p.nombre}</div><div class="popup-lugar">${p.lugar} · ${p.depto}</div>${p.ig?`<div style="font-size:.75rem;margin-top:4px"><a href="https://instagram.com/${p.ig.replace('@','')}" target="_blank" style="color:#833AB4;font-weight:600">📷 ${p.ig}</a></div>`:''}</div>`).join('');
+    const marker=L.marker([lat,lon],{icon}).addTo(map).bindPopup(html,{maxWidth:240});
+    marcadores.push(marker);
+  });
+}
+
+function renderLista(data){
+  const container=document.getElementById('listaDeptos');container.innerHTML='';
+  const deptos=[...new Set(data.map(a=>a.depto))].sort();
+  if(deptos.length===0){container.innerHTML='<div class="empty-state"><span>🔍</span>No encontramos resultados.</div>';return}
+  deptos.forEach((depto,idx)=>{
+    const personas=data.filter(a=>a.depto===depto);
+    const i=personas.filter(p=>p.cargo==='Intendente').length;
+    const c=personas.filter(p=>p.cargo==='Concejal').length;
+    const p2=personas.filter(p=>p.cargo==='Presidente Comunal').length;
+    const resumen=[i?`${i} intend.`:'',c?`${c} concej.`:'',p2?`${p2} ptes.`:''].filter(Boolean).join(' · ');
+    const div=document.createElement('div');div.className='depto-section';div.setAttribute('data-depto',depto);
+    div.innerHTML=`<div class="depto-header${idx===0?' open':''}" onclick="toggleDepto(this)"><div class="depto-nombre"><span class="depto-badge">${depto}</span><span>${personas.length} ${personas.length===1?'autoridad':'autoridades'}</span></div><div class="depto-count"><span style="color:var(--texto-suave);font-size:.72rem">${resumen}</span><span class="depto-arrow">▼</span></div></div><div class="depto-body${idx===0?' open':''}">
+    ${personas.map(p=>`<div class="autoridad-row"><span class="cargo-badge ${classBadge(p.cargo)}">${p.cargo}</span><div class="aut-lugar"><strong>${p.lugar}</strong>${p.tipo==='municipio'?'Municipio':'Comuna'}</div><div class="aut-nombre">${p.nombre}</div><div class="aut-ig">${p.ig?`<a href="https://instagram.com/${p.ig.replace('@','')}" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>${p.ig}</a>`:'<span class="ig-sin">sin Instagram</span>'}</div></div>`).join('')}
+    </div>`;
+    container.appendChild(div);
+  });
+  const n=data.length;const l=[...new Set(data.map(a=>a.lugar))].length;
+  document.getElementById('filtrosResult').innerHTML=`Mostrando <strong>${n} autoridades</strong> en <strong>${l} localidades</strong>.`;
+}
+
+function toggleDepto(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
+
+function poblarFiltroDepto(){
+  const sel=document.getElementById('filtroDepto');
+  [...new Set(AUTORIDADES.map(a=>a.depto))].sort().forEach(d=>{const opt=document.createElement('option');opt.value=d;opt.textContent=d;sel.appendChild(opt)});
+}
+
+function filtrarDatos(){
+  const texto=document.getElementById('buscar').value.toLowerCase().trim();
+  const depto=document.getElementById('filtroDepto').value;
+  const cargo=document.getElementById('filtroCargo').value;
+  return AUTORIDADES.filter(a=>{
+    if(depto&&a.depto!==depto)return false;
+    if(cargo){const cL=cargo.toLowerCase();if(cL==='intendente'&&a.cargo!=='Intendente')return false;if(cL==='concejal'&&a.cargo!=='Concejal')return false;if(cL==='presidente'&&a.cargo!=='Presidente Comunal')return false}
+    if(texto){const h=`${a.nombre} ${a.lugar} ${a.depto} ${a.cargo}`.toLowerCase();if(!h.includes(texto))return false}
+    return true;
+  });
+}
+
+function actualizarVista(){const data=filtrarDatos();renderStats(data);renderLista(data);renderMapa(data)}
+function resetFiltros(){document.getElementById('buscar').value='';document.getElementById('filtroDepto').value='';document.getElementById('filtroCargo').value='';actualizarVista()}
+
+poblarFiltroDepto();actualizarVista();
+document.getElementById('buscar').addEventListener('input',actualizarVista);
+document.getElementById('filtroDepto').addEventListener('change',actualizarVista);
+document.getElementById('filtroCargo').addEventListener('change',actualizarVista);
+map.on('focus',()=>map.scrollWheelZoom.enable());map.on('blur',()=>map.scrollWheelZoom.disable());
+</script>
+</body>
+</html>
