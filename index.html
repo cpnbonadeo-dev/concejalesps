@@ -1040,6 +1040,60 @@
 
     .footer-links a:hover { color: var(--rojo); }
 
+    /* ─── PRESENCIA TERRITORIAL ─── */
+    .mapa-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+    .mapa-svg-wrap svg { width: 100%; height: auto; display: block; }
+    .mapa-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .mapa-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 700; color: var(--rojo); line-height: 1;
+    }
+    .mapa-stat-label { font-size: 0.78rem; color: var(--texto-sec); line-height: 1.4; margin-top: 0.2rem; }
+    .mapa-leyenda { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 1.25rem; }
+    .leyenda-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: var(--texto-sec); }
+    .mapa-munis-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--rojo);
+      margin-bottom: 0.85rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(196,18,48,0.2);
+    }
+    .munis-key-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+      gap: 0.75rem;
+    }
+    .muni-key-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-brd);
+      border-top: 2px solid var(--rojo);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .muni-key-card:hover { border-color: var(--rojo); transform: translateY(-2px); }
+    .muni-key-card .mk-nombre { font-size: 0.92rem; font-weight: 700; color: var(--texto); margin-bottom: 0.15rem; }
+    .muni-key-card .mk-jefe  { font-size: 0.8rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
+    .muni-key-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .ver-detalle-link {
+      display: inline-block; margin-top: 1.75rem;
+      font-size: 0.85rem; color: var(--rojo); font-weight: 600;
+      border-bottom: 1px solid rgba(196,18,48,0.35); padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .ver-detalle-link:hover { border-color: var(--rojo); }
+    @media (max-width: 680px) {
+      .mapa-layout { grid-template-columns: 1fr; }
+      .mapa-svg-wrap { max-width: 240px; margin: 0 auto; }
+    }
+
     /* ─── DIVISOR ─── */
     .divider {
       height: 1px;
@@ -1076,6 +1130,7 @@
       <ul class="nav-links">
         <li><a href="#banco">Iniciativas</a></li>
         <li><a href="#problemas">Problemas</a></li>
+        <li><a href="#presencia">Territorio</a></li>
         <li><a href="#la-red">La Red</a></li>
         <li><a href="#biblioteca">Biblioteca</a></li>
         <li><a href="#agenda">Agenda</a></li>
@@ -1094,8 +1149,9 @@
   <!-- Mobile nav -->
   <div class="nav-mobile" id="navMobile">
     <a href="#banco"     onclick="closeNav()">Iniciativas</a>
-    <a href="#problemas" onclick="closeNav()">Problemas comunes</a>
-    <a href="#la-red"    onclick="closeNav()">La Red</a>
+    <a href="#problemas"  onclick="closeNav()">Problemas comunes</a>
+    <a href="#presencia"  onclick="closeNav()">Territorio</a>
+    <a href="#la-red"     onclick="closeNav()">La Red</a>
     <a href="#biblioteca"onclick="closeNav()">Biblioteca</a>
     <a href="#agenda"    onclick="closeNav()">Agenda</a>
     <button onclick="cerrarSesion()">Salir</button>
@@ -1253,6 +1309,178 @@
           <span>Género y DDHH</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════ PRESENCIA TERRITORIAL ═══ -->
+  <section class="section-sm" id="presencia">
+    <div class="container">
+      <span class="section-tag">Territorio</span>
+      <h2 class="section-title">Dónde gobernamos</h2>
+      <p class="section-intro">Presencia socialista en los concejos deliberantes de Santa Fe. Los puntos grandes marcan los municipios donde también somos gobierno.</p>
+
+      <div class="mapa-layout">
+        <!-- SVG MAPA DE CALOR -->
+        <div class="mapa-svg-wrap">
+          <svg viewBox="0 0 300 610" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 4px 32px rgba(196,18,48,0.18))">
+            <!-- Contorno simplificado de Santa Fe -->
+            <path d="M32,6 L262,16 L272,62 L256,132 L226,186 L192,272 L186,352 L176,432 L169,522 L161,567 L32,577 L23,432 L19,302 L23,182 L29,82 Z"
+                  fill="rgba(20,5,12,0.85)" stroke="rgba(196,18,48,0.45)" stroke-width="1.5" stroke-linejoin="round"/>
+
+            <!-- === PUNTOS NORMALES (solo concejales) === -->
+            <!-- Villa Ocampo: 2 -->
+            <circle cx="236" cy="44" r="5" fill="#C41230" fill-opacity="0.55"/>
+            <!-- Reconquista: 1 -->
+            <circle cx="215" cy="106" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Vera: 1 -->
+            <circle cx="172" cy="136" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Villa Minetti: 1 -->
+            <circle cx="66" cy="172" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Suardi: 2 -->
+            <circle cx="36" cy="236" r="5" fill="#C41230" fill-opacity="0.55"/>
+            <!-- San Cristóbal: 1 -->
+            <circle cx="95" cy="249" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- San Vicente: 1 -->
+            <circle cx="74" cy="308" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Laguna Paiva: 1 -->
+            <circle cx="142" cy="302" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- San José del Rincón: 1 -->
+            <circle cx="150" cy="328" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Santo Tomé: 1 -->
+            <circle cx="133" cy="337" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- San Carlos Centro: 2 -->
+            <circle cx="105" cy="342" r="5" fill="#C41230" fill-opacity="0.55"/>
+            <!-- Gálvez: 2 -->
+            <circle cx="97" cy="369" r="5" fill="#C41230" fill-opacity="0.55"/>
+            <!-- San Jorge: 1 -->
+            <circle cx="48" cy="358" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- El Trébol: 1 -->
+            <circle cx="60" cy="385" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Firmat: 1 -->
+            <circle cx="77" cy="502" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Venado Tuerto: 1 -->
+            <circle cx="41" cy="528" r="4" fill="#C41230" fill-opacity="0.4"/>
+            <!-- Villa Constitución: 2 -->
+            <circle cx="164" cy="481" r="5" fill="#C41230" fill-opacity="0.55"/>
+            <!-- Rosario: 3 (sin intendente) -->
+            <circle cx="140" cy="453" r="6.5" fill="#C41230" fill-opacity="0.65"/>
+            <text x="150" y="449" font-family="system-ui,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.45)">Rosario</text>
+
+            <!-- === MUNICIPIOS CON GOBIERNO SOCIALISTA (con halo) === -->
+            <!-- Las Toscas -->
+            <circle cx="243" cy="80" r="13" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="243" cy="80" r="8"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="243" y="68" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Las Toscas</text>
+
+            <!-- Sunchales -->
+            <circle cx="71" cy="270" r="14" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="71" cy="270" r="9"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="88" y="274" font-family="system-ui,sans-serif" font-size="9.5" fill="rgba(255,255,255,0.82)" font-weight="700">Sunchales</text>
+
+            <!-- Recreo -->
+            <circle cx="133" cy="314" r="13" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="133" cy="314" r="8"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="133" y="303" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Recreo</text>
+
+            <!-- San José de la Esquina -->
+            <circle cx="65" cy="467" r="13" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="65" cy="467" r="8"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="80" y="463" font-family="system-ui,sans-serif" font-size="8" fill="rgba(255,255,255,0.75)" font-weight="700">Sj. Esquina</text>
+
+            <!-- Alvear -->
+            <circle cx="184" cy="465" r="13" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="184" cy="465" r="8"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="184" y="454" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Alvear</text>
+
+            <!-- Villa Gobernador Gálvez -->
+            <circle cx="128" cy="472" r="13" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="128" cy="472" r="8"  fill="#C41230" fill-opacity="0.92"/>
+            <text x="113" y="484" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="rgba(255,255,255,0.75)" font-weight="700">VGG</text>
+
+            <!-- Pueblo Esther -->
+            <circle cx="153" cy="480" r="12" fill="#C41230" fill-opacity="0.18"/>
+            <circle cx="153" cy="480" r="7.5" fill="#C41230" fill-opacity="0.88"/>
+            <text x="166" y="484" font-family="system-ui,sans-serif" font-size="7.5" fill="rgba(255,255,255,0.72)" font-weight="700">P.Esther</text>
+          </svg>
+        </div>
+
+        <!-- PANEL DE DATOS -->
+        <div>
+          <div class="mapa-stats">
+            <div>
+              <div class="mapa-stat-num">7</div>
+              <div class="mapa-stat-label">municipios con<br>gobierno socialista</div>
+            </div>
+            <div>
+              <div class="mapa-stat-num">38</div>
+              <div class="mapa-stat-label">concejales en<br>toda la provincia</div>
+            </div>
+            <div>
+              <div class="mapa-stat-num">24</div>
+              <div class="mapa-stat-label">ciudades con<br>presencia PS</div>
+            </div>
+          </div>
+          <div class="mapa-leyenda">
+            <div class="leyenda-item">
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <circle cx="10" cy="10" r="9" fill="#C41230" fill-opacity="0.2"/>
+                <circle cx="10" cy="10" r="6" fill="#C41230"/>
+              </svg>
+              <span>Municipio con intendente PS</span>
+            </div>
+            <div class="leyenda-item">
+              <svg width="14" height="14" viewBox="0 0 14 14">
+                <circle cx="7" cy="7" r="5.5" fill="#C41230" fill-opacity="0.55"/>
+              </svg>
+              <span>Con concejales PS (tamaño = cantidad)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARDS DE LOS 7 MUNICIPIOS CON GOBIERNO SOCIALISTA -->
+      <p class="mapa-munis-title">Municipios con gobierno socialista — páginas oficiales</p>
+      <div class="munis-key-grid">
+        <a class="muni-key-card" href="https://www.sunchales.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Sunchales</div>
+          <div class="mk-jefe">Pablo Pinotti</div>
+          <div class="mk-cargo">Intendente · Dpto. Castellanos</div>
+        </a>
+        <a class="muni-key-card" href="https://www.recreo.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Recreo</div>
+          <div class="mk-jefe">Omar Colombo</div>
+          <div class="mk-cargo">Intendente · Dpto. La Capital</div>
+        </a>
+        <a class="muni-key-card" href="https://www.generalalvear.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Alvear</div>
+          <div class="mk-jefe">Carlos Pighin</div>
+          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
+        </a>
+        <a class="muni-key-card" href="https://www.lastoscas.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Las Toscas</div>
+          <div class="mk-jefe">Ivan Sanchez</div>
+          <div class="mk-cargo">Intendente · Dpto. Gral. Obligado</div>
+        </a>
+        <a class="muni-key-card" href="https://www.sanjosedelaesquina.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">San José de la Esquina</div>
+          <div class="mk-jefe">Ezequiel Ruani</div>
+          <div class="mk-cargo">Intendente · Dpto. Caseros</div>
+        </a>
+        <a class="muni-key-card" href="https://www.puebloesther.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Pueblo Esther</div>
+          <div class="mk-jefe">Martin Gherardi</div>
+          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
+        </a>
+        <a class="muni-key-card" href="https://www.vgg.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Villa Gobernador Gálvez</div>
+          <div class="mk-jefe">Alberto Ricci</div>
+          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
+        </a>
+      </div>
+
+      <a href="#gobiernos" class="ver-detalle-link">Ver detalle completo de autoridades →</a>
     </div>
   </section>
 
