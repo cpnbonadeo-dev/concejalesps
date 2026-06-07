@@ -1214,9 +1214,73 @@
       transition: border-color 0.2s;
     }
     .ver-detalle-link:hover { border-color: var(--rojo); }
+
+    /* ─── FEATURED MUNICIPALITIES ─── */
+    .munis-featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.875rem;
+      margin-bottom: 1.25rem;
+    }
+    .muni-featured-card {
+      background: linear-gradient(135deg, rgba(196,18,48,0.1) 0%, var(--card-bg) 60%);
+      border: 1px solid rgba(196,18,48,0.3);
+      border-top: 3px solid var(--rojo);
+      border-radius: 12px;
+      padding: 1.1rem;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 2px 16px rgba(196,18,48,0.06);
+    }
+    .muni-featured-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(196,18,48,0.18);
+      border-color: rgba(196,18,48,0.6);
+    }
+    .muni-featured-card .mk-nombre { font-size: 1.05rem; font-weight: 700; color: var(--texto); margin-bottom: 0.2rem; }
+    .muni-featured-card .mk-jefe  { font-size: 0.82rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
+    .muni-featured-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .mk-count {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.68rem; font-weight: 600; color: var(--rojo);
+      background: rgba(196,18,48,0.1); border: 1px solid rgba(196,18,48,0.2);
+      border-radius: 4px; padding: 0.12rem 0.45rem;
+      margin-top: 0.55rem;
+    }
+    .muni-secondary-label {
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--texto-sec);
+      margin: 0.25rem 0 0.65rem;
+    }
+
+    /* ─── DIRECTORIO BUSCADOR ─── */
+    .dir-buscar-wrap { margin-bottom: 0.85rem; }
+    .dir-buscar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-brd);
+      border-radius: 8px;
+      color: var(--texto);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.875rem;
+      outline: none;
+      width: 100%;
+      max-width: 380px;
+      transition: border-color 0.2s;
+    }
+    .dir-buscar:focus { border-color: var(--rojo); }
+    .dir-tel {
+      font-size: 0.72rem; color: rgba(192,160,176,0.6);
+      text-decoration: none; margin-left: 0.4rem; white-space: nowrap;
+    }
+    .dir-tel:hover { color: var(--rojo); }
+
+    @media (max-width: 900px) { .munis-featured-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 680px) {
       .mapa-layout { grid-template-columns: 1fr; }
       .mapa-svg-wrap { max-width: 240px; margin: 0 auto; }
+      .munis-featured-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ─── DIVISOR ─── */
@@ -1561,29 +1625,40 @@
         </div>
       </div>
 
-      <!-- CARDS DE LOS 7 MUNICIPIOS CON GOBIERNO SOCIALISTA -->
-      <p class="mapa-munis-title">Municipios con gobierno socialista — páginas oficiales</p>
-      <div class="munis-key-grid">
-        <a class="muni-key-card" href="https://www.sunchales.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Sunchales</div>
-          <div class="mk-jefe">Pablo Pinotti</div>
-          <div class="mk-cargo">Intendente · Dpto. Castellanos</div>
-        </a>
-        <a class="muni-key-card" href="https://www.recreo.gob.ar" target="_blank" rel="noopener">
+      <!-- MUNICIPIOS CON GOBIERNO SOCIALISTA -->
+      <p class="mapa-munis-title" style="margin-top:2.5rem">Municipios con gobierno socialista</p>
+
+      <!-- 4 municipios destacados -->
+      <div class="munis-featured-grid">
+        <a class="muni-featured-card" href="https://www.recreo.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Recreo</div>
           <div class="mk-jefe">Omar Colombo</div>
           <div class="mk-cargo">Intendente · Dpto. La Capital</div>
+          <div class="mk-count">★ 1 concejal en la red</div>
         </a>
-        <a class="muni-key-card" href="https://www.generalalvear.gob.ar" target="_blank" rel="noopener">
+        <a class="muni-featured-card" href="https://www.generalalvear.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Alvear</div>
           <div class="mk-jefe">Carlos Pighin</div>
           <div class="mk-cargo">Intendente · Dpto. Rosario</div>
+          <div class="mk-count">★ 2 concejales en la red</div>
         </a>
-        <a class="muni-key-card" href="https://www.lastoscas.gob.ar" target="_blank" rel="noopener">
+        <a class="muni-featured-card" href="https://www.sunchales.gob.ar" target="_blank" rel="noopener">
+          <div class="mk-nombre">Sunchales</div>
+          <div class="mk-jefe">Pablo Pinotti</div>
+          <div class="mk-cargo">Intendente · Dpto. Castellanos</div>
+          <div class="mk-count">★ 3 concejales en la red</div>
+        </a>
+        <a class="muni-featured-card" href="https://www.lastoscas.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Las Toscas</div>
           <div class="mk-jefe">Ivan Sanchez</div>
           <div class="mk-cargo">Intendente · Dpto. Gral. Obligado</div>
+          <div class="mk-count">★ 2 concejales en la red</div>
         </a>
+      </div>
+
+      <!-- 3 municipios secundarios -->
+      <p class="muni-secondary-label">Otros municipios con intendente PS</p>
+      <div class="munis-key-grid">
         <a class="muni-key-card" href="https://www.sanjosedelaesquina.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">San José de la Esquina</div>
           <div class="mk-jefe">Ezequiel Ruani</div>
@@ -1602,8 +1677,11 @@
       </div>
 
       <!-- DIRECTORIO COMPLETO POR DEPARTAMENTO -->
-      <div class="dir-section" id="dir-territorial">
-        <p class="mapa-munis-title">Directorio completo — por departamento y localidad</p>
+      <div class="dir-section" id="dir-territorial" style="margin-top:2.5rem">
+        <p class="mapa-munis-title">Directorio completo de autoridades PS</p>
+        <div class="dir-buscar-wrap">
+          <input type="text" class="dir-buscar" id="dirBuscar" placeholder="🔍 Buscar por nombre o localidad…" oninput="filtrarDir()">
+        </div>
         <div id="dirDeptos"></div>
       </div>
     </div>
@@ -1832,7 +1910,7 @@
         <span class="section-tag">Sumarse</span>
         <h2 class="section-title">Sumarse a la Red</h2>
         <p class="section-intro" style="margin-bottom:1.5rem;">
-          Si sos concejal socialista de Santa Fe y no estás en la red todavía, completá este formulario.
+          ¿Integrás el bloque PS en tu municipio y todavía no estás en la red? Completá este formulario.
         </p>
 
         <form class="form-sumarse" onsubmit="enviarFormulario(event)">
@@ -2188,115 +2266,127 @@
     // ─── DIRECTORIO TERRITORIAL ───
     const AUTORIDADES = [
       // CASEROS
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Intendente',   n:'Ezequiel Ruani'},
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Yoana Dalbello'},
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Juan Pablo Coniglio'},
-      {d:'Caseros',          l:'Bigand',                    c:'Pte. Comunal', n:'Natalia Valeri'},
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Intendente',   n:'Ezequiel Ruani',              t:'3425 31-5947'},
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Yoana Dalbello',              t:'3467 43-8952'},
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Juan Pablo Coniglio',         t:'3467 41-7291'},
+      {d:'Caseros',          l:'Bigand',                    c:'Pte. Comunal', n:'Natalia Valeri',              t:'3416 84-7333'},
       // CASTELLANOS
-      {d:'Castellanos',      l:'Sunchales',                 c:'Intendente',   n:'Pablo Pinotti'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'José Delmastro'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Brenda Torrini'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Juano Astor'},
-      {d:'Castellanos',      l:'San Vicente',               c:'Concejal',     n:'Juan Carlos Marchese'},
-      {d:'Castellanos',      l:'Eusebia',                   c:'Pte. Comunal', n:'Susana Gimenez'},
-      {d:'Castellanos',      l:'Colonia Raquel',            c:'Pte. Comunal', n:'Luciana Peter'},
-      {d:'Castellanos',      l:'Aldao',                     c:'Pte. Comunal', n:'Lorena Eberhardt'},
-      {d:'Castellanos',      l:'Colonia Margarita',         c:'Pte. Comunal', n:'Titi Muratore'},
-      {d:'Castellanos',      l:'Zenón Pereyra',             c:'Pte. Comunal', n:'Veronica Gallo'},
-      {d:'Castellanos',      l:'Colonia Iturraspe',         c:'Pte. Comunal', n:'Dario Picco'},
-      {d:'Castellanos',      l:'Colonia Mauá',              c:'Pte. Comunal', n:'Ricardo Garbagnolli'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Intendente',   n:'Pablo Pinotti',               t:'3492 32-0854'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'José Delmastro',              t:'3493 41-6305'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Brenda Torrini',              t:'3493 45-5600'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Juano Astor',                 t:'3493 49-5863'},
+      {d:'Castellanos',      l:'San Vicente',               c:'Concejal',     n:'Juan Carlos Marchese',        t:'3401 64-0111'},
+      {d:'Castellanos',      l:'Eusebia',                   c:'Pte. Comunal', n:'Susana Gimenez',              t:'3493 44-3782'},
+      {d:'Castellanos',      l:'Colonia Raquel',            c:'Pte. Comunal', n:'Luciana Peter',               t:'3493 43-6850'},
+      {d:'Castellanos',      l:'Aldao',                     c:'Pte. Comunal', n:'Lorena Eberhardt',            t:'3493 46-0435'},
+      {d:'Castellanos',      l:'Colonia Margarita',         c:'Pte. Comunal', n:'Titi Muratore',               t:'3492 30-3062'},
+      {d:'Castellanos',      l:'Zenón Pereyra',             c:'Pte. Comunal', n:'Veronica Gallo',              t:'3564 33-5478'},
+      {d:'Castellanos',      l:'Colonia Iturraspe',         c:'Pte. Comunal', n:'Dario Picco',                 t:'3492 31-6148'},
+      {d:'Castellanos',      l:'Colonia Mauá',              c:'Pte. Comunal', n:'Ricardo Garbagnolli',         t:'3493 66-2551'},
       // CONSTITUCIÓN
-      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Diego Martin'},
-      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Francisco Bracalenti'},
-      {d:'Constitución',     l:'Cañada Rica',               c:'Pte. Comunal', n:'Oscar Fernandez'},
-      {d:'Constitución',     l:'J.B. Molina',               c:'Pte. Comunal', n:'Ignacio Galligani'},
-      {d:'Constitución',     l:'Sargento Cabral',           c:'Pte. Comunal', n:'Juan Ignacio Genzano'},
+      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Diego Martin',                t:'3400 41-7834'},
+      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Francisco Bracalenti',        t:'3364 64-2204'},
+      {d:'Constitución',     l:'Cañada Rica',               c:'Pte. Comunal', n:'Oscar Fernandez',             t:'3364 56-2696'},
+      {d:'Constitución',     l:'J.B. Molina',               c:'Pte. Comunal', n:'Ignacio Galligani',           t:'3413 58-4766'},
+      {d:'Constitución',     l:'Sargento Cabral',           c:'Pte. Comunal', n:'Juan Ignacio Genzano',        t:'3415 94-4275'},
       // GARAY
-      {d:'Garay',            l:'Santa Rosa de Calchines',   c:'Pte. Comunal', n:'Carlos Yossen'},
+      {d:'Garay',            l:'Santa Rosa de Calchines',   c:'Pte. Comunal', n:'Carlos Yossen',               t:'3424 87-1117'},
       // GENERAL LÓPEZ
-      {d:'General López',    l:'Venado Tuerto',             c:'Concejal',     n:'Micaela Mineiro'},
-      {d:'General López',    l:'Firmat',                    c:'Concejal',     n:'Alina Vargas Amato'},
-      {d:'General López',    l:'Diego de Alvear',           c:'Pte. Comunal', n:'Pablo Sosa'},
-      {d:'General López',    l:'Aarón Castellanos',         c:'Pte. Comunal', n:'Wualther Ramanzin'},
-      {d:'General López',    l:'Christophersen',            c:'Pte. Comunal', n:'Javier Martinez'},
-      {d:'General López',    l:'San Francisco de Sta. Fe',  c:'Pte. Comunal', n:'Ignacio Freytes'},
+      {d:'General López',    l:'Venado Tuerto',             c:'Concejal',     n:'Micaela Mineiro',             t:'3462 63-9815'},
+      {d:'General López',    l:'Firmat',                    c:'Concejal',     n:'Alina Vargas Amato',          t:'3465 59-2384'},
+      {d:'General López',    l:'Diego de Alvear',           c:'Pte. Comunal', n:'Pablo Sosa',                  t:'3382 57-1759'},
+      {d:'General López',    l:'Aarón Castellanos',         c:'Pte. Comunal', n:'Wualther Ramanzin',           t:'3382 45-7353'},
+      {d:'General López',    l:'Christophersen',            c:'Pte. Comunal', n:'Javier Martinez',             t:'3462 55-3778'},
+      {d:'General López',    l:'San Francisco de Sta. Fe',  c:'Pte. Comunal', n:'Ignacio Freytes',             t:'3462 63-2255'},
       // GENERAL OBLIGADO
-      {d:'General Obligado', l:'Las Toscas',                c:'Intendente',   n:'Ivan Sanchez'},
-      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Alejandro Delssin'},
-      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Miguel Gutierrez'},
-      {d:'General Obligado', l:'Reconquista',               c:'Concejal',     n:'Marisa Flores'},
-      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Daina Ramirez'},
-      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Andrea Cracogna'},
-      {d:'General Obligado', l:'San Antonio de Obligado',   c:'Pte. Comunal', n:'Jorge Ale'},
+      {d:'General Obligado', l:'Las Toscas',                c:'Intendente',   n:'Ivan Sanchez',                t:'3482 63-8006'},
+      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Alejandro Delssin',           t:'3482 55-4567'},
+      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Miguel Gutierrez',            t:'3482 37-6610'},
+      {d:'General Obligado', l:'Reconquista',               c:'Concejal',     n:'Marisa Flores',               t:'3482 51-4685'},
+      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Daina Ramirez',               t:'3482 60-4622'},
+      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Andrea Cracogna',             t:'3482 39-4937'},
+      {d:'General Obligado', l:'San Antonio de Obligado',   c:'Pte. Comunal', n:'Jorge Ale',                   t:'3482 59-1309'},
       // IRIONDO
-      {d:'Iriondo',          l:'Correa',                    c:'Pte. Comunal', n:'Nahuel Cejas'},
-      {d:'Iriondo',          l:'Villa Eloisa',              c:'Pte. Comunal', n:'Luciano Pallotti'},
+      {d:'Iriondo',          l:'Correa',                    c:'Pte. Comunal', n:'Nahuel Cejas',                t:'3471 51-2397'},
+      {d:'Iriondo',          l:'Villa Eloisa',              c:'Pte. Comunal', n:'Luciano Pallotti',            t:'3401 64-5653'},
       // LA CAPITAL
-      {d:'La Capital',       l:'Recreo',                    c:'Intendente',   n:'Omar Colombo'},
-      {d:'La Capital',       l:'Recreo',                    c:'Concejal',     n:'Omar Picard'},
-      {d:'La Capital',       l:'San José del Rincón',       c:'Concejal',     n:'Camila Rodriguez del Curto'},
-      {d:'La Capital',       l:'Laguna Paiva',              c:'Concejal',     n:'Melina Andrés'},
-      {d:'La Capital',       l:'Santo Tomé',                c:'Concejal',     n:'Alejandra Chena'},
+      {d:'La Capital',       l:'Recreo',                    c:'Intendente',   n:'Omar Colombo',                t:'3426 14-0998'},
+      {d:'La Capital',       l:'Recreo',                    c:'Concejal',     n:'Omar Picard',                 t:'3426 29-8463'},
+      {d:'La Capital',       l:'San José del Rincón',       c:'Concejal',     n:'Camila Rodriguez del Curto',  t:'3425 35-7954'},
+      {d:'La Capital',       l:'Laguna Paiva',              c:'Concejal',     n:'Melina Andrés',               t:'3425 46-2249'},
+      {d:'La Capital',       l:'Santo Tomé',                c:'Concejal',     n:'Alejandra Chena',             t:'3424 05-4647'},
       // LAS COLONIAS
-      {d:'Las Colonias',     l:'Santo Domingo',             c:'Pte. Comunal', n:'Patricia Arber'},
-      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Judith Perren'},
-      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Gabriel Otazo'},
+      {d:'Las Colonias',     l:'Santo Domingo',             c:'Pte. Comunal', n:'Patricia Arber',              t:'3496 44-3742'},
+      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Judith Perren',               t:'3404 41-9610'},
+      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Gabriel Otazo',               t:'3425 36-5763'},
       // NUEVE DE JULIO
-      {d:'Nueve de Julio',   l:'Esteban Rams',              c:'Pte. Comunal', n:'Jose Luis Busto'},
-      {d:'Nueve de Julio',   l:'Juan de Garay',             c:'Pte. Comunal', n:'Leonardo Vera'},
-      {d:'Nueve de Julio',   l:'Villa Minetti',             c:'Concejal',     n:'Pedro Junco'},
+      {d:'Nueve de Julio',   l:'Esteban Rams',              c:'Pte. Comunal', n:'Jose Luis Busto',             t:'3491 50-2630'},
+      {d:'Nueve de Julio',   l:'Juan de Garay',             c:'Pte. Comunal', n:'Leonardo Vera',               t:'3491 68-7677'},
+      {d:'Nueve de Julio',   l:'Villa Minetti',             c:'Concejal',     n:'Pedro Junco',                 t:'3491 69-8608'},
       // ROSARIO
-      {d:'Rosario',          l:'Alvear',                    c:'Intendente',   n:'Carlos Pighin'},
-      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Benjamín Perruccio'},
-      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Flavia Banfi'},
-      {d:'Rosario',          l:'Pueblo Esther',             c:'Intendente',   n:'Martin Gherardi'},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Federico Lifschitz'},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Manuel Sciutto'},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Alicia Pino'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Intendente',   n:'Alberto Ricci'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Esteban Lenci'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Patricia González'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'José Bulsicco'},
-      {d:'Rosario',          l:'Acebal',                    c:'Pte. Comunal', n:'Lala Lucci'},
-      {d:'Rosario',          l:'Coronel Dominguez',         c:'Pte. Comunal', n:'Mónica Villegas'},
-      {d:'Rosario',          l:'Villa Amelia',              c:'Pte. Comunal', n:'Javier Ruggeri'},
+      {d:'Rosario',          l:'Alvear',                    c:'Intendente',   n:'Carlos Pighin',               t:'3413 60-1680'},
+      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Benjamín Perruccio',          t:'3417 04-6068'},
+      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Flavia Banfi',                t:'3412 09-0213'},
+      {d:'Rosario',          l:'Pueblo Esther',             c:'Intendente',   n:'Martin Gherardi',             t:''},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Federico Lifschitz',          t:'3413 49-4950'},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Manuel Sciutto',              t:'3412 29-6544'},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Alicia Pino',                 t:'3412 79-7712'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Intendente',   n:'Alberto Ricci',               t:'3413 51-0594'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Esteban Lenci',               t:'3416 43-3416'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Patricia González',           t:'3413 21-6254'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'José Bulsicco',               t:'3415 02-5501'},
+      {d:'Rosario',          l:'Acebal',                    c:'Pte. Comunal', n:'Lala Lucci',                  t:'3469 69-5941'},
+      {d:'Rosario',          l:'Coronel Dominguez',         c:'Pte. Comunal', n:'Mónica Villegas',             t:'3402 50-6069'},
+      {d:'Rosario',          l:'Villa Amelia',              c:'Pte. Comunal', n:'Javier Ruggeri',              t:'3402 55-9863'},
       // SAN CRISTÓBAL
-      {d:'San Cristóbal',    l:'San Cristóbal',             c:'Concejal',     n:'Maximiliano Lopez'},
-      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Agustin Peretti'},
-      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Gonzalo Rui'},
+      {d:'San Cristóbal',    l:'San Cristóbal',             c:'Concejal',     n:'Maximiliano Lopez',           t:'3416 88-0285'},
+      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Agustin Peretti',             t:'3562 52-1673'},
+      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Gonzalo Rui',                 t:'3562 41-0017'},
       // SAN JERÓNIMO
-      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Santiago Pestarini'},
-      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Monica Rivelo'},
-      {d:'San Jerónimo',     l:'Barrancas',                 c:'Pte. Comunal', n:'Gustavo Ramos'},
+      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Santiago Pestarini',          t:''},
+      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Monica Rivelo',               t:'3404 49-1935'},
+      {d:'San Jerónimo',     l:'Barrancas',                 c:'Pte. Comunal', n:'Gustavo Ramos',               t:'3466 55-9714'},
       // SAN MARTÍN
-      {d:'San Martín',       l:'San Jorge',                 c:'Concejal',     n:'Rodrigo Duín'},
-      {d:'San Martín',       l:'El Trébol',                 c:'Concejal',     n:'Laura Raspantti'},
-      {d:'San Martín',       l:'San Martín de las Escobas', c:'Pte. Comunal', n:'Marcos Alarcon'},
+      {d:'San Martín',       l:'San Jorge',                 c:'Concejal',     n:'Rodrigo Duín',                t:'3406 64-4909'},
+      {d:'San Martín',       l:'El Trébol',                 c:'Concejal',     n:'Laura Raspantti',             t:''},
+      {d:'San Martín',       l:'San Martín de las Escobas', c:'Pte. Comunal', n:'Marcos Alarcon',              t:'3406 45-6869'},
       // VERA
-      {d:'Vera',             l:'La Gallareta',              c:'Pte. Comunal', n:'Fernando Nicola'},
-      {d:'Vera',             l:'Vera',                      c:'Concejal',     n:'Ana Paula Capello'},
+      {d:'Vera',             l:'La Gallareta',              c:'Pte. Comunal', n:'Fernando Nicola',             t:'3483 48-2342'},
+      {d:'Vera',             l:'Vera',                      c:'Concejal',     n:'Ana Paula Capello',           t:''},
     ];
 
-    function renderDirectorio() {
+    function renderDirectorio(filtro) {
       var container = document.getElementById('dirDeptos');
       if (!container) return;
+      var q = (filtro || '').toLowerCase().trim();
+      var lista = q
+        ? AUTORIDADES.filter(function(a){ return (a.n+' '+a.l+' '+a.d).toLowerCase().includes(q); })
+        : AUTORIDADES;
+
       var deptos = {};
-      AUTORIDADES.forEach(function(a) {
+      lista.forEach(function(a) {
         if (!deptos[a.d]) deptos[a.d] = {};
         if (!deptos[a.d][a.l]) deptos[a.d][a.l] = [];
         deptos[a.d][a.l].push(a);
       });
       var deptNames = Object.keys(deptos).sort();
+
       function badge(c) {
         if (c==='Intendente') return '<span class="dir-bdg dir-bdg-int">Intendente</span>';
         if (c==='Concejal')   return '<span class="dir-bdg dir-bdg-conc">Concejal</span>';
         return '<span class="dir-bdg dir-bdg-com">Pte. Comunal</span>';
       }
+
+      if (!deptNames.length) {
+        container.innerHTML = '<p style="font-size:0.85rem;color:var(--texto-sec);padding:1rem 0">Sin resultados para "'+q+'".</p>';
+        return;
+      }
+
       var html = '';
       deptNames.forEach(function(dept) {
         var locs = deptos[dept];
         var nLoc = Object.keys(locs).length;
-        var nPers = AUTORIDADES.filter(function(a){return a.d===dept;}).length;
+        var nPers = lista.filter(function(a){return a.d===dept;}).length;
         var locHtml = '';
         Object.keys(locs).sort().forEach(function(loc) {
           var pers = locs[loc].slice().sort(function(a,b){
@@ -2304,19 +2394,29 @@
             return (o[a.c]||3)-(o[b.c]||3);
           });
           locHtml += '<div class="dir-loc"><div class="dir-loc-nombre">'+loc+'</div>';
-          pers.forEach(function(p){ locHtml += '<div class="dir-persona">'+badge(p.c)+'<span>'+p.n+'</span></div>'; });
+          pers.forEach(function(p){
+            var tel = p.t ? '<a href="https://wa.me/549'+p.t.replace(/\s|-/g,'')+'" class="dir-tel" target="_blank" rel="noopener">📞 '+p.t+'</a>' : '';
+            locHtml += '<div class="dir-persona">'+badge(p.c)+'<span>'+p.n+'</span>'+tel+'</div>';
+          });
           locHtml += '</div>';
         });
+        var autoExpand = q ? '' : 'style="display:none"';
+        var ariaExp = q ? 'true' : 'false';
+        var chevronRot = q ? 'style="transform:rotate(90deg)"' : '';
         html += '<div class="dir-item">'
-          + '<button class="dir-btn" onclick="toggleDir(this)" aria-expanded="false">'
+          + '<button class="dir-btn" onclick="toggleDir(this)" aria-expanded="'+ariaExp+'">'
           + '<span class="dir-dept-name">Dpto. '+dept+'</span>'
           + '<span class="dir-dept-meta">'+nLoc+' localidad'+(nLoc>1?'es':'')+' · '+nPers+' autoridad'+(nPers>1?'es':'')+'</span>'
-          + '<span class="dir-chevron">›</span>'
+          + '<span class="dir-chevron" '+chevronRot+'>›</span>'
           + '</button>'
-          + '<div class="dir-content" style="display:none"><div class="dir-locs-grid">'+locHtml+'</div></div>'
+          + '<div class="dir-content" '+autoExpand+'><div class="dir-locs-grid">'+locHtml+'</div></div>'
           + '</div>';
       });
       container.innerHTML = html;
+    }
+
+    function filtrarDir() {
+      renderDirectorio(document.getElementById('dirBuscar').value);
     }
 
     function toggleDir(btn) {
