@@ -897,40 +897,29 @@
     .bib-card-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
     .bib-card-item p  { font-size: 0.78rem; color: var(--texto-sec); }
 
-    /* ─── GOBIERNOS DE REFERENCIA ─── */
-    #gobiernos { background: rgba(0,0,0,0.2); }
-
-    .gobernantes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 0.75rem;
+    /* ─── DIRECTORIO TERRITORIAL ─── */
+    .dir-section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--card-brd); }
+    .dir-item { border: 1px solid var(--card-brd); border-radius: 10px; overflow: hidden; margin-bottom: 0.4rem; }
+    .dir-btn {
+      width: 100%; background: var(--card-bg); border: none;
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.85rem 1rem; cursor: pointer; text-align: left; transition: background 0.15s;
+      font-family: 'Inter', sans-serif;
     }
-
-    .gobernante-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 10px;
-      padding: 1rem 1.125rem;
-    }
-
-    .gobernante-card h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--texto);
-      margin-bottom: 0.2rem;
-    }
-
-    .gobernante-card .muni {
-      font-size: 0.8rem;
-      color: var(--rojo);
-      font-weight: 500;
-      margin-bottom: 0.1rem;
-    }
-
-    .gobernante-card .depto {
-      font-size: 0.75rem;
-      color: var(--texto-sec);
-    }
+    .dir-btn:hover { background: rgba(196,18,48,0.08); }
+    .dir-btn[aria-expanded="true"] { background: rgba(196,18,48,0.1); border-bottom: 1px solid var(--card-brd); }
+    .dir-dept-name { font-size: 0.88rem; font-weight: 600; color: var(--texto); flex: 1; }
+    .dir-dept-meta { font-size: 0.72rem; color: var(--texto-sec); }
+    .dir-chevron { font-size: 1.2rem; color: var(--rojo); transition: transform 0.2s; line-height: 1; }
+    .dir-content { padding: 1rem; }
+    .dir-locs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 0.65rem; }
+    .dir-loc { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 0.75rem 0.875rem; }
+    .dir-loc-nombre { font-size: 0.8rem; font-weight: 700; color: var(--texto); margin-bottom: 0.45rem; padding-bottom: 0.35rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .dir-persona { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.3rem; font-size: 0.78rem; color: var(--texto-sec); }
+    .dir-bdg { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.4rem; border-radius: 4px; flex-shrink: 0; white-space: nowrap; }
+    .dir-bdg-int  { background: rgba(196,18,48,0.22); color: #ff8a9a; border: 1px solid rgba(196,18,48,0.35); }
+    .dir-bdg-conc { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+    .dir-bdg-com  { background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
 
     /* ─── SUMARSE ─── */
     #sumarse {}
@@ -1108,7 +1097,7 @@
       .banco-temas { grid-template-columns: repeat(2, 1fr); }
       .problemas-grid { grid-template-columns: repeat(2, 1fr); }
       .concejales-grid { grid-template-columns: repeat(2, 1fr); }
-      .gobernantes-grid { grid-template-columns: 1fr 1fr; }
+      .dir-locs-grid { grid-template-columns: 1fr 1fr; }
       .agenda-lista .evento-card { flex-direction: column; gap: 0.875rem; }
     }
   </style>
@@ -1480,7 +1469,11 @@
         </a>
       </div>
 
-      <a href="#gobiernos" class="ver-detalle-link">Ver detalle completo de autoridades →</a>
+      <!-- DIRECTORIO COMPLETO POR DEPARTAMENTO -->
+      <div class="dir-section" id="dir-territorial">
+        <p class="mapa-munis-title">Directorio completo — por departamento y localidad</p>
+        <div id="dirDeptos"></div>
+      </div>
     </div>
   </section>
 
@@ -1672,57 +1665,6 @@
 
       <!-- Cards (mobile) -->
       <div class="bib-cards" id="bibCards"></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ GOBIERNOS DE REFERENCIA ═══ -->
-  <section class="section-sm" id="gobiernos">
-    <div class="container">
-      <span class="section-tag">Referencia</span>
-      <h2 class="section-title">Gobiernos socialistas de referencia</h2>
-      <p class="section-intro" style="margin-bottom:1.75rem;">
-        Los intendentes socialistas de la provincia con quienes compartimos valores de gestión.
-      </p>
-
-      <div class="gobernantes-grid">
-        <div class="gobernante-card">
-          <div class="muni">San José de la Esquina</div>
-          <h4>Ezequiel Ruani</h4>
-          <div class="depto">Dpto. Caseros</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Sunchales</div>
-          <h4>Pablo Pinotti</h4>
-          <div class="depto">Dpto. Castellanos</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Las Toscas</div>
-          <h4>Ivan Sanchez</h4>
-          <div class="depto">Dpto. Gral. Obligado</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Recreo</div>
-          <h4>Omar Colombo</h4>
-          <div class="depto">Dpto. La Capital</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Alvear</div>
-          <h4>Carlos Pighin</h4>
-          <div class="depto">Dpto. Rosario</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Pueblo Esther</div>
-          <h4>Martin Gherardi</h4>
-          <div class="depto">Dpto. Rosario</div>
-        </div>
-        <div class="gobernante-card">
-          <div class="muni">Villa Gobernador Gálvez</div>
-          <h4>Alberto Ricci</h4>
-          <div class="depto">Dpto. Rosario</div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -2047,6 +1989,150 @@
     initDepartamentos();
     filtrarConcejales();
     renderBib('todos');
+
+    // ─── DIRECTORIO TERRITORIAL ───
+    const AUTORIDADES = [
+      // CASEROS
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Intendente',   n:'Ezequiel Ruani'},
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Yoana Dalbello'},
+      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Juan Pablo Coniglio'},
+      {d:'Caseros',          l:'Bigand',                    c:'Pte. Comunal', n:'Natalia Valeri'},
+      // CASTELLANOS
+      {d:'Castellanos',      l:'Sunchales',                 c:'Intendente',   n:'Pablo Pinotti'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'José Delmastro'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Brenda Torrini'},
+      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Juano Astor'},
+      {d:'Castellanos',      l:'San Vicente',               c:'Concejal',     n:'Juan Carlos Marchese'},
+      {d:'Castellanos',      l:'Eusebia',                   c:'Pte. Comunal', n:'Susana Gimenez'},
+      {d:'Castellanos',      l:'Colonia Raquel',            c:'Pte. Comunal', n:'Luciana Peter'},
+      {d:'Castellanos',      l:'Aldao',                     c:'Pte. Comunal', n:'Lorena Eberhardt'},
+      {d:'Castellanos',      l:'Colonia Margarita',         c:'Pte. Comunal', n:'Titi Muratore'},
+      {d:'Castellanos',      l:'Zenón Pereyra',             c:'Pte. Comunal', n:'Veronica Gallo'},
+      {d:'Castellanos',      l:'Colonia Iturraspe',         c:'Pte. Comunal', n:'Dario Picco'},
+      {d:'Castellanos',      l:'Colonia Mauá',              c:'Pte. Comunal', n:'Ricardo Garbagnolli'},
+      // CONSTITUCIÓN
+      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Diego Martin'},
+      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Francisco Bracalenti'},
+      {d:'Constitución',     l:'Cañada Rica',               c:'Pte. Comunal', n:'Oscar Fernandez'},
+      {d:'Constitución',     l:'J.B. Molina',               c:'Pte. Comunal', n:'Ignacio Galligani'},
+      {d:'Constitución',     l:'Sargento Cabral',           c:'Pte. Comunal', n:'Juan Ignacio Genzano'},
+      // GARAY
+      {d:'Garay',            l:'Santa Rosa de Calchines',   c:'Pte. Comunal', n:'Carlos Yossen'},
+      // GENERAL LÓPEZ
+      {d:'General López',    l:'Venado Tuerto',             c:'Concejal',     n:'Micaela Mineiro'},
+      {d:'General López',    l:'Firmat',                    c:'Concejal',     n:'Alina Vargas Amato'},
+      {d:'General López',    l:'Diego de Alvear',           c:'Pte. Comunal', n:'Pablo Sosa'},
+      {d:'General López',    l:'Aarón Castellanos',         c:'Pte. Comunal', n:'Wualther Ramanzin'},
+      {d:'General López',    l:'Christophersen',            c:'Pte. Comunal', n:'Javier Martinez'},
+      {d:'General López',    l:'San Francisco de Sta. Fe',  c:'Pte. Comunal', n:'Ignacio Freytes'},
+      // GENERAL OBLIGADO
+      {d:'General Obligado', l:'Las Toscas',                c:'Intendente',   n:'Ivan Sanchez'},
+      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Alejandro Delssin'},
+      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Miguel Gutierrez'},
+      {d:'General Obligado', l:'Reconquista',               c:'Concejal',     n:'Marisa Flores'},
+      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Daina Ramirez'},
+      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Andrea Cracogna'},
+      {d:'General Obligado', l:'San Antonio de Obligado',   c:'Pte. Comunal', n:'Jorge Ale'},
+      // IRIONDO
+      {d:'Iriondo',          l:'Correa',                    c:'Pte. Comunal', n:'Nahuel Cejas'},
+      {d:'Iriondo',          l:'Villa Eloisa',              c:'Pte. Comunal', n:'Luciano Pallotti'},
+      // LA CAPITAL
+      {d:'La Capital',       l:'Recreo',                    c:'Intendente',   n:'Omar Colombo'},
+      {d:'La Capital',       l:'Recreo',                    c:'Concejal',     n:'Omar Picard'},
+      {d:'La Capital',       l:'San José del Rincón',       c:'Concejal',     n:'Camila Rodriguez del Curto'},
+      {d:'La Capital',       l:'Laguna Paiva',              c:'Concejal',     n:'Melina Andrés'},
+      {d:'La Capital',       l:'Santo Tomé',                c:'Concejal',     n:'Alejandra Chena'},
+      // LAS COLONIAS
+      {d:'Las Colonias',     l:'Santo Domingo',             c:'Pte. Comunal', n:'Patricia Arber'},
+      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Judith Perren'},
+      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Gabriel Otazo'},
+      // NUEVE DE JULIO
+      {d:'Nueve de Julio',   l:'Esteban Rams',              c:'Pte. Comunal', n:'Jose Luis Busto'},
+      {d:'Nueve de Julio',   l:'Juan de Garay',             c:'Pte. Comunal', n:'Leonardo Vera'},
+      {d:'Nueve de Julio',   l:'Villa Minetti',             c:'Concejal',     n:'Pedro Junco'},
+      // ROSARIO
+      {d:'Rosario',          l:'Alvear',                    c:'Intendente',   n:'Carlos Pighin'},
+      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Benjamín Perruccio'},
+      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Flavia Banfi'},
+      {d:'Rosario',          l:'Pueblo Esther',             c:'Intendente',   n:'Martin Gherardi'},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Federico Lifschitz'},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Manuel Sciutto'},
+      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Alicia Pino'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Intendente',   n:'Alberto Ricci'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Esteban Lenci'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Patricia González'},
+      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'José Bulsicco'},
+      {d:'Rosario',          l:'Acebal',                    c:'Pte. Comunal', n:'Lala Lucci'},
+      {d:'Rosario',          l:'Coronel Dominguez',         c:'Pte. Comunal', n:'Mónica Villegas'},
+      {d:'Rosario',          l:'Villa Amelia',              c:'Pte. Comunal', n:'Javier Ruggeri'},
+      // SAN CRISTÓBAL
+      {d:'San Cristóbal',    l:'San Cristóbal',             c:'Concejal',     n:'Maximiliano Lopez'},
+      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Agustin Peretti'},
+      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Gonzalo Rui'},
+      // SAN JERÓNIMO
+      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Santiago Pestarini'},
+      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Monica Rivelo'},
+      {d:'San Jerónimo',     l:'Barrancas',                 c:'Pte. Comunal', n:'Gustavo Ramos'},
+      // SAN MARTÍN
+      {d:'San Martín',       l:'San Jorge',                 c:'Concejal',     n:'Rodrigo Duín'},
+      {d:'San Martín',       l:'El Trébol',                 c:'Concejal',     n:'Laura Raspantti'},
+      {d:'San Martín',       l:'San Martín de las Escobas', c:'Pte. Comunal', n:'Marcos Alarcon'},
+      // VERA
+      {d:'Vera',             l:'La Gallareta',              c:'Pte. Comunal', n:'Fernando Nicola'},
+      {d:'Vera',             l:'Vera',                      c:'Concejal',     n:'Ana Paula Capello'},
+    ];
+
+    function renderDirectorio() {
+      var container = document.getElementById('dirDeptos');
+      if (!container) return;
+      var deptos = {};
+      AUTORIDADES.forEach(function(a) {
+        if (!deptos[a.d]) deptos[a.d] = {};
+        if (!deptos[a.d][a.l]) deptos[a.d][a.l] = [];
+        deptos[a.d][a.l].push(a);
+      });
+      var deptNames = Object.keys(deptos).sort();
+      function badge(c) {
+        if (c==='Intendente') return '<span class="dir-bdg dir-bdg-int">Intendente</span>';
+        if (c==='Concejal')   return '<span class="dir-bdg dir-bdg-conc">Concejal</span>';
+        return '<span class="dir-bdg dir-bdg-com">Pte. Comunal</span>';
+      }
+      var html = '';
+      deptNames.forEach(function(dept) {
+        var locs = deptos[dept];
+        var nLoc = Object.keys(locs).length;
+        var nPers = AUTORIDADES.filter(function(a){return a.d===dept;}).length;
+        var locHtml = '';
+        Object.keys(locs).sort().forEach(function(loc) {
+          var pers = locs[loc].slice().sort(function(a,b){
+            var o={Intendente:0,Concejal:1,'Pte. Comunal':2};
+            return (o[a.c]||3)-(o[b.c]||3);
+          });
+          locHtml += '<div class="dir-loc"><div class="dir-loc-nombre">'+loc+'</div>';
+          pers.forEach(function(p){ locHtml += '<div class="dir-persona">'+badge(p.c)+'<span>'+p.n+'</span></div>'; });
+          locHtml += '</div>';
+        });
+        html += '<div class="dir-item">'
+          + '<button class="dir-btn" onclick="toggleDir(this)" aria-expanded="false">'
+          + '<span class="dir-dept-name">Dpto. '+dept+'</span>'
+          + '<span class="dir-dept-meta">'+nLoc+' localidad'+(nLoc>1?'es':'')+' · '+nPers+' autoridad'+(nPers>1?'es':'')+'</span>'
+          + '<span class="dir-chevron">›</span>'
+          + '</button>'
+          + '<div class="dir-content" style="display:none"><div class="dir-locs-grid">'+locHtml+'</div></div>'
+          + '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function toggleDir(btn) {
+      var c = btn.nextElementSibling;
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      c.style.display = open ? 'none' : 'block';
+      btn.querySelector('.dir-chevron').style.transform = open ? '' : 'rotate(90deg)';
+    }
+
+    renderDirectorio();
   </script>
 </body>
 </html>
