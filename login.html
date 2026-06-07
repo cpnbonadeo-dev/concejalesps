@@ -61,6 +61,7 @@
     .login-card {
       background: var(--card-bg);
       border: 1px solid var(--card-brd);
+      border-top: 4px solid var(--rojo);
       border-radius: 16px;
       padding: 2.5rem 2rem;
       width: 100%;
@@ -69,25 +70,18 @@
       z-index: 1;
     }
 
+    .ps-rose-logo {
+      width: 44px;
+      height: auto;
+      flex-shrink: 0;
+    }
+
     .logo-wrap {
       display: flex;
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 2rem;
       justify-content: center;
-    }
-
-    .logo-wrap img {
-      height: 40px;
-      width: auto;
-    }
-
-    .logo-fallback {
-      display: none;
-      color: var(--rojo);
-      font-weight: 700;
-      font-size: 1.4rem;
-      font-family: 'Playfair Display', serif;
     }
 
     .logo-texto {
@@ -201,15 +195,11 @@
 
   <div class="login-card">
     <div class="logo-wrap">
-      <img
-        src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
-        alt="PS"
-        onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='inline'">
-      <span class="logo-fallback">PS</span>
+      <img src="logo-header.svg" class="ps-rose-logo" alt="Partido Socialista">
       <span class="logo-texto">Red de Concejales<br>PS · Santa Fe</span>
     </div>
 
-    <h1 class="login-title">Bienvenido/a</h1>
+    <h1 class="login-title">Bienvenidos</h1>
     <p class="login-subtitle">Ingresá con tus datos de acceso</p>
 
     <form id="loginForm" autocomplete="off" novalidate>
@@ -239,7 +229,57 @@
 
     const USUARIOS = {
       "admin": "pssantafe2026",
-      // Agregar concejales: "nombre.apellido": "clave2026"
+      // CASEROS
+      "yoana.dalbello":        "sanjosedelaesquina2026",
+      "juanpablo.coniglio":    "sanjosedelaesquina2026",
+      // CASTELLANOS
+      "jose.delmastro":        "sunchales2026",
+      "brenda.torrini":        "sunchales2026",
+      "juano.astor":           "sunchales2026",
+      "juancarlos.marchese":   "sanvicente2026",
+      // CONSTITUCIÓN
+      "diego.martin":          "villaconstitucion2026",
+      "francisco.bracalenti":  "villaconstitucion2026",
+      // GRAL. LÓPEZ
+      "micaela.mineiro":       "venadotuerto2026",
+      "alina.vargas":          "firmat2026",
+      // GRAL. OBLIGADO
+      "alejandro.delssin":     "lastoscas2026",
+      "miguel.gutierrez":      "lastoscas2026",
+      "marisa.flores":         "reconquista2026",
+      "daina.ramirez":         "villaocampo2026",
+      "andrea.cracogna":       "villaocampo2026",
+      // LA CAPITAL
+      "omar.picard":           "recreo2026",
+      "camila.rodriguez":      "sanjosedelrincon2026",
+      "melina.andres":         "lagunapaiva2026",
+      "alejandra.chena":       "santotome2026",
+      // LAS COLONIAS
+      "judith.perren":         "sancarloscentro2026",
+      "gabriel.otazo":         "sancarloscentro2026",
+      // 9 DE JULIO
+      "pedro.junco":           "villaminetti2026",
+      // ROSARIO
+      "benjamin.perruccio":    "alvear2026",
+      "flavia.banfi":          "alvear2026",
+      "federico.lifschitz":    "rosario2026",
+      "manuel.sciutto":        "rosario2026",
+      "alicia.pino":           "rosario2026",
+      "esteban.lenci":         "villagobernadorgalvez2026",
+      "patricia.gonzalez":     "villagobernadorgalvez2026",
+      "jose.bulsicco":         "villagobernadorgalvez2026",
+      "maximiliano.lopez":     "sancristobal2026",
+      // SAN CRISTÓBAL
+      "agustin.peretti":       "suardi2026",
+      "gonzalo.rui":           "suardi2026",
+      // SAN JERÓNIMO
+      "santiago.pestarini":    "galvez2026",
+      "monica.rivelo":         "galvez2026",
+      // SAN MARTÍN
+      "rodrigo.duin":          "sanjorge2026",
+      "laura.raspantti":       "eltrebol2026",
+      // VERA
+      "ana.capello":           "vera2026",
     };
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -251,6 +291,7 @@
       if (USUARIOS[usuario] && USUARIOS[usuario] === clave) {
         localStorage.setItem('concejalesps_sesion', 'ok');
         localStorage.setItem('concejalesps_usuario', usuario);
+        localStorage.setItem('concejalesps_login_time', Date.now().toString());
         window.location.href = 'index.html';
       } else {
         errorEl.classList.add('visible');

@@ -119,6 +119,12 @@
 
     .nav-brand img { height: 32px; width: auto; }
 
+    .nav-rose {
+      height: 32px;
+      width: auto;
+      flex-shrink: 0;
+    }
+
     .nav-brand-text {
       font-size: 0.82rem;
       font-weight: 600;
@@ -152,20 +158,23 @@
     .nav-links a:hover { color: var(--texto); }
 
     .btn-salir {
-      background: transparent;
-      border: 1px solid var(--card-brd);
-      color: var(--texto-sec);
+      background: rgba(196,18,48,0.13);
+      border: 1px solid rgba(196,18,48,0.4);
+      color: var(--rojo);
       font-family: 'Inter', sans-serif;
       font-size: 0.82rem;
-      font-weight: 500;
+      font-weight: 600;
       padding: 0.4rem 0.9rem;
       border-radius: 6px;
       cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
+      transition: background 0.2s, border-color 0.2s;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
-    .btn-salir:hover { border-color: var(--rojo); color: var(--rojo); }
+    .btn-salir:hover { background: rgba(196,18,48,0.25); border-color: var(--rojo); }
 
     /* Mobile nav */
     .nav-toggle {
@@ -212,6 +221,39 @@
     @media (max-width: 768px) {
       .nav-links, .btn-salir { display: none; }
       .nav-toggle { display: block; }
+    }
+
+    /* ─── PS IDENTIDAD ─── */
+    nav {
+      border-top: 4px solid var(--rojo);
+    }
+
+    .ps-watermark {
+      position: fixed;
+      bottom: -8%;
+      right: -4%;
+      width: clamp(220px, 28vw, 440px);
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ps-watermark img,
+    .ps-watermark-2 img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .ps-watermark-2 {
+      position: fixed;
+      top: 15%;
+      left: -5%;
+      width: clamp(140px, 16vw, 260px);
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 0;
+      transform: rotate(-12deg);
     }
 
     /* ─── HERO ─── */
@@ -1202,11 +1244,7 @@
   <nav>
     <div class="container">
       <a class="nav-brand" href="#hero">
-        <img
-          src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
-          alt="PS"
-          onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='inline'">
-        <span class="logo-fallback">PS</span>
+        <img src="logo-header.svg" class="nav-rose" alt="PS">
         <span class="nav-brand-text">Red de Concejales PS&nbsp;·&nbsp;Santa Fe</span>
       </a>
 
@@ -1219,7 +1257,7 @@
         <li><a href="#agenda">Agenda</a></li>
       </ul>
 
-      <button class="btn-salir" onclick="cerrarSesion()">Salir</button>
+      <button class="btn-salir" onclick="cerrarSesion()">↪ Cerrar sesión</button>
 
       <button class="nav-toggle" onclick="toggleNav()" aria-label="Menú">
         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1237,7 +1275,7 @@
     <a href="#concejales" onclick="closeNav()">Concejales</a>
     <a href="#biblioteca"onclick="closeNav()">Biblioteca</a>
     <a href="#agenda"    onclick="closeNav()">Agenda</a>
-    <button onclick="cerrarSesion()">Salir</button>
+    <button onclick="cerrarSesion()" style="color:var(--rojo);border-bottom:1px solid var(--card-brd);">↪ Cerrar sesión</button>
   </div>
 
   <!-- ═══════════════════════════════════════ HERO ═══ -->
@@ -1794,7 +1832,7 @@
         <span class="section-tag">Sumarse</span>
         <h2 class="section-title">Sumarse a la Red</h2>
         <p class="section-intro" style="margin-bottom:1.5rem;">
-          Si sos concejal/a socialista de Santa Fe y no estás en la red todavía, completá este formulario.
+          Si sos concejal socialista de Santa Fe y no estás en la red todavía, completá este formulario.
         </p>
 
         <form class="form-sumarse" onsubmit="enviarFormulario(event)">
@@ -1857,13 +1895,22 @@
   <!-- ═══════════════════════════════════════ SCRIPTS ═══ -->
   <script>
     // ─── PROTECCIÓN DE SESIÓN ───
-    if (localStorage.getItem('concejalesps_sesion') !== 'ok') {
-      window.location.href = 'login.html';
-    }
+    (function() {
+      const sesion = localStorage.getItem('concejalesps_sesion');
+      const loginTime = parseInt(localStorage.getItem('concejalesps_login_time') || '0', 10);
+      const OCHO_HORAS = 8 * 60 * 60 * 1000;
+      if (sesion !== 'ok' || (loginTime && Date.now() - loginTime > OCHO_HORAS)) {
+        localStorage.removeItem('concejalesps_sesion');
+        localStorage.removeItem('concejalesps_usuario');
+        localStorage.removeItem('concejalesps_login_time');
+        window.location.href = 'login.html';
+      }
+    })();
 
     function cerrarSesion() {
       localStorage.removeItem('concejalesps_sesion');
       localStorage.removeItem('concejalesps_usuario');
+      localStorage.removeItem('concejalesps_login_time');
       window.location.href = 'login.html';
     }
 
@@ -1990,7 +2037,7 @@
         div.innerHTML = `
           <img class="concejal-avatar" src="${avatarUrl(c.nombre, c.foto)}" alt="${c.nombre}" loading="lazy">
           <div class="concejal-nombre">${c.nombre}</div>
-          <span class="concejal-cargo">Concejal/a PS</span>
+          <span class="concejal-cargo">Concejal PS</span>
           <div class="concejal-lugar">${c.localidad} · ${c.departamento}</div>
           <div class="concejal-temas">${espTags}</div>
         `;
@@ -2282,5 +2329,13 @@
 
     renderDirectorio();
   </script>
+
+  <!-- ═══ DECORATIVO: LOGO PS WATERMARK ═══ -->
+  <div class="ps-watermark" aria-hidden="true">
+    <img src="logo-header.svg" alt="">
+  </div>
+  <div class="ps-watermark-2" aria-hidden="true">
+    <img src="logo-header.svg" alt="">
+  </div>
 </body>
 </html>
