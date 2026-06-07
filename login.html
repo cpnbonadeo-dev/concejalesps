@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso · Foro PS Santa Fe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#0D0509 0%,#1A0C0F 50%,#2C0812 100%);-webkit-font-smoothing:antialiased}
+
+.login-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3rem 2.5rem;width:100%;max-width:400px;text-align:center}
+
+.login-logo{width:64px;height:64px;margin:0 auto 1.5rem;display:block}
+.login-logo-fallback{width:64px;height:64px;border-radius:50%;background:#C41230;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:white}
+
+h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:white;margin-bottom:.4rem}
+.subtitulo{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:2rem;letter-spacing:.02em}
+
+.campo{margin-bottom:1rem;text-align:left}
+.campo label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.campo input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:.75rem 1rem;color:white;font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s}
+.campo input:focus{border-color:#C41230;background:rgba(255,255,255,.1)}
+.campo input::placeholder{color:rgba(255,255,255,.25)}
+
+.btn-login{width:100%;background:#C41230;color:white;border:none;padding:.9rem;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:.5rem;letter-spacing:.02em}
+.btn-login:hover{background:#E8192C}
+
+.error{background:rgba(232,25,44,.15);border:1px solid rgba(232,25,44,.3);color:#FF8A8E;font-size:.8rem;padding:.65rem .9rem;border-radius:8px;margin-top:1rem;display:none;text-align:left}
+.error.visible{display:block}
+
+.footer-text{margin-top:2rem;font-size:.7rem;color:rgba(255,255,255,.2);line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
+       alt="PS Santa Fe" class="login-logo"
+       onerror="this.style.display='none';document.querySelector('.login-logo-fallback').style.display='flex'">
+  <div class="login-logo-fallback" style="display:none">PS</div>
+
+  <h1>Foro Autoridades Locales</h1>
+  <p class="subtitulo">Partido Socialista · Provincia de Santa Fe</p>
+
+  <form onsubmit="acceder(event)">
+    <div class="campo">
+      <label>Usuario</label>
+      <input type="text" id="usuario" placeholder="tu.nombre" autocomplete="username" autocapitalize="none">
+    </div>
+    <div class="campo">
+      <label>Contraseña</label>
+      <input type="password" id="clave" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn-login">Ingresar al foro →</button>
+    <div class="error" id="error">Usuario o contraseña incorrectos. Verificá tus datos o contactá al administrador.</div>
+  </form>
+
+  <p class="footer-text">¿No tenés acceso? Escribinos a<br>autoridadeslocales@gmail.com</p>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   USUARIOS DEL FORO
+   Formato: "usuario": "contraseña"
+   Para agregar un usuario: agregá una línea
+   Para cambiar clave: cambiá el valor
+   ═══════════════════════════════════════════ */
+const USUARIOS = {
+  "admin":               "pssantafe2026",
+
+  /* ── CASEROS ── */
+  "yoana.dalbello":      "caseros2026",
+  "juanpablo.coniglio":  "caseros2026",
+
+  /* ── CASTELLANOS ── */
+  "pablo.pinotti":       "sunchales2026",
+  "jose.delmastro":      "sunchales2026",
+  "brenda.torrini":      "sunchales2026",
+  "juano.astor":         "sunchales2026",
+  "jc.marchese":         "castellanos2026",
+
+  /* ── CONSTITUCIÓN ── */
+  "diego.martin":        "vconstitucion2026",
+  "francisco.bracalenti":"vconstitucion2026",
+
+  /* ── GENERAL LÓPEZ ── */
+  "micaela.mineiro":     "venadotuerto2026",
+  "alina.vargas":        "firmat2026",
+
+  /* ── GENERAL OBLIGADO ── */
+  "ivan.sanchez":        "lastoscas2026",
+  "alejandro.delssin":   "lastoscas2026",
+  "miguel.gutierrez":    "lastoscas2026",
+  "marisa.flores":       "reconquista2026",
+  "daina.ramirez":       "villaocampo2026",
+  "andrea.cracogna":     "villaocampo2026",
+
+  /* ── LA CAPITAL ── */
+  "omar.colombo":        "recreo2026",
+  "omar.picard":         "recreo2026",
+  "camila.rodriguez":    "rincon2026",
+  "melina.andres":       "lagunapaiva2026",
+  "alejandra.chena":     "santotome2026",
+
+  /* ── LAS COLONIAS ── */
+  "judith.perren":       "sancarloscent2026",
+  "gabriel.otazo":       "sancarloscent2026",
+
+  /* ── ROSARIO ── */
+  "carlos.pighin":       "alvear2026",
+  "benjamin.perruccio":  "alvear2026",
+  "flavia.banfi":        "alvear2026",
+  "martin.gherardi":     "puebloesther2026",
+  "alberto.ricci":       "vggalvez2026",
+  "esteban.lenci":       "vggalvez2026",
+  "patricia.gonzalez":   "vggalvez2026",
+  "jose.bulsicco":       "vggalvez2026",
+  "federico.lifschitz":  "rosario2026",
+  "manuel.sciutto":      "rosario2026",
+  "alicia.pino":         "rosario2026",
+  "maxi.lopez":          "rosario2026",
+
+  /* ── SAN CRISTÓBAL ── */
+  "agustin.peretti":     "suardi2026",
+  "gonzalo.rui":         "suardi2026",
+
+  /* ── SAN JERÓNIMO ── */
+  "santiago.pestarini":  "galvez2026",
+  "monica.rivelo":       "galvez2026",
+
+  /* ── SAN MARTÍN ── */
+  "rodrigo.duin":        "sanjorge2026",
+  "laura.raspantti":     "eltrebol2026",
+
+  /* ── VERA ── */
+  "anapaulacapello":     "vera2026",
+};
+
+function acceder(e) {
+  e.preventDefault();
+  const u = document.getElementById('usuario').value.trim().toLowerCase();
+  const c = document.getElementById('clave').value;
+  const err = document.getElementById('error');
+
+  if (USUARIOS[u] && USUARIOS[u] === c) {
+    localStorage.setItem('ps_foro_auth', btoa(u + ':' + Date.now()));
+    localStorage.setItem('ps_foro_user', u);
+    window.location.href = 'index.html';
+  } else {
+    err.classList.add('visible');
+    document.getElementById('clave').value = '';
+    document.getElementById('clave').focus();
+  }
+}
+
+/* Si ya está logueado, ir directo */
+if (localStorage.getItem('ps_foro_auth')) {
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>
