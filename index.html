@@ -439,7 +439,7 @@
     }
 
     /* ─── LA RED ─── */
-    #la-red { background: rgba(0,0,0,0.2); }
+    #concejales { background: rgba(0,0,0,0.2); }
 
     .filtros-red {
       display: flex;
@@ -657,6 +657,100 @@
     .modal-contacto a:hover { border-color: var(--rojo); color: var(--texto); }
 
     .modal-contacto a span.ico { font-size: 1rem; flex-shrink: 0; }
+
+    /* ─── FICHAS: nuevos estilos ─── */
+    .modal-sect-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--rojo);
+      margin-bottom: 0.45rem;
+    }
+
+    .modal-esp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .modal-esp-tag {
+      font-size: 0.72rem;
+      background: rgba(59,130,246,0.12);
+      color: #93c5fd;
+      border: 1px solid rgba(59,130,246,0.22);
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+      font-weight: 500;
+    }
+
+    .modal-bio-text {
+      font-size: 0.875rem;
+      color: var(--texto-sec);
+      line-height: 1.65;
+      border-left: 3px solid var(--rojo);
+      background: rgba(196,18,48,0.05);
+      padding: 0.7rem 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .modal-mandato {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--texto-sec);
+    }
+
+    .modal-mandato-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+    }
+
+    .modal-ver-iniciativas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--rojo);
+      border: 1px solid rgba(196,18,48,0.3);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .modal-ver-iniciativas:hover { background: rgba(196,18,48,0.08); }
+
+    /* Card cargo badge */
+    .concejal-cargo {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #93c5fd;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 4px;
+      padding: 0.12rem 0.45rem;
+    }
+
+    /* Filtro búsqueda */
+    .filtro-input {
+      background: var(--card-bg);
+      border: 1px solid var(--card-brd);
+      border-radius: 8px;
+      color: var(--texto);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+      min-width: 170px;
+      flex: 1;
+    }
+    .filtro-input:focus { border-color: var(--rojo); }
+    .filtro-input::placeholder { color: var(--texto-sec); }
 
     /* ─── CAPACITACIONES ─── */
     #capacitaciones {}
@@ -1120,7 +1214,7 @@
         <li><a href="#banco">Iniciativas</a></li>
         <li><a href="#problemas">Problemas</a></li>
         <li><a href="#presencia">Territorio</a></li>
-        <li><a href="#la-red">La Red</a></li>
+        <li><a href="#concejales">Concejales</a></li>
         <li><a href="#biblioteca">Biblioteca</a></li>
         <li><a href="#agenda">Agenda</a></li>
       </ul>
@@ -1140,7 +1234,7 @@
     <a href="#banco"     onclick="closeNav()">Iniciativas</a>
     <a href="#problemas"  onclick="closeNav()">Problemas comunes</a>
     <a href="#presencia"  onclick="closeNav()">Territorio</a>
-    <a href="#la-red"     onclick="closeNav()">La Red</a>
+    <a href="#concejales" onclick="closeNav()">Concejales</a>
     <a href="#biblioteca"onclick="closeNav()">Biblioteca</a>
     <a href="#agenda"    onclick="closeNav()">Agenda</a>
     <button onclick="cerrarSesion()">Salir</button>
@@ -1159,7 +1253,7 @@
         </p>
         <div class="hero-ctas">
           <a href="#banco"  class="btn-primary">Ver el banco de iniciativas</a>
-          <a href="#la-red" class="btn-secondary">Ver quién trabaja tu tema</a>
+          <a href="#concejales" class="btn-secondary">Ver quién trabaja tu tema</a>
         </div>
       </div>
     </div>
@@ -1257,43 +1351,43 @@
       </p>
 
       <div class="problemas-grid">
-        <div class="problema-card" onclick="irAlBanco('Obras y servicios públicos')">
+        <div class="problema-card" onclick="irAConcejales('Seguridad vial')">
           <div class="p-icon">🚗</div>
           <span>Seguridad vial</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Planeamiento urbano')">
+        <div class="problema-card" onclick="irAConcejales('Microbasurales')">
           <div class="p-icon">🗑️</div>
           <span>Microbasurales</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Desarrollo humano')">
+        <div class="problema-card" onclick="irAConcejales('Consumo problemático')">
           <div class="p-icon">💊</div>
           <span>Consumo problemático</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Obras y servicios públicos')">
+        <div class="problema-card" onclick="irAConcejales('Accesibilidad')">
           <div class="p-icon">♿</div>
           <span>Accesibilidad</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Planeamiento urbano')">
+        <div class="problema-card" onclick="irAConcejales('Ambiente')">
           <div class="p-icon">🌿</div>
           <span>Ambiente</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Obras y servicios públicos')">
+        <div class="problema-card" onclick="irAConcejales('Transporte')">
           <div class="p-icon">🚌</div>
           <span>Transporte</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Gobierno y gestión')">
+        <div class="problema-card" onclick="irAConcejales('Animales sueltos')">
           <div class="p-icon">🐄</div>
           <span>Animales sueltos</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Desarrollo humano')">
+        <div class="problema-card" onclick="irAConcejales('Empleo joven')">
           <div class="p-icon">👶</div>
           <span>Empleo joven</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Planeamiento urbano')">
+        <div class="problema-card" onclick="irAConcejales('Hábitat y vivienda')">
           <div class="p-icon">🏠</div>
           <span>Hábitat y vivienda</span>
         </div>
-        <div class="problema-card" onclick="irAlBanco('Género, Seguridad, DDHH')">
+        <div class="problema-card" onclick="irAConcejales('Género y DDHH')">
           <div class="p-icon">👩‍⚖️</div>
           <span>Género y DDHH</span>
         </div>
@@ -1479,29 +1573,33 @@
 
   <div class="divider"></div>
 
-  <!-- ═══════════════════════════════════════ LA RED ═══ -->
-  <section class="section" id="la-red">
+  <!-- ═══════════════════════════════════════ CONCEJALES ═══ -->
+  <section class="section" id="concejales">
     <div class="container">
       <span class="section-tag">Directorio</span>
-      <h2 class="section-title">La Red</h2>
+      <h2 class="section-title">Concejales de la Red</h2>
       <p class="section-intro">
-        Encontrá rápidamente quién trabaja tu tema en otra ciudad.
+        38 concejales socialistas en toda la provincia. Hacé clic en una ficha para ver su perfil completo.
       </p>
 
       <!-- Filtros -->
       <div class="filtros-red">
+        <input type="text" class="filtro-input" id="filtroNombre" placeholder="🔍 Buscar por nombre…" oninput="filtrarConcejales()">
         <select class="filtro-select" id="filtroDpto" onchange="filtrarConcejales()">
           <option value="">Todos los departamentos</option>
         </select>
-        <select class="filtro-select" id="filtroTema" onchange="filtrarConcejales()">
-          <option value="">Todos los temas</option>
-          <option>Gobierno y gestión</option>
-          <option>Obras y servicios públicos</option>
-          <option>Planeamiento urbano</option>
-          <option>Desarrollo humano</option>
-          <option>Fiscalización y control</option>
-          <option>Género, Seguridad, DDHH</option>
-          <option>Transparencia</option>
+        <select class="filtro-select" id="filtroEsp" onchange="filtrarConcejales()">
+          <option value="">Todos los problemas</option>
+          <option>Seguridad vial</option>
+          <option>Microbasurales</option>
+          <option>Consumo problemático</option>
+          <option>Accesibilidad</option>
+          <option>Ambiente</option>
+          <option>Transporte</option>
+          <option>Animales sueltos</option>
+          <option>Empleo joven</option>
+          <option>Hábitat y vivienda</option>
+          <option>Género y DDHH</option>
         </select>
       </div>
 
@@ -1520,9 +1618,28 @@
         <div class="modal-lugar" id="mLugar"></div>
       </div>
       <div class="modal-body">
-        <div class="modal-bio" id="mBio" style="display:none"></div>
-        <div class="modal-temas" id="mTemas"></div>
+        <div id="mMandatoWrap" style="display:none">
+          <div class="modal-mandato">
+            <span class="modal-mandato-dot"></span>
+            <span id="mMandato"></span>
+          </div>
+        </div>
+        <div id="mBioWrap" style="display:none">
+          <div class="modal-sect-label">Trayectoria</div>
+          <div class="modal-bio-text" id="mBio"></div>
+        </div>
+        <div id="mEspWrap">
+          <div class="modal-sect-label">Especialidades</div>
+          <div class="modal-esp-tags" id="mEsp"></div>
+        </div>
+        <div id="mTemasWrap">
+          <div class="modal-sect-label">Áreas de trabajo</div>
+          <div class="modal-temas" id="mTemas"></div>
+        </div>
         <div class="modal-contacto" id="mContacto"></div>
+        <a class="modal-ver-iniciativas" id="mVerIniciativas" href="#" target="_blank" rel="noopener" style="display:none">
+          📂 Ver iniciativas en Drive
+        </a>
       </div>
     </div>
   </div>
@@ -1761,44 +1878,44 @@
 
     // ─── DATOS: CONCEJALES ───
     const CONCEJALES = [
-      { id: 1,  nombre: "Yoana Dalbello",           localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 43-8952", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"] },
-      { id: 2,  nombre: "Juan Pablo Coniglio",       localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 41-7291", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión", "Fiscalización y control"] },
-      { id: 3,  nombre: "José Delmastro",            localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 41-6305", ig: "",                  mail: "josedelmastro41@gmail.com",            foto: "", temas: ["Obras y servicios públicos", "Planeamiento urbano"] },
-      { id: 4,  nombre: "Brenda Torrini",            localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 45-5600", ig: "",                  mail: "brendatorririconcejal@gmail.com",      foto: "", temas: ["Ambiente", "Gobierno y gestión"] },
-      { id: 5,  nombre: "Juano Astor",               localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 49-5863", ig: "",                  mail: "juan.astor95@gmail.com",               foto: "", temas: ["Gobierno y gestión", "Transparencia"] },
-      { id: 6,  nombre: "Juan Carlos Marchese",      localidad: "San Vicente",            departamento: "Castellanos",    tel: "3401 64-0111", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano"] },
-      { id: 7,  nombre: "Diego Martin",              localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3400 41-7834", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 8,  nombre: "Francisco Bracalenti",      localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3364 64-2204", ig: "",                  mail: "",                                    foto: "", temas: ["Fiscalización y control"] },
-      { id: 9,  nombre: "Micaela Mineiro",           localidad: "Venado Tuerto",          departamento: "Gral. López",    tel: "3462 63-9815", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"] },
-      { id: 10, nombre: "Alina Vargas Amato",        localidad: "Firmat",                 departamento: "Gral. López",    tel: "3465 59-2384", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH"] },
-      { id: 11, nombre: "Alejandro Delssin",         localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 55-4567", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 12, nombre: "Miguel Gutierrez",          localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 37-6610", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión"] },
-      { id: 13, nombre: "Marisa Flores",             localidad: "Reconquista",            departamento: "Gral. Obligado", tel: "3482 51-4685", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"] },
-      { id: 14, nombre: "Daina Ramirez",             localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 60-4622", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano"] },
-      { id: 15, nombre: "Andrea Cracogna",           localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 39-4937", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH"] },
-      { id: 16, nombre: "Omar Picard",               localidad: "Recreo",                 departamento: "La Capital",     tel: "3426 29-8463", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión", "Obras y servicios públicos"] },
-      { id: 17, nombre: "Camila Rodriguez del Curto",localidad: "San José del Rincón",    departamento: "La Capital",     tel: "3425 35-7954", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"] },
-      { id: 18, nombre: "Melina Andrés",             localidad: "Laguna Paiva",           departamento: "La Capital",     tel: "3425 46-2249", ig: "@andres.melina",     mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"] },
-      { id: 19, nombre: "Alejandra Chena",           localidad: "Santo Tomé",             departamento: "La Capital",     tel: "3424 05-4647", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano"] },
-      { id: 20, nombre: "Judith Perren",             localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3404 41-9610", ig: "",                  mail: "",                                    foto: "", temas: ["Fiscalización y control", "Transparencia"] },
-      { id: 21, nombre: "Gabriel Otazo",             localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3425 36-5763", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 22, nombre: "Pedro Junco",               localidad: "Villa Minetti",          departamento: "9 de Julio",     tel: "3491 69-8608", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Gobierno y gestión"] },
-      { id: 23, nombre: "Benjamín Perruccio",        localidad: "Alvear",                 departamento: "Rosario",        tel: "3417 04-6068", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión"] },
-      { id: 24, nombre: "Flavia Banfi",              localidad: "Alvear",                 departamento: "Rosario",        tel: "3412 09-0213", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"] },
-      { id: 25, nombre: "Federico Lifschitz",        localidad: "Rosario",                departamento: "Rosario",        tel: "3413 49-4950", ig: "@fede_lifschitz",   mail: "federicolifschitz@concejorosario.gov.ar", foto: "", temas: ["Fiscalización y control", "Obras y servicios públicos"] },
-      { id: 26, nombre: "Manuel Sciutto",            localidad: "Rosario",                departamento: "Rosario",        tel: "3412 29-6544", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión", "Planeamiento urbano"] },
-      { id: 27, nombre: "Alicia Pino",               localidad: "Rosario",                departamento: "Rosario",        tel: "3412 79-7712", ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"] },
-      { id: 28, nombre: "Esteban Lenci",             localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3416 43-3416", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 29, nombre: "Patricia González",         localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3413 21-6254", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"] },
-      { id: 30, nombre: "José Bulsicco",             localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3415 02-5501", ig: "",                  mail: "",                                    foto: "", temas: ["Fiscalización y control"] },
-      { id: 31, nombre: "Maximiliano Lopez",         localidad: "San Cristóbal",          departamento: "Rosario",        tel: "3416 88-0285", ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión"] },
-      { id: 32, nombre: "Agustín Peretti",           localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 52-1673", ig: "",                  mail: "aperetti.suardi@gmail.com",            foto: "", temas: ["Gobierno y gestión", "Desarrollo humano"] },
-      { id: 33, nombre: "Gonzalo Rui",               localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 41-0017", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 34, nombre: "Santiago Pestarini",        localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "",             ig: "",                  mail: "",                                    foto: "", temas: ["Gobierno y gestión"] },
-      { id: 35, nombre: "Monica Rivelo",             localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "3404 49-1935", ig: "",                  mail: "",                                    foto: "", temas: ["Género, Seguridad, DDHH"] },
-      { id: 36, nombre: "Rodrigo Duín",              localidad: "San Jorge",              departamento: "San Martín",     tel: "3406 64-4909", ig: "",                  mail: "",                                    foto: "", temas: ["Obras y servicios públicos"] },
-      { id: 37, nombre: "Laura Raspantti",           localidad: "El Trébol",              departamento: "San Martín",     tel: "",             ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"] },
-      { id: 38, nombre: "Ana Paula Capello",         localidad: "Vera",                   departamento: "Vera",           tel: "",             ig: "",                  mail: "",                                    foto: "", temas: ["Desarrollo humano"] },
+      { id: 1,  nombre: "Yoana Dalbello",            localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 43-8952", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],          especialidades: ["Género y DDHH", "Accesibilidad"] },
+      { id: 2,  nombre: "Juan Pablo Coniglio",        localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 41-7291", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Fiscalización y control"],           especialidades: ["Animales sueltos", "Microbasurales"] },
+      { id: 3,  nombre: "José Delmastro",             localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 41-6305", ig: "",                  mail: "josedelmastro41@gmail.com",             foto: "", bio: "", temas: ["Obras y servicios públicos", "Planeamiento urbano"],       especialidades: ["Hábitat y vivienda", "Seguridad vial"] },
+      { id: 4,  nombre: "Brenda Torrini",             localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 45-5600", ig: "",                  mail: "brendatorririconcejal@gmail.com",       foto: "", bio: "", temas: ["Gobierno y gestión", "Planeamiento urbano"],              especialidades: ["Ambiente", "Microbasurales"] },
+      { id: 5,  nombre: "Juano Astor",                localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 49-5863", ig: "",                  mail: "juan.astor95@gmail.com",                foto: "", bio: "", temas: ["Gobierno y gestión", "Transparencia"],                    especialidades: ["Empleo joven", "Hábitat y vivienda"] },
+      { id: 6,  nombre: "Juan Carlos Marchese",       localidad: "San Vicente",            departamento: "Castellanos",    tel: "3401 64-0111", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Empleo joven", "Consumo problemático"] },
+      { id: 7,  nombre: "Diego Martin",               localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3400 41-7834", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Hábitat y vivienda", "Transporte"] },
+      { id: 8,  nombre: "Francisco Bracalenti",       localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3364 64-2204", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control"],                                 especialidades: ["Microbasurales", "Seguridad vial"] },
+      { id: 9,  nombre: "Micaela Mineiro",            localidad: "Venado Tuerto",          departamento: "Gral. López",    tel: "3462 63-9815", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Empleo joven"] },
+      { id: 10, nombre: "Alina Vargas Amato",         localidad: "Firmat",                 departamento: "Gral. López",    tel: "3465 59-2384", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH", "Consumo problemático"] },
+      { id: 11, nombre: "Alejandro Delssin",          localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 55-4567", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Transporte", "Seguridad vial"] },
+      { id: 12, nombre: "Miguel Gutierrez",           localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 37-6610", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Animales sueltos", "Accesibilidad"] },
+      { id: 13, nombre: "Marisa Flores",              localidad: "Reconquista",            departamento: "Gral. Obligado", tel: "3482 51-4685", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Consumo problemático", "Género y DDHH"] },
+      { id: 14, nombre: "Daina Ramirez",              localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 60-4622", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Empleo joven", "Accesibilidad"] },
+      { id: 15, nombre: "Andrea Cracogna",            localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 39-4937", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH"] },
+      { id: 16, nombre: "Omar Picard",                localidad: "Recreo",                 departamento: "La Capital",     tel: "3426 29-8463", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Obras y servicios públicos"],       especialidades: ["Seguridad vial", "Transporte"] },
+      { id: 17, nombre: "Camila Rodriguez del Curto", localidad: "San José del Rincón",    departamento: "La Capital",     tel: "3425 35-7954", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Empleo joven"] },
+      { id: 18, nombre: "Melina Andrés",              localidad: "Laguna Paiva",           departamento: "La Capital",     tel: "3425 46-2249", ig: "@andres.melina",     mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Consumo problemático"] },
+      { id: 19, nombre: "Alejandra Chena",            localidad: "Santo Tomé",             departamento: "La Capital",     tel: "3424 05-4647", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Accesibilidad", "Hábitat y vivienda"] },
+      { id: 20, nombre: "Judith Perren",              localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3404 41-9610", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control", "Transparencia"],               especialidades: ["Microbasurales", "Accesibilidad"] },
+      { id: 21, nombre: "Gabriel Otazo",              localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3425 36-5763", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Microbasurales"] },
+      { id: 22, nombre: "Pedro Junco",                localidad: "Villa Minetti",          departamento: "9 de Julio",     tel: "3491 69-8608", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Gobierno y gestión"],                especialidades: ["Empleo joven", "Animales sueltos"] },
+      { id: 23, nombre: "Benjamín Perruccio",         localidad: "Alvear",                 departamento: "Rosario",        tel: "3417 04-6068", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Accesibilidad", "Hábitat y vivienda"] },
+      { id: 24, nombre: "Flavia Banfi",               localidad: "Alvear",                 departamento: "Rosario",        tel: "3412 09-0213", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Empleo joven"] },
+      { id: 25, nombre: "Federico Lifschitz",         localidad: "Rosario",                departamento: "Rosario",        tel: "3413 49-4950", ig: "@fede_lifschitz",   mail: "federicolifschitz@concejorosario.gov.ar",foto: "", bio: "", temas: ["Fiscalización y control", "Obras y servicios públicos"], especialidades: ["Microbasurales", "Seguridad vial"] },
+      { id: 26, nombre: "Manuel Sciutto",             localidad: "Rosario",                departamento: "Rosario",        tel: "3412 29-6544", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Planeamiento urbano"],              especialidades: ["Hábitat y vivienda", "Ambiente"] },
+      { id: 27, nombre: "Alicia Pino",                localidad: "Rosario",                departamento: "Rosario",        tel: "3412 79-7712", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Accesibilidad"] },
+      { id: 28, nombre: "Esteban Lenci",              localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3416 43-3416", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Transporte", "Hábitat y vivienda"] },
+      { id: 29, nombre: "Patricia González",          localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3413 21-6254", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH"] },
+      { id: 30, nombre: "José Bulsicco",              localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3415 02-5501", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control"],                                 especialidades: ["Microbasurales", "Animales sueltos"] },
+      { id: 31, nombre: "Maximiliano Lopez",          localidad: "San Cristóbal",          departamento: "San Cristóbal",  tel: "3416 88-0285", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Animales sueltos", "Accesibilidad"] },
+      { id: 32, nombre: "Agustín Peretti",            localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 52-1673", ig: "",                  mail: "aperetti.suardi@gmail.com",             foto: "", bio: "", temas: ["Gobierno y gestión", "Desarrollo humano"],                especialidades: ["Empleo joven", "Hábitat y vivienda"] },
+      { id: 33, nombre: "Gonzalo Rui",                localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 41-0017", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Transporte"] },
+      { id: 34, nombre: "Santiago Pestarini",         localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Hábitat y vivienda", "Accesibilidad"] },
+      { id: 35, nombre: "Monica Rivelo",              localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "3404 49-1935", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH"] },
+      { id: 36, nombre: "Rodrigo Duín",               localidad: "San Jorge",              departamento: "San Martín",     tel: "3406 64-4909", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Ambiente"] },
+      { id: 37, nombre: "Laura Raspantti",            localidad: "El Trébol",              departamento: "San Martín",     tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Empleo joven"] },
+      { id: 38, nombre: "Ana Paula Capello",          localidad: "Vera",                   departamento: "Vera",           tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Consumo problemático", "Accesibilidad"] },
     ];
 
     // ─── DATOS: BIBLIOTECA LEGAL ───
@@ -1833,18 +1950,27 @@
       return `https://ui-avatars.com/api/?name=${encoded}&background=C41230&color=fff&size=200`;
     }
 
+    const ESP_ICONS = {
+      'Seguridad vial': '🚗', 'Microbasurales': '🗑️', 'Consumo problemático': '💊',
+      'Accesibilidad': '♿', 'Ambiente': '🌿', 'Transporte': '🚌',
+      'Animales sueltos': '🐄', 'Empleo joven': '👶', 'Hábitat y vivienda': '🏠',
+      'Género y DDHH': '👩‍⚖️'
+    };
+
     function filtrarConcejales() {
-      const dpto  = document.getElementById('filtroDpto').value;
-      const tema  = document.getElementById('filtroTema').value;
-      const lista = CONCEJALES.filter(c =>
-        (!dpto || c.departamento === dpto) &&
-        (!tema || c.temas.includes(tema))
+      const nombre = (document.getElementById('filtroNombre').value || '').toLowerCase().trim();
+      const dpto   = document.getElementById('filtroDpto').value;
+      const esp    = document.getElementById('filtroEsp').value;
+      const lista  = CONCEJALES.filter(c =>
+        (!nombre || c.nombre.toLowerCase().includes(nombre)) &&
+        (!dpto   || c.departamento === dpto) &&
+        (!esp    || (c.especialidades || []).includes(esp))
       );
       renderConcejales(lista);
     }
 
     function renderConcejales(lista) {
-      const grid = document.getElementById('concejalesGrid');
+      const grid  = document.getElementById('concejalesGrid');
       const noRes = document.getElementById('noResultados');
       grid.innerHTML = '';
 
@@ -1858,13 +1984,15 @@
         const div = document.createElement('div');
         div.className = 'concejal-card';
         div.onclick = () => abrirModal(c);
+        const espTags = (c.especialidades || []).map(e =>
+          `<span class="concejal-tema-tag">${ESP_ICONS[e] || ''} ${e}</span>`
+        ).join('');
         div.innerHTML = `
           <img class="concejal-avatar" src="${avatarUrl(c.nombre, c.foto)}" alt="${c.nombre}" loading="lazy">
           <div class="concejal-nombre">${c.nombre}</div>
+          <span class="concejal-cargo">Concejal/a PS</span>
           <div class="concejal-lugar">${c.localidad} · ${c.departamento}</div>
-          <div class="concejal-temas">
-            ${c.temas.map(t => `<span class="concejal-tema-tag">${t}</span>`).join('')}
-          </div>
+          <div class="concejal-temas">${espTags}</div>
         `;
         grid.appendChild(div);
       });
@@ -1875,14 +2003,25 @@
       document.getElementById('mFoto').src    = avatarUrl(c.nombre, c.foto);
       document.getElementById('mFoto').alt    = c.nombre;
       document.getElementById('mNombre').textContent = c.nombre;
-      document.getElementById('mLugar').textContent  = `${c.localidad} · ${c.departamento}`;
+      document.getElementById('mLugar').textContent  = `${c.localidad} · Dpto. ${c.departamento}`;
 
-      // Bio
-      const bioEl = document.getElementById('mBio');
-      if (c.bio) { bioEl.textContent = c.bio; bioEl.style.display = 'block'; }
-      else        { bioEl.style.display = 'none'; }
+      // Bio/trayectoria
+      const bioWrap = document.getElementById('mBioWrap');
+      const bioEl   = document.getElementById('mBio');
+      if (c.bio) {
+        bioEl.textContent = c.bio;
+        bioWrap.style.display = 'block';
+      } else {
+        bioWrap.style.display = 'none';
+      }
 
-      // Temas
+      // Especialidades (ciudadano)
+      const espEl = document.getElementById('mEsp');
+      espEl.innerHTML = (c.especialidades || []).map(e =>
+        `<span class="modal-esp-tag">${ESP_ICONS[e] || ''} ${e}</span>`
+      ).join('') || '<span style="font-size:0.8rem;color:var(--texto-sec)">Por completar</span>';
+
+      // Temas / áreas institucionales
       document.getElementById('mTemas').innerHTML =
         c.temas.map(t => `<span class="badge badge-rojo">${t}</span>`).join('');
 
@@ -1893,6 +2032,12 @@
       if (c.ig)   contacto += `<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" rel="noopener"><span class="ico">📸</span>${c.ig}</a>`;
       if (!contacto) contacto = '<p style="font-size:0.82rem;color:var(--texto-sec)">Datos de contacto próximamente.</p>';
       document.getElementById('mContacto').innerHTML = contacto;
+
+      // Ver iniciativas (búsqueda en Drive por nombre)
+      const verLink = document.getElementById('mVerIniciativas');
+      const query = encodeURIComponent(c.nombre);
+      verLink.href = `https://drive.google.com/drive/search?q=${query}`;
+      verLink.style.display = 'flex';
 
       document.getElementById('modalOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1911,12 +2056,15 @@
       if (e.key === 'Escape') cerrarModalBtn();
     });
 
-    // ─── BANCO: scroll desde problemas ───
-    function irAlBanco(tema) {
-      document.getElementById('filtroTema').value = tema;
+    // ─── Scroll desde problemas → concejales filtrado ───
+    function irAConcejales(esp) {
+      document.getElementById('filtroEsp').value = esp;
       filtrarConcejales();
-      document.getElementById('la-red').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('concejales').scrollIntoView({ behavior: 'smooth' });
     }
+
+    // backward compat
+    function irAlBanco(tema) { irAConcejales(tema); }
 
     // ─── CAPACITACIONES: filtro ───
     function filtrarCap(nivel, btn) {
