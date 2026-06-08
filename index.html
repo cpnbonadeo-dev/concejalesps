@@ -233,7 +233,7 @@
       bottom: -8%;
       right: -4%;
       width: clamp(220px, 28vw, 440px);
-      opacity: 0.07;
+      opacity: 0.18;
       pointer-events: none;
       z-index: 0;
     }
@@ -250,7 +250,7 @@
       top: 15%;
       left: -5%;
       width: clamp(140px, 16vw, 260px);
-      opacity: 0.035;
+      opacity: 0.09;
       pointer-events: none;
       z-index: 0;
       transform: rotate(-12deg);
@@ -1187,24 +1187,25 @@
     .muni-key-card .mk-jefe  { font-size: 0.8rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
     .muni-key-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
     .muni-featured-card {
-      background: linear-gradient(135deg, rgba(196,18,48,0.1) 0%, var(--card-bg) 60%);
-      border: 1px solid rgba(196,18,48,0.3);
-      border-top: 3px solid var(--rojo);
-      border-radius: 12px;
-      padding: 1.2rem 1.1rem;
+      background: linear-gradient(135deg, rgba(196,18,48,0.13) 0%, var(--card-bg) 55%);
+      border: 1px solid rgba(196,18,48,0.4);
+      border-top: 4px solid var(--rojo);
+      border-radius: 14px;
+      padding: 1.65rem 1.4rem;
       text-decoration: none;
       display: block;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      box-shadow: 0 2px 16px rgba(196,18,48,0.06);
+      box-shadow: 0 4px 24px rgba(196,18,48,0.12);
+      min-height: 128px;
     }
     .muni-featured-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(196,18,48,0.18);
-      border-color: rgba(196,18,48,0.6);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(196,18,48,0.22);
+      border-color: rgba(196,18,48,0.7);
     }
-    .muni-featured-card .mk-nombre { font-size: 1.05rem; font-weight: 700; color: var(--texto); margin-bottom: 0.2rem; }
-    .muni-featured-card .mk-jefe  { font-size: 0.83rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
-    .muni-featured-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .muni-featured-card .mk-nombre { font-size: 1.18rem; font-weight: 700; color: var(--texto); margin-bottom: 0.3rem; }
+    .muni-featured-card .mk-jefe  { font-size: 0.88rem; color: var(--texto-sec); margin-bottom: 0.4rem; }
+    .muni-featured-card .mk-cargo { font-size: 0.72rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
     .btn-dir-full {
       display: inline-flex; align-items: center; gap: 0.5rem;
       font-size: 0.875rem; font-weight: 600; color: var(--texto);
@@ -1313,41 +1314,41 @@
 
       <!-- Temas -->
       <div class="banco-temas">
-        <a class="tema-card" href="https://drive.google.com/drive/folders/1Io5We8CdbzruHABt1W5gb2SLJr01NQml" target="_blank" rel="noopener">
+        <div class="tema-card">
           <span class="icono">🏛️</span>
           <h3>Gobierno y gestión</h3>
           <p>Organización institucional, presupuesto, gestión municipal</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/12Me91WZz5HKO7rVRObVUcz50eh-eUqij" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">🔧</span>
           <h3>Obras y servicios públicos</h3>
           <p>Infraestructura, espacios públicos, servicios esenciales</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/1NyVEXn2q92p4ktDh-jlG80zeAPQbIMaH" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">📐</span>
           <h3>Planeamiento urbano</h3>
           <p>Ordenamiento territorial, vivienda, uso del suelo</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/10IyZ8hkfQs9qSHCs5MaazL-QJ2cf1n3U" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">🤝</span>
           <h3>Desarrollo humano</h3>
           <p>Salud, educación, niñez, adultos mayores</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/1UEBpesGI94TFxtSGgn5MVtAkwENYsByu" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">🔍</span>
           <h3>Fiscalización y control</h3>
           <p>Auditoría, rendición de cuentas, rol opositor</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/1IjgsMR_70qUTAHfhW8B70H8rlvSrp_si" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">✊</span>
           <h3>Género, Seguridad, DDHH</h3>
           <p>Políticas de género, convivencia, derechos humanos</p>
-        </a>
-        <a class="tema-card" href="https://drive.google.com/drive/folders/1z6V_xCbNZqc_i7ZLES76rVXvhn413Va5" target="_blank" rel="noopener">
+        </div>
+        <div class="tema-card">
           <span class="icono">📋</span>
           <h3>Transparencia</h3>
           <p>Acceso a información, gobierno abierto, ética pública</p>
-        </a>
+        </div>
       </div>
 
       <!-- Quién ya hizo esto -->
@@ -1589,7 +1590,7 @@
           <div class="mk-jefe">Ivan Sanchez</div>
           <div class="mk-cargo">Intendente · Dpto. Gral. Obligado</div>
         </a>
-        <a class="muni-key-card" href="https://www.sanjosedelaesquina.gob.ar" target="_blank" rel="noopener">
+        <a class="muni-key-card" href="https://www.sanjosevirtual.com.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">San José de la Esquina</div>
           <div class="mk-jefe">Ezequiel Ruani</div>
           <div class="mk-cargo">Intendente · Dpto. Caseros</div>
@@ -1599,7 +1600,7 @@
           <div class="mk-jefe">Martin Gherardi</div>
           <div class="mk-cargo">Intendente · Dpto. Rosario</div>
         </a>
-        <a class="muni-key-card" href="https://www.vgg.gob.ar" target="_blank" rel="noopener">
+        <a class="muni-key-card" href="https://vggmunicipalidad.gov.ar/" target="_blank" rel="noopener">
           <div class="mk-nombre">Villa Gobernador Gálvez</div>
           <div class="mk-jefe">Alberto Ricci</div>
           <div class="mk-cargo">Intendente · Dpto. Rosario</div>
@@ -1708,37 +1709,37 @@
           <div class="cap-num">Módulo 01</div>
           <h3>Técnica legislativa</h3>
           <p>Cómo redactar ordenanzas y resoluciones con claridad jurídica. Estructura, motivación y articulado.</p>
-          <a href="https://drive.google.com/drive/folders/1Io5We8CdbzruHABt1W5gb2SLJr01NQml" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
         <div class="cap-card" data-nivel="primero">
           <div class="cap-num">Módulo 02</div>
           <h3>Presupuesto municipal</h3>
           <p>Lectura e interpretación del presupuesto. Cómo controlar la ejecución y detectar desvíos.</p>
-          <a href="https://drive.google.com/drive/folders/1Io5We8CdbzruHABt1W5gb2SLJr01NQml" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
         <div class="cap-card" data-nivel="primero avanzado">
           <div class="cap-num">Módulo 03</div>
           <h3>Comunicación política local</h3>
           <p>Redes sociales, medios locales y narrativa para concejales. Cómo hacer visible el trabajo legislativo.</p>
-          <a href="https://drive.google.com/drive/folders/1Io5We8CdbzruHABt1W5gb2SLJr01NQml" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
         <div class="cap-card" data-nivel="primero avanzado">
           <div class="cap-num">Módulo 04</div>
           <h3>Género en el concejo</h3>
           <p>Aplicación práctica de la perspectiva de género en la producción legislativa y en la dinámica institucional.</p>
-          <a href="https://drive.google.com/drive/folders/1IjgsMR_70qUTAHfhW8B70H8rlvSrp_si" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
         <div class="cap-card" data-nivel="avanzado">
           <div class="cap-num">Módulo 05</div>
           <h3>Medio ambiente</h3>
           <p>Herramientas normativas para la gestión ambiental local: arbolado, residuos, contaminación y ordenanzas verdes.</p>
-          <a href="https://drive.google.com/drive/folders/1NyVEXn2q92p4ktDh-jlG80zeAPQbIMaH" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
         <div class="cap-card" data-nivel="avanzado">
           <div class="cap-num">Módulo 06</div>
           <h3>Control y fiscalización</h3>
           <p>El rol del concejal opositor: pedidos de informe, interpelación, auditoría y acceso a documentación pública.</p>
-          <a href="https://drive.google.com/drive/folders/1UEBpesGI94TFxtSGgn5MVtAkwENYsByu" target="_blank" class="btn-ver">Ver módulo →</a>
+          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
         </div>
       </div>
     </div>
@@ -1864,7 +1865,14 @@
             <label for="s-mensaje">¿Por qué querés sumarte?</label>
             <textarea id="s-mensaje" placeholder="Contanos brevemente…"></textarea>
           </div>
-          <button type="submit" class="btn-primary" style="width:100%; margin-top:0.25rem; border:none; cursor:pointer; font-family:'Inter',sans-serif;">
+          <div style="margin-top:0.25rem;">
+            <label style="display:flex; align-items:flex-start; gap:0.65rem; cursor:pointer; font-size:0.81rem; color:var(--texto-sec); line-height:1.45;">
+              <input type="checkbox" id="s-consent" required
+                     style="margin-top:0.18rem; accent-color:var(--rojo); flex-shrink:0; width:15px; height:15px; cursor:pointer;">
+              <span>Autorizo el uso de mis datos personales para el directorio interno de la red. La información será tratada de forma confidencial y no será compartida fuera del ámbito del Partido Socialista de Santa Fe.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%; margin-top:0.75rem; border:none; cursor:pointer; font-family:'Inter',sans-serif;">
             Enviar solicitud
           </button>
         </form>

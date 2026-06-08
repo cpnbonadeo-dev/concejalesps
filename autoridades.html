@@ -250,11 +250,106 @@
       <!-- MAP -->
       <div class="mapa-col">
         <div class="mapa-wrap">
-          <svg id="mapaSvg" viewBox="0 0 300 610" xmlns="http://www.w3.org/2000/svg"
-               style="filter:drop-shadow(0 2px 18px rgba(196,18,48,0.14))">
-            <!-- Contorno Santa Fe -->
+          <svg id="mapaSvg" viewBox="0 0 300 610" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fondo provincia -->
             <path d="M32,6 L262,16 L272,62 L256,132 L226,186 L192,272 L186,352 L176,432 L169,522 L161,567 L32,577 L23,432 L19,302 L23,182 L29,82 Z"
-                  fill="rgba(20,5,12,0.88)" stroke="rgba(196,18,48,0.38)" stroke-width="1.5" stroke-linejoin="round"/>
+                  fill="#1a0d14" stroke="#7a4055" stroke-width="1.8" stroke-linejoin="round"/>
+
+            <!-- ══ LÍMITES DEPARTAMENTALES (simplificados) ══ -->
+            <g stroke="rgba(180,130,155,0.4)" stroke-width="0.7" fill="none" stroke-dasharray="4,3">
+
+              <!-- General Obligado / resto — y≈122 -->
+              <line x1="30" y1="122" x2="264" y2="122"/>
+
+              <!-- Vera / 9 de Julio — divisor vertical x≈168 entre y=122 y y=195 -->
+              <line x1="168" y1="122" x2="172" y2="195"/>
+
+              <!-- 9 de Julio / San Cristóbal + San Justo — y≈195 lado este -->
+              <line x1="172" y1="195" x2="232" y2="195"/>
+
+              <!-- Vera / San Cristóbal — y≈195, lado oeste -->
+              <line x1="24" y1="195" x2="172" y2="195"/>
+
+              <!-- San Cristóbal / San Justo — divisor vertical x≈130 entre y=195 y y=300 -->
+              <line x1="130" y1="195" x2="135" y2="300"/>
+
+              <!-- San Javier (este) — divisor vertical desde x≈193 y=195 bajando -->
+              <line x1="193" y1="195" x2="192" y2="280"/>
+
+              <!-- San Cristóbal + San Justo / Castellanos + Las Colonias — y≈300 -->
+              <line x1="21" y1="300" x2="200" y2="300"/>
+
+              <!-- San Javier inferior / Garay — y≈300 este -->
+              <line x1="192" y1="280" x2="186" y2="345"/>
+
+              <!-- Garay / San Martín — y≈345 este -->
+              <line x1="162" y1="300" x2="186" y2="345"/>
+
+              <!-- Castellanos / Las Colonias — divisor vertical x≈105 entre y=300 y y=365 -->
+              <line x1="105" y1="300" x2="105" y2="365"/>
+
+              <!-- Las Colonias / La Capital — divisor vertical x≈140 entre y=300 y y=365 -->
+              <line x1="140" y1="300" x2="142" y2="365"/>
+
+              <!-- San Martín → borde este y=300-370 -->
+              <line x1="162" y1="300" x2="181" y2="370"/>
+
+              <!-- Castellanos+Las Colonias+La Capital+San Martín / San Jerónimo+Iriondo — y≈365 -->
+              <line x1="21" y1="365" x2="181" y2="365"/>
+
+              <!-- San Jerónimo / Iriondo — divisor vertical x≈110 entre y=365 y y=425 -->
+              <line x1="110" y1="365" x2="110" y2="425"/>
+
+              <!-- San Lorenzo — divisor vertical x≈148 entre y=365 y y=425 -->
+              <line x1="148" y1="365" x2="148" y2="425"/>
+
+              <!-- San Jerónimo+Iriondo+San Lorenzo / Belgrano+Rosario — y≈425 -->
+              <line x1="21" y1="425" x2="177" y2="425"/>
+
+              <!-- Belgrano / Rosario — divisor vertical x≈118 entre y=425 y y=490 -->
+              <line x1="118" y1="425" x2="120" y2="490"/>
+
+              <!-- San Lorenzo / Rosario borde este — x≈158 entre y=425 y y=490 -->
+              <line x1="158" y1="425" x2="160" y2="490"/>
+
+              <!-- Constitución borde este — desde y=425 -->
+              <line x1="175" y1="425" x2="170" y2="490"/>
+
+              <!-- Belgrano+Rosario+Constitución / Caseros+Gral López — y≈490 -->
+              <line x1="24" y1="490" x2="171" y2="490"/>
+
+              <!-- Caseros / General López — divisor x≈100 entre y=490 y y=540 -->
+              <line x1="100" y1="490" x2="100" y2="540"/>
+
+              <!-- General López norte — y≈540 -->
+              <line x1="28" y1="540" x2="167" y2="540"/>
+
+            </g>
+
+            <!-- ══ NOMBRES DE DEPARTAMENTOS ══ -->
+            <g fill="rgba(210,170,190,0.5)" font-family="Inter, Arial, sans-serif"
+               font-size="6.8" font-weight="600" text-anchor="middle" letter-spacing="0.06em">
+              <text x="148" y="67">GRAL. OBLIGADO</text>
+              <text x="86"  y="160">VERA</text>
+              <text x="210" y="158">9 DE JULIO</text>
+              <text x="66"  y="248">SAN CRISTÓBAL</text>
+              <text x="155" y="248">SAN JUSTO</text>
+              <text x="210" y="248">SAN JAVIER</text>
+              <text x="62"  y="332">CASTELLANOS</text>
+              <text x="122" y="332">LAS COLONIAS</text>
+              <text x="152" y="332">LA CAPITAL</text>
+              <text x="185" y="322">SAN MARTÍN</text>
+              <text x="210" y="322">GARAY</text>
+              <text x="62"  y="395">SAN JERÓNIMO</text>
+              <text x="124" y="395">IRIONDO</text>
+              <text x="158" y="395">SAN LORENZO</text>
+              <text x="66"  y="437">BELGRANO</text>
+              <text x="142" y="437">ROSARIO</text>
+              <text x="168" y="437">CONSTITUCIÓN</text>
+              <text x="76"  y="515">CASEROS</text>
+              <text x="110" y="557">GRAL. LÓPEZ</text>
+            </g>
+
             <!-- Dots generated by JS -->
             <g id="mapaDots"></g>
           </svg>
