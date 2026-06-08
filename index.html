@@ -1033,29 +1033,6 @@
     .bib-card-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
     .bib-card-item p  { font-size: 0.78rem; color: var(--texto-sec); }
 
-    /* ─── DIRECTORIO TERRITORIAL ─── */
-    .dir-section { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--card-brd); }
-    .dir-item { border: 1px solid var(--card-brd); border-radius: 10px; overflow: hidden; margin-bottom: 0.4rem; }
-    .dir-btn {
-      width: 100%; background: var(--card-bg); border: none;
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.85rem 1rem; cursor: pointer; text-align: left; transition: background 0.15s;
-      font-family: 'Inter', sans-serif;
-    }
-    .dir-btn:hover { background: rgba(196,18,48,0.08); }
-    .dir-btn[aria-expanded="true"] { background: rgba(196,18,48,0.1); border-bottom: 1px solid var(--card-brd); }
-    .dir-dept-name { font-size: 0.88rem; font-weight: 600; color: var(--texto); flex: 1; }
-    .dir-dept-meta { font-size: 0.72rem; color: var(--texto-sec); }
-    .dir-chevron { font-size: 1.2rem; color: var(--rojo); transition: transform 0.2s; line-height: 1; }
-    .dir-content { padding: 1rem; }
-    .dir-locs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 0.65rem; }
-    .dir-loc { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 0.75rem 0.875rem; }
-    .dir-loc-nombre { font-size: 0.8rem; font-weight: 700; color: var(--texto); margin-bottom: 0.45rem; padding-bottom: 0.35rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .dir-persona { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.3rem; font-size: 0.78rem; color: var(--texto-sec); }
-    .dir-bdg { font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.4rem; border-radius: 4px; flex-shrink: 0; white-space: nowrap; }
-    .dir-bdg-int  { background: rgba(196,18,48,0.22); color: #ff8a9a; border: 1px solid rgba(196,18,48,0.35); }
-    .dir-bdg-conc { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
-    .dir-bdg-com  { background: rgba(234,179,8,0.12); color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
 
     /* ─── SUMARSE ─── */
     #sumarse {}
@@ -1188,10 +1165,12 @@
       margin-bottom: 0.85rem; padding-bottom: 0.5rem;
       border-bottom: 1px solid rgba(196,18,48,0.2);
     }
-    .munis-key-grid {
+    /* ─── MUNICIPALITIES GRID ─── */
+    .munis-all-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 0.75rem;
+      gap: 0.875rem;
+      margin-bottom: 1.75rem;
     }
     .muni-key-card {
       background: var(--card-bg);
@@ -1207,27 +1186,12 @@
     .muni-key-card .mk-nombre { font-size: 0.92rem; font-weight: 700; color: var(--texto); margin-bottom: 0.15rem; }
     .muni-key-card .mk-jefe  { font-size: 0.8rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
     .muni-key-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .ver-detalle-link {
-      display: inline-block; margin-top: 1.75rem;
-      font-size: 0.85rem; color: var(--rojo); font-weight: 600;
-      border-bottom: 1px solid rgba(196,18,48,0.35); padding-bottom: 1px;
-      transition: border-color 0.2s;
-    }
-    .ver-detalle-link:hover { border-color: var(--rojo); }
-
-    /* ─── FEATURED MUNICIPALITIES ─── */
-    .munis-featured-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.875rem;
-      margin-bottom: 1.25rem;
-    }
     .muni-featured-card {
       background: linear-gradient(135deg, rgba(196,18,48,0.1) 0%, var(--card-bg) 60%);
       border: 1px solid rgba(196,18,48,0.3);
       border-top: 3px solid var(--rojo);
       border-radius: 12px;
-      padding: 1.1rem;
+      padding: 1.2rem 1.1rem;
       text-decoration: none;
       display: block;
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
@@ -1239,48 +1203,23 @@
       border-color: rgba(196,18,48,0.6);
     }
     .muni-featured-card .mk-nombre { font-size: 1.05rem; font-weight: 700; color: var(--texto); margin-bottom: 0.2rem; }
-    .muni-featured-card .mk-jefe  { font-size: 0.82rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
+    .muni-featured-card .mk-jefe  { font-size: 0.83rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
     .muni-featured-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .mk-count {
-      display: inline-flex; align-items: center; gap: 0.25rem;
-      font-size: 0.68rem; font-weight: 600; color: var(--rojo);
-      background: rgba(196,18,48,0.1); border: 1px solid rgba(196,18,48,0.2);
-      border-radius: 4px; padding: 0.12rem 0.45rem;
-      margin-top: 0.55rem;
-    }
-    .muni-secondary-label {
-      font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--texto-sec);
-      margin: 0.25rem 0 0.65rem;
-    }
-
-    /* ─── DIRECTORIO BUSCADOR ─── */
-    .dir-buscar-wrap { margin-bottom: 0.85rem; }
-    .dir-buscar {
-      background: var(--card-bg);
+    .btn-dir-full {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.875rem; font-weight: 600; color: var(--texto);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      padding: 0.5rem 0.875rem;
-      outline: none;
-      width: 100%;
-      max-width: 380px;
-      transition: border-color 0.2s;
+      border-radius: 8px; padding: 0.7rem 1.75rem;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
     }
-    .dir-buscar:focus { border-color: var(--rojo); }
-    .dir-tel {
-      font-size: 0.72rem; color: rgba(192,160,176,0.6);
-      text-decoration: none; margin-left: 0.4rem; white-space: nowrap;
-    }
-    .dir-tel:hover { color: var(--rojo); }
+    .btn-dir-full:hover { background: rgba(196,18,48,0.1); border-color: rgba(196,18,48,0.4); color: var(--rojo); }
 
-    @media (max-width: 900px) { .munis-featured-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 680px) {
       .mapa-layout { grid-template-columns: 1fr; }
       .mapa-svg-wrap { max-width: 240px; margin: 0 auto; }
-      .munis-featured-grid { grid-template-columns: repeat(2, 1fr); }
+      .munis-all-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ─── DIVISOR ─── */
@@ -1628,37 +1567,28 @@
       <!-- MUNICIPIOS CON GOBIERNO SOCIALISTA -->
       <p class="mapa-munis-title" style="margin-top:2.5rem">Municipios con gobierno socialista</p>
 
-      <!-- 4 municipios destacados -->
-      <div class="munis-featured-grid">
+      <!-- 7 municipios en un solo grid -->
+      <div class="munis-all-grid">
         <a class="muni-featured-card" href="https://www.recreo.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Recreo</div>
           <div class="mk-jefe">Omar Colombo</div>
           <div class="mk-cargo">Intendente · Dpto. La Capital</div>
-          <div class="mk-count">★ 1 concejal en la red</div>
         </a>
         <a class="muni-featured-card" href="https://www.generalalvear.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Alvear</div>
           <div class="mk-jefe">Carlos Pighin</div>
           <div class="mk-cargo">Intendente · Dpto. Rosario</div>
-          <div class="mk-count">★ 2 concejales en la red</div>
         </a>
         <a class="muni-featured-card" href="https://www.sunchales.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Sunchales</div>
           <div class="mk-jefe">Pablo Pinotti</div>
           <div class="mk-cargo">Intendente · Dpto. Castellanos</div>
-          <div class="mk-count">★ 3 concejales en la red</div>
         </a>
         <a class="muni-featured-card" href="https://www.lastoscas.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">Las Toscas</div>
           <div class="mk-jefe">Ivan Sanchez</div>
           <div class="mk-cargo">Intendente · Dpto. Gral. Obligado</div>
-          <div class="mk-count">★ 2 concejales en la red</div>
         </a>
-      </div>
-
-      <!-- 3 municipios secundarios -->
-      <p class="muni-secondary-label">Otros municipios con intendente PS</p>
-      <div class="munis-key-grid">
         <a class="muni-key-card" href="https://www.sanjosedelaesquina.gob.ar" target="_blank" rel="noopener">
           <div class="mk-nombre">San José de la Esquina</div>
           <div class="mk-jefe">Ezequiel Ruani</div>
@@ -1676,13 +1606,9 @@
         </a>
       </div>
 
-      <!-- DIRECTORIO COMPLETO POR DEPARTAMENTO -->
-      <div class="dir-section" id="dir-territorial" style="margin-top:2.5rem">
-        <p class="mapa-munis-title">Directorio completo de autoridades PS</p>
-        <div class="dir-buscar-wrap">
-          <input type="text" class="dir-buscar" id="dirBuscar" placeholder="🔍 Buscar por nombre o localidad…" oninput="filtrarDir()">
-        </div>
-        <div id="dirDeptos"></div>
+      <!-- Botón al directorio completo -->
+      <div style="text-align:center; margin-top:0.25rem">
+        <a href="autoridades.html" class="btn-dir-full">🗺️ Autoridades completas →</a>
       </div>
     </div>
   </section>
@@ -2252,10 +2178,22 @@
     }
 
     // ─── FORMULARIO SUMARSE ───
+    // Reemplazá SCRIPT_GAS_URL con la URL de tu Apps Script deployado
+    const SCRIPT_GAS_URL = 'REEMPLAZAR_CON_URL_APPS_SCRIPT';
     function enviarFormulario(e) {
       e.preventDefault();
-      document.querySelector('.form-sumarse').style.display = 'none';
-      document.getElementById('msgProximo').style.display = 'block';
+      var btn = e.target.querySelector('button[type=submit]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+      var data = new FormData();
+      data.append('tipo',   'sumarse');
+      data.append('nombre', (document.getElementById('s-nombre').value || '').trim());
+      data.append('ciudad', (document.getElementById('s-ciudad').value || '').trim());
+      data.append('email',  (document.getElementById('s-email').value  || '').trim());
+      fetch(SCRIPT_GAS_URL, { method:'POST', body:data, mode:'no-cors' })
+        .finally(function() {
+          document.querySelector('.form-sumarse').style.display = 'none';
+          document.getElementById('msgProximo').style.display = 'block';
+        });
     }
 
     // ─── INIT ───
@@ -2263,7 +2201,7 @@
     filtrarConcejales();
     renderBib('todos');
 
-    // ─── DIRECTORIO TERRITORIAL ───
+    // AUTORIDADES placeholder (datos completos en autoridades.html)
     const AUTORIDADES = [
       // CASEROS
       {d:'Caseros',          l:'San José de la Esquina',    c:'Intendente',   n:'Ezequiel Ruani',              t:'3425 31-5947'},
@@ -2354,80 +2292,6 @@
       {d:'Vera',             l:'La Gallareta',              c:'Pte. Comunal', n:'Fernando Nicola',             t:'3483 48-2342'},
       {d:'Vera',             l:'Vera',                      c:'Concejal',     n:'Ana Paula Capello',           t:''},
     ];
-
-    function renderDirectorio(filtro) {
-      var container = document.getElementById('dirDeptos');
-      if (!container) return;
-      var q = (filtro || '').toLowerCase().trim();
-      var lista = q
-        ? AUTORIDADES.filter(function(a){ return (a.n+' '+a.l+' '+a.d).toLowerCase().includes(q); })
-        : AUTORIDADES;
-
-      var deptos = {};
-      lista.forEach(function(a) {
-        if (!deptos[a.d]) deptos[a.d] = {};
-        if (!deptos[a.d][a.l]) deptos[a.d][a.l] = [];
-        deptos[a.d][a.l].push(a);
-      });
-      var deptNames = Object.keys(deptos).sort();
-
-      function badge(c) {
-        if (c==='Intendente') return '<span class="dir-bdg dir-bdg-int">Intendente</span>';
-        if (c==='Concejal')   return '<span class="dir-bdg dir-bdg-conc">Concejal</span>';
-        return '<span class="dir-bdg dir-bdg-com">Pte. Comunal</span>';
-      }
-
-      if (!deptNames.length) {
-        container.innerHTML = '<p style="font-size:0.85rem;color:var(--texto-sec);padding:1rem 0">Sin resultados para "'+q+'".</p>';
-        return;
-      }
-
-      var html = '';
-      deptNames.forEach(function(dept) {
-        var locs = deptos[dept];
-        var nLoc = Object.keys(locs).length;
-        var nPers = lista.filter(function(a){return a.d===dept;}).length;
-        var locHtml = '';
-        Object.keys(locs).sort().forEach(function(loc) {
-          var pers = locs[loc].slice().sort(function(a,b){
-            var o={Intendente:0,Concejal:1,'Pte. Comunal':2};
-            return (o[a.c]||3)-(o[b.c]||3);
-          });
-          locHtml += '<div class="dir-loc"><div class="dir-loc-nombre">'+loc+'</div>';
-          pers.forEach(function(p){
-            var tel = p.t ? '<a href="https://wa.me/549'+p.t.replace(/\s|-/g,'')+'" class="dir-tel" target="_blank" rel="noopener">📞 '+p.t+'</a>' : '';
-            locHtml += '<div class="dir-persona">'+badge(p.c)+'<span>'+p.n+'</span>'+tel+'</div>';
-          });
-          locHtml += '</div>';
-        });
-        var autoExpand = q ? '' : 'style="display:none"';
-        var ariaExp = q ? 'true' : 'false';
-        var chevronRot = q ? 'style="transform:rotate(90deg)"' : '';
-        html += '<div class="dir-item">'
-          + '<button class="dir-btn" onclick="toggleDir(this)" aria-expanded="'+ariaExp+'">'
-          + '<span class="dir-dept-name">Dpto. '+dept+'</span>'
-          + '<span class="dir-dept-meta">'+nLoc+' localidad'+(nLoc>1?'es':'')+' · '+nPers+' autoridad'+(nPers>1?'es':'')+'</span>'
-          + '<span class="dir-chevron" '+chevronRot+'>›</span>'
-          + '</button>'
-          + '<div class="dir-content" '+autoExpand+'><div class="dir-locs-grid">'+locHtml+'</div></div>'
-          + '</div>';
-      });
-      container.innerHTML = html;
-    }
-
-    function filtrarDir() {
-      renderDirectorio(document.getElementById('dirBuscar').value);
-    }
-
-    function toggleDir(btn) {
-      var c = btn.nextElementSibling;
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      c.style.display = open ? 'none' : 'block';
-      btn.querySelector('.dir-chevron').style.transform = open ? '' : 'rotate(90deg)';
-    }
-
-    renderDirectorio();
   </script>
 
   <!-- ═══ DECORATIVO: LOGO PS WATERMARK ═══ -->
