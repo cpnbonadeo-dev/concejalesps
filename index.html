@@ -381,6 +381,16 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <a href="https://drive.google.com/drive/folders/1z6V_xCbNZqc_i7ZLES76rVXvhn413Va5" target="_blank" class="banco-card reveal" style="--card-accent:#16A085"><div class="banco-emoji">📊</div><h3>Transparencia y Administración Pública</h3><p>Acceso a la información, presupuesto participativo, rendición de cuentas y modernización del estado local.</p><div class="banco-card-footer"><span class="banco-ver">Abrir en Drive →</span><span class="banco-count">Carpeta compartida</span></div></a>
       <div class="banco-card banco-card-subir reveal" onclick="document.getElementById('sumarse').scrollIntoView({behavior:'smooth'})"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">Contactanos →</span></div></div>
     </div>
+
+    <!-- PROBLEMAS DEL TERRITORIO -->
+    <div style="margin-top:3rem;padding-top:2.5rem;border-top:2px solid #EDE5E6;">
+      <div style="margin-bottom:1.75rem;">
+        <div class="tag tag-rojo">Problemas del territorio</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--negro);margin:.4rem 0 .5rem;">Los 10 problemas más frecuentes en la gestión local</h3>
+        <p style="font-size:.85rem;color:var(--gris-texto);max-width:640px;line-height:1.65;">Cada problema puede abordarse desde una o varias áreas del Banco, y vincularse a uno o varios ODS. Hacé clic en un ODS para ver cómo se aplica localmente.</p>
+      </div>
+      <div id="problemas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;"></div>
+    </div>
   </div>
 </section>
 
@@ -394,7 +404,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--rojo);border-radius:0 var(--r) var(--r) 0;padding:1.25rem 1.5rem;margin-bottom:2rem;font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.65;max-width:700px;">
       Al vincular cada ordenanza a uno o más ODS, el trabajo local adquiere dimensión global. Por ejemplo, una ordenanza de puntos limpios de reciclado responde al ODS 11 (Ciudades sostenibles), ODS 12 (Producción responsable) y ODS 13 (Acción por el clima) — todo al mismo tiempo.
     </div>
-    <div id="ods-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.75rem;"></div>
+    <div id="ods-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.85rem;"></div>
   </div>
 </section>
 
@@ -695,25 +705,107 @@ function filtrarBiblio(cat,btn){
   });
 }
 
+// PROBLEMAS DEL TERRITORIO
+const PROBLEMAS=[
+  {nombre:"Seguridad vial",       icono:"🚦", area:"Gobierno",                        ods:[{n:3,c:"#4C9F38"},{n:11,c:"#FD9D24"}]},
+  {nombre:"Microbasurales",       icono:"🗑️", area:"Gobierno / Planeamiento",          ods:[{n:11,c:"#FD9D24"},{n:12,c:"#BF8B2E"},{n:13,c:"#3F7E44"}]},
+  {nombre:"Consumo problemático", icono:"🧠", area:"Gobierno",                        ods:[{n:3,c:"#4C9F38"},{n:16,c:"#00689D"}]},
+  {nombre:"Accesibilidad",        icono:"♿", area:"Obras y Servicios Públicos",       ods:[{n:10,c:"#DD1367"},{n:11,c:"#FD9D24"}]},
+  {nombre:"Ambiente",             icono:"🌿", area:"Planeamiento",                    ods:[{n:11,c:"#FD9D24"},{n:13,c:"#3F7E44"},{n:15,c:"#56C02B"}]},
+  {nombre:"Transporte",           icono:"🚌", area:"Obras y Servicios Públicos",       ods:[{n:10,c:"#DD1367"},{n:11,c:"#FD9D24"}]},
+  {nombre:"Animales sueltos",     icono:"🐕", area:"Gobierno",                        ods:[{n:11,c:"#FD9D24"},{n:15,c:"#56C02B"}]},
+  {nombre:"Empleo joven",         icono:"💼", area:"Desarrollo Humano y Producción",  ods:[{n:8,c:"#A21942"},{n:10,c:"#DD1367"}]},
+  {nombre:"Hábitat y vivienda",   icono:"🏘️", area:"Planeamiento",                    ods:[{n:1,c:"#E5243B"},{n:11,c:"#FD9D24"}]},
+  {nombre:"Género y DDHH",        icono:"⚖️", area:"Género, Seguridad y DD.HH.",      ods:[{n:5,c:"#FF3A21"},{n:10,c:"#DD1367"},{n:16,c:"#00689D"}]},
+];
+
+(function renderProblemas(){
+  const g=document.getElementById('problemas-grid');
+  if(!g)return;
+  g.innerHTML=PROBLEMAS.map(p=>`
+    <div style="background:white;border:1px solid #EDE5E6;border-radius:12px;padding:1.35rem 1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:all .22s;"
+         onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.12)';this.style.borderColor='rgba(196,18,48,.2)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,.06)';this.style.borderColor='#EDE5E6'">
+      <div style="font-size:1.6rem;margin-bottom:.55rem;">${p.icono}</div>
+      <div style="font-weight:700;font-size:.93rem;color:var(--negro);margin-bottom:.25rem;">${p.nombre}</div>
+      <div style="font-size:.72rem;color:var(--gris-texto);margin-bottom:.85rem;">📂 ${p.area}</div>
+      <div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(0,0,0,.25);margin-bottom:.45rem;">ODS vinculados</div>
+      <div style="display:flex;gap:.35rem;flex-wrap:wrap;">
+        ${p.ods.map(o=>`<span onclick="abrirOds(${o.n})" title="Ver ODS ${o.n}" style="display:inline-flex;align-items:center;background:${o.c}18;border:1px solid ${o.c}50;color:${o.c};border-radius:20px;font-size:.7rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='${o.c}35'" onmouseleave="this.style.background='${o.c}18'">ODS&nbsp;${o.n}</span>`).join('')}
+      </div>
+    </div>`).join('');
+})();
+
 // ODS 2030
 const ODS_DATA=[
-  {n:1, nombre:"Fin de la pobreza",             color:"#E5243B", local:"Fondos sociales, emergencia habitacional, tarifas sociales de servicios públicos."},
-  {n:2, nombre:"Hambre cero",                    color:"#DDA63A", local:"Programas de seguridad alimentaria, huertas comunitarias, comedores municipales."},
-  {n:3, nombre:"Salud y bienestar",              color:"#4C9F38", local:"Centros de salud, prevención de consumos problemáticos, salud mental comunitaria."},
-  {n:4, nombre:"Educación de calidad",           color:"#C5192D", local:"Becas, infraestructura escolar, capacitación laboral, escuelas de oficio."},
-  {n:5, nombre:"Igualdad de género",             color:"#FF3A21", local:"Protocolos de violencia, paridad en licitaciones, cupo laboral trans, Ley Micaela."},
-  {n:6, nombre:"Agua y saneamiento",             color:"#26BDE2", local:"Redes cloacales, agua potable rural, saneamiento de arroyos y zanjas."},
-  {n:7, nombre:"Energía asequible",              color:"#FCC30B", local:"Luminarias LED, paneles solares en edificios públicos, tarifas sociales de energía."},
-  {n:8, nombre:"Trabajo decente",                color:"#A21942", local:"Cupo laboral joven, economía social, ferias, empleo con discapacidad."},
-  {n:9, nombre:"Industria e innovación",         color:"#FD6925", local:"Parques industriales, WiFi público, trámites digitales, gobierno abierto."},
-  {n:10,nombre:"Reducción de desigualdades",     color:"#DD1367", local:"Transporte accesible, descuentos tarifarios, inclusión en licitaciones."},
-  {n:11,nombre:"Ciudades sostenibles",           color:"#FD9D24", local:"Movilidad urbana, espacios verdes, patrimonio, vivienda social, accesibilidad."},
-  {n:12,nombre:"Producción responsable",         color:"#BF8B2E", local:"Puntos limpios, reciclado, compras públicas sustentables, mercados de segunda mano."},
-  {n:13,nombre:"Acción por el clima",            color:"#3F7E44", local:"Arbolado urbano, planes de adaptación, ordenanzas de construcción sustentable."},
-  {n:14,nombre:"Vida submarina",                 color:"#0A97D9", local:"Protección de ríos y humedales, control de efluentes, pesca artesanal responsable."},
-  {n:15,nombre:"Ecosistemas terrestres",         color:"#56C02B", local:"Reservas naturales, control de quemas, especies nativas, parques lineales."},
-  {n:16,nombre:"Paz y justicia",                 color:"#00689D", local:"Acceso a información pública, presupuesto participativo, prevención de violencia."},
-  {n:17,nombre:"Alianzas para los objetivos",    color:"#19486A", local:"Redes intermunicipales, convenios con ONG y universidades, banco de iniciativas."},
+  {n:1, nombre:"Fin de la pobreza",             color:"#E5243B",
+    meta:"Poner fin a la pobreza en todas sus formas en todo el mundo.",
+    local:"Fondos sociales de emergencia, subsidios habitacionales, tarifas sociales de servicios públicos, ordenanzas de emergencia social, cuotas alimentarias y apoyo a comedores barriales.",
+    ejemplos:["Ordenanza de fondo de emergencia habitacional","Tarifa social de agua y cloacas","Subsidio de alquileres para familias vulnerables"]},
+  {n:2, nombre:"Hambre cero",                   color:"#DDA63A",
+    meta:"Poner fin al hambre, lograr seguridad alimentaria y promover la agricultura sostenible.",
+    local:"Programas de seguridad alimentaria, huertas comunitarias, comedores municipales, distribución de bolsones, ferias de productores locales.",
+    ejemplos:["Programa municipal de huertas urbanas","Red de comedores comunitarios","Feria franca del productor al consumidor"]},
+  {n:3, nombre:"Salud y bienestar",             color:"#4C9F38",
+    meta:"Garantizar una vida sana y promover el bienestar para todos en todas las edades.",
+    local:"Centros de atención primaria, prevención de consumos problemáticos, salud mental comunitaria, control de tabaco, deporte barrial, salud sexual y reproductiva.",
+    ejemplos:["Ordenanza de espacios libres de humo","Centro de atención en consumos problemáticos","Red de deporte barrial gratuito"]},
+  {n:4, nombre:"Educación de calidad",          color:"#C5192D",
+    meta:"Garantizar una educación inclusiva, equitativa y de calidad y promover oportunidades de aprendizaje a lo largo de la vida.",
+    local:"Becas municipales, mantenimiento de infraestructura escolar, capacitación laboral, escuelas de oficio, apoyo escolar en barrios.",
+    ejemplos:["Programa de becas para estudiantes universitarios","Escuela de oficios municipal","Bachillerato popular para adultos"]},
+  {n:5, nombre:"Igualdad de género",            color:"#FF3A21",
+    meta:"Lograr la igualdad entre los géneros y empoderar a todas las mujeres y niñas.",
+    local:"Protocolos municipales de violencia de género, paridad en licitaciones, cupo laboral trans, Ley Micaela en el Concejo, casas de la mujer.",
+    ejemplos:["Ordenanza de cupo laboral trans municipal","Protocolo de violencia de género en el estado local","Capacitación obligatoria Ley Micaela"]},
+  {n:6, nombre:"Agua y saneamiento",            color:"#26BDE2",
+    meta:"Garantizar la disponibilidad de agua y su gestión sostenible y el saneamiento para todos.",
+    local:"Extensión de redes cloacales, agua potable en zonas rurales y periurbanas, saneamiento de arroyos, control de efluentes industriales.",
+    ejemplos:["Plan de extensión de red cloacal barrial","Saneamiento del arroyo urbano","Agua potable para parajes rurales"]},
+  {n:7, nombre:"Energía asequible",             color:"#FCC30B",
+    meta:"Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos.",
+    local:"Luminarias LED en espacio público, paneles solares en edificios públicos, tarifas sociales de energía, eficiencia energética en escuelas.",
+    ejemplos:["Recambio de luminarias a LED","Paneles solares en el Palacio Municipal","Tarifa social eléctrica para usuarios vulnerables"]},
+  {n:8, nombre:"Trabajo decente",               color:"#A21942",
+    meta:"Promover el crecimiento económico inclusivo y sostenible, el empleo y el trabajo decente.",
+    local:"Cupo laboral joven, economía social y solidaria, ferias de emprendedores, empleo para personas con discapacidad, primer empleo.",
+    ejemplos:["Ordenanza de primer empleo joven","Espacio municipal de economía social","Registro de emprendedores locales"]},
+  {n:9, nombre:"Industria e innovación",        color:"#FD6925",
+    meta:"Construir infraestructuras resilientes, promover la industrialización y fomentar la innovación.",
+    local:"Parques industriales, WiFi público gratuito, trámites digitales, gobierno abierto, incubadoras de empresas.",
+    ejemplos:["Plan de trámites digitales municipales","WiFi gratuito en plazas y centros comunitarios","Incubadora municipal de emprendimientos"]},
+  {n:10,nombre:"Reducción de desigualdades",    color:"#DD1367",
+    meta:"Reducir la desigualdad en y entre los países.",
+    local:"Transporte accesible para personas con discapacidad, descuentos tarifarios para jubilados y estudiantes, inclusión en licitaciones.",
+    ejemplos:["Rampa de accesibilidad universal en edificios públicos","Pase libre para personas con discapacidad","Tarifa diferencial en el transporte local"]},
+  {n:11,nombre:"Ciudades sostenibles",          color:"#FD9D24",
+    meta:"Lograr que las ciudades y los asentamientos humanos sean inclusivos, seguros, resilientes y sostenibles.",
+    local:"Movilidad urbana, espacios verdes, patrimonio histórico, vivienda social, accesibilidad universal, seguridad vial.",
+    ejemplos:["Plan de ciclovías y movilidad sustentable","Revitalización de espacios verdes barriales","Programa de vivienda social municipal"]},
+  {n:12,nombre:"Producción responsable",        color:"#BF8B2E",
+    meta:"Garantizar modalidades de consumo y producción sostenibles.",
+    local:"Puntos limpios de reciclado, compras públicas sustentables, mercados de segunda mano, reducción de plásticos.",
+    ejemplos:["Red de puntos limpios municipales","Ordenanza de bolsas plásticas","Compras públicas con criterio ambiental"]},
+  {n:13,nombre:"Acción por el clima",           color:"#3F7E44",
+    meta:"Adoptar medidas urgentes para combatir el cambio climático y sus efectos.",
+    local:"Arbolado urbano, planes locales de adaptación climática, construcción sustentable, inventario de emisiones.",
+    ejemplos:["Plan municipal de arbolado urbano","Ordenanza de construcción sustentable","Inventario local de emisiones de GEI"]},
+  {n:14,nombre:"Vida submarina",                color:"#0A97D9",
+    meta:"Conservar y utilizar en forma sostenible los océanos, los mares y los recursos marinos.",
+    local:"Protección de ríos, lagunas y humedales locales, control de efluentes industriales, pesca artesanal responsable.",
+    ejemplos:["Ordenanza de protección de humedales","Control de vertidos al arroyo","Programa de pesca artesanal responsable"]},
+  {n:15,nombre:"Ecosistemas terrestres",        color:"#56C02B",
+    meta:"Gestionar sosteniblemente los bosques, combatir la desertificación, y detener la pérdida de biodiversidad.",
+    local:"Reservas naturales urbanas, control de quemas, siembra de especies nativas, parques lineales, arbolado.",
+    ejemplos:["Reserva natural municipal","Ordenanza anti-quema","Programa de siembra de especies autóctonas"]},
+  {n:16,nombre:"Paz y justicia",                color:"#00689D",
+    meta:"Promover sociedades pacíficas e inclusivas, acceso a la justicia y construir instituciones eficaces.",
+    local:"Acceso a la información pública municipal, presupuesto participativo, prevención de violencia, mediación comunitaria.",
+    ejemplos:["Ordenanza de acceso a la información pública","Presupuesto participativo barrial","Centro de mediación comunitaria"]},
+  {n:17,nombre:"Alianzas para los objetivos",   color:"#19486A",
+    meta:"Fortalecer los medios de ejecución y revitalizar la Alianza Mundial para el Desarrollo Sostenible.",
+    local:"Redes intermunicipales de concejales, convenios con ONG y universidades, banco de iniciativas compartido, hermanamientos.",
+    ejemplos:["Red de concejos para ordenanzas modelo","Convenio con la universidad local","Banco interregional de iniciativas PS"]},
 ];
 
 (function renderOds(){
@@ -733,21 +825,31 @@ const ODS_DATA=[
 let odsModal=null;
 function abrirOds(n){
   const o=ODS_DATA.find(x=>x.n===n);
-  if(!odsModal){
+  if(!odsModal||!document.body.contains(odsModal)){
     odsModal=document.createElement('div');
-    odsModal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px);';
-    odsModal.onclick=e=>{if(e.target===odsModal)odsModal.remove();};
+    odsModal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(6px);';
+    odsModal.onclick=e=>{if(e.target===odsModal){odsModal.remove();odsModal=null;}};
     document.body.appendChild(odsModal);
   }
-  odsModal.innerHTML=`<div style="background:#1A0C0F;border:1px solid #3a1828;border-top:4px solid ${o.color};border-radius:14px;padding:2rem;max-width:440px;width:100%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
-    <button onclick="document.querySelector('[style*=backdrop-filter]').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.6);font-size:.85rem;">✕</button>
-    <div style="background:${o.color};width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:white;margin-bottom:1rem;">${o.n}</div>
-    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:white;margin-bottom:.3rem;">ODS ${o.n}</h3>
-    <h4 style="font-size:.95rem;color:rgba(255,255,255,.7);font-weight:500;margin-bottom:1.25rem;">${o.nombre}</h4>
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:1rem;">
-      <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:.5rem;font-weight:700;">Aplicación en el Concejo local</div>
-      <p style="font-size:.875rem;color:rgba(255,255,255,.75);line-height:1.65;">${o.local}</p>
+  const ejemplosHtml=(o.ejemplos||[]).map(e=>`<li style="font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:.3rem;">✦ ${e}</li>`).join('');
+  odsModal.innerHTML=`<div style="background:#1A0C0F;border:1px solid #3a1828;border-top:4px solid ${o.color};border-radius:14px;padding:2rem;max-width:500px;width:100%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="odsModal.remove();odsModal=null;" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.6);font-size:.85rem;line-height:1;">✕</button>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+      <div style="background:${o.color};width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:white;flex-shrink:0;">${o.n}</div>
+      <div>
+        <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:${o.color};margin-bottom:.2rem;">ODS ${o.n} · Agenda 2030</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:white;line-height:1.2;">${o.nombre}</h3>
+      </div>
     </div>
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:1rem;margin-bottom:1rem;">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.45rem;font-weight:700;">Meta global</div>
+      <p style="font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.6;font-style:italic;">${o.meta||''}</p>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-left:3px solid ${o.color};border-radius:0 10px 10px 0;padding:1rem;margin-bottom:1rem;">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.45rem;font-weight:700;">Aplicación en el Concejo local</div>
+      <p style="font-size:.875rem;color:rgba(255,255,255,.8);line-height:1.65;">${o.local}</p>
+    </div>
+    ${ejemplosHtml?`<div style="margin-bottom:.5rem;"><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.55rem;font-weight:700;">Ejemplos de ordenanzas modelo</div><ul style="list-style:none;padding:0;">${ejemplosHtml}</ul></div>`:''}
   </div>`;
 }
 
