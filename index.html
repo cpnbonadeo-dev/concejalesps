@@ -1,2313 +1,1007 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red de Concejales Socialistas de Santa Fe</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    /* ─── RESET & VARIABLES ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:       #0D0509;
-      --rojo:     #C41230;
-      --rojo-osc: #8a0c20;
-      --texto:    #ffffff;
-      --texto-sec:#c0a0b0;
-      --card-bg:  #1a0a10;
-      --card-brd: #2a1020;
-      --nav-h:    64px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ─── UTILIDADES ─── */
-    .container {
-      width: 100%;
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    .section { padding: 5rem 0; }
-    .section-sm { padding: 3.5rem 0; }
-
-    .section-tag {
-      display: inline-block;
-      background: rgba(196,18,48,0.15);
-      color: var(--rojo);
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.3rem 0.75rem;
-      border-radius: 99px;
-      border: 1px solid rgba(196,18,48,0.25);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .section-intro {
-      color: var(--texto-sec);
-      font-size: 1rem;
-      max-width: 640px;
-      margin-bottom: 2.5rem;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .badge-rojo    { background: rgba(196,18,48,0.2);  color: #ff8a9a; border: 1px solid rgba(196,18,48,0.3); }
-    .badge-verde   { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
-    .badge-azul    { background: rgba(59,130,246,0.15);color: #93c5fd; border: 1px solid rgba(59,130,246,0.25);}
-    .badge-amarillo{ background: rgba(234,179,8,0.15); color: #fde047; border: 1px solid rgba(234,179,8,0.25); }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--nav-h);
-      background: rgba(13,5,9,0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--card-brd);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-    }
-
-    nav .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-shrink: 0;
-    }
-
-    .nav-brand img { height: 32px; width: auto; }
-
-    .nav-rose {
-      height: 32px;
-      width: auto;
-      flex-shrink: 0;
-    }
-
-    .nav-brand-text {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-      line-height: 1.3;
-      white-space: nowrap;
-    }
-
-    .logo-fallback {
-      display: none;
-      color: var(--rojo);
-      font-weight: 700;
-      font-size: 1.2rem;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--texto-sec);
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--texto); }
-
-    .btn-salir {
-      background: rgba(196,18,48,0.13);
-      border: 1px solid rgba(196,18,48,0.4);
-      color: var(--rojo);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 0.4rem 0.9rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .btn-salir:hover { background: rgba(196,18,48,0.25); border-color: var(--rojo); }
-
-    /* Mobile nav */
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.25rem;
-      color: var(--texto);
-    }
-
-    .nav-mobile {
-      display: none;
-      position: fixed;
-      top: var(--nav-h);
-      left: 0; right: 0;
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--card-brd);
-      z-index: 999;
-      padding: 1rem 1.25rem;
-    }
-
-    .nav-mobile.open { display: block; }
-
-    .nav-mobile a, .nav-mobile button {
-      display: block;
-      padding: 0.6rem 0;
-      font-size: 0.9rem;
-      color: var(--texto-sec);
-      border-bottom: 1px solid var(--card-brd);
-      background: none;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      width: 100%;
-      text-align: left;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-    }
-
-    .nav-mobile a:last-child { border-bottom: none; }
-
-    @media (max-width: 768px) {
-      .nav-links, .btn-salir { display: none; }
-      .nav-toggle { display: block; }
-    }
-
-    /* ─── PS IDENTIDAD ─── */
-    nav {
-      border-top: 4px solid var(--rojo);
-    }
-
-    .ps-watermark {
-      position: fixed;
-      bottom: -8%;
-      right: -4%;
-      width: clamp(220px, 28vw, 440px);
-      opacity: 0.18;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .ps-watermark img,
-    .ps-watermark-2 img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .ps-watermark-2 {
-      position: fixed;
-      top: 15%;
-      left: -5%;
-      width: clamp(140px, 16vw, 260px);
-      opacity: 0.09;
-      pointer-events: none;
-      z-index: 0;
-      transform: rotate(-12deg);
-    }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: var(--nav-h);
-      position: relative;
-      overflow: hidden;
-    }
-
-    #hero::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      right: -15%;
-      width: 70vw;
-      height: 70vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,18,48,0.09) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      max-width: 760px;
-      padding: 4rem 0;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--rojo);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 24px;
-      height: 2px;
-      background: var(--rojo);
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--rojo);
-    }
-
-    .hero-body {
-      font-size: 1.05rem;
-      color: var(--texto-sec);
-      max-width: 580px;
-      margin-bottom: 2.5rem;
-      line-height: 1.75;
-    }
-
-    .hero-ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.875rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-osc) 100%);
-      color: #fff;
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s, transform 0.15s;
-      display: inline-block;
-    }
-
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--texto);
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border: 1px solid var(--card-brd);
-      transition: border-color 0.2s, transform 0.15s;
-      display: inline-block;
-    }
-
-    .btn-secondary:hover { border-color: var(--rojo); transform: translateY(-1px); }
-
-    /* ─── BANCO DE INICIATIVAS ─── */
-    #banco { background: rgba(0,0,0,0.2); }
-
-    .banco-temas {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .tema-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 12px;
-      padding: 1.25rem 1.25rem 1rem;
-      transition: border-color 0.2s, transform 0.2s;
-      text-decoration: none;
-      display: block;
-    }
-
-    .tema-card:hover {
-      border-color: var(--rojo);
-      transform: translateY(-2px);
-    }
-
-    .tema-card .icono {
-      font-size: 1.8rem;
-      margin-bottom: 0.6rem;
-      display: block;
-    }
-
-    .tema-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--texto);
-      margin-bottom: 0.3rem;
-    }
-
-    .tema-card p {
-      font-size: 0.78rem;
-      color: var(--texto-sec);
-    }
-
-    /* Subsección "Quién ya hizo esto" */
-    .replicables-titulo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      color: var(--texto);
-    }
-
-    .replicables-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .replicable-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-left: 3px solid var(--rojo);
-      border-radius: 12px;
-      padding: 1.25rem;
-    }
-
-    .replicable-card h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    .replicable-card .quien {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.82rem;
-      color: var(--texto-sec);
-      margin-bottom: 0.3rem;
-    }
-
-    .replicable-card .quien::before {
-      content: '✅';
-      font-size: 0.75rem;
-    }
-
-    /* ─── PROBLEMAS COMUNES ─── */
-    #problemas { }
-
-    .problemas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 0.75rem;
-    }
-
-    .problema-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 10px;
-      padding: 1rem 0.875rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s, background 0.2s;
-      user-select: none;
-    }
-
-    .problema-card:hover {
-      border-color: var(--rojo);
-      background: rgba(196,18,48,0.06);
-      transform: translateY(-2px);
-    }
-
-    .problema-card .p-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .problema-card span {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--texto-sec);
-    }
-
-    /* ─── LA RED ─── */
-    #concejales { background: rgba(0,0,0,0.2); }
-
-    .filtros-red {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-    }
-
-    .filtro-select {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      padding: 0.5rem 0.875rem;
-      outline: none;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .filtro-select:focus { border-color: var(--rojo); }
-
-    .filtro-select option { background: #1a0a10; }
-
-    .concejales-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-
-    .concejal-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 12px;
-      padding: 1.25rem;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 0.5rem;
-    }
-
-    .concejal-card:hover {
-      border-color: var(--rojo);
-      transform: translateY(-2px);
-    }
-
-    .concejal-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--card-brd);
-    }
-
-    .concejal-nombre {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--texto);
-      line-height: 1.3;
-    }
-
-    .concejal-lugar {
-      font-size: 0.78rem;
-      color: var(--rojo);
-      font-weight: 500;
-    }
-
-    .concejal-temas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      justify-content: center;
-    }
-
-    .concejal-tema-tag {
-      font-size: 0.68rem;
-      background: rgba(196,18,48,0.12);
-      color: var(--texto-sec);
-      border: 1px solid rgba(196,18,48,0.2);
-      border-radius: 4px;
-      padding: 0.15rem 0.45rem;
-      font-weight: 500;
-    }
-
-    .no-resultados {
-      color: var(--texto-sec);
-      font-size: 0.9rem;
-      padding: 2rem 0;
-      display: none;
-    }
-
-    /* ─── MODAL DE CONCEJAL ─── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 460px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .modal-header {
-      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-osc) 100%);
-      padding: 1.75rem 1.5rem 1rem;
-      text-align: center;
-      border-radius: 16px 16px 0 0;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      background: rgba(255,255,255,0.15);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #fff;
-      font-size: 1.1rem;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover { background: rgba(255,255,255,0.3); }
-
-    .modal-avatar {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.3);
-      object-fit: cover;
-      margin-bottom: 0.75rem;
-    }
-
-    .modal-nombre {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 0.2rem;
-    }
-
-    .modal-lugar {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.75);
-    }
-
-    .modal-body {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .modal-bio {
-      font-size: 0.9rem;
-      color: var(--texto-sec);
-      border-left: 3px solid var(--rojo);
-      background: rgba(196,18,48,0.06);
-      padding: 0.75rem 1rem;
-      border-radius: 0 8px 8px 0;
-      line-height: 1.65;
-    }
-
-    .modal-temas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .modal-contacto {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .modal-contacto a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--texto-sec);
-      padding: 0.5rem 0.75rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .modal-contacto a:hover { border-color: var(--rojo); color: var(--texto); }
-
-    .modal-contacto a span.ico { font-size: 1rem; flex-shrink: 0; }
-
-    /* ─── FICHAS: nuevos estilos ─── */
-    .modal-sect-label {
-      font-size: 0.66rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--rojo);
-      margin-bottom: 0.45rem;
-    }
-
-    .modal-esp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-
-    .modal-esp-tag {
-      font-size: 0.72rem;
-      background: rgba(59,130,246,0.12);
-      color: #93c5fd;
-      border: 1px solid rgba(59,130,246,0.22);
-      border-radius: 4px;
-      padding: 0.2rem 0.55rem;
-      font-weight: 500;
-    }
-
-    .modal-bio-text {
-      font-size: 0.875rem;
-      color: var(--texto-sec);
-      line-height: 1.65;
-      border-left: 3px solid var(--rojo);
-      background: rgba(196,18,48,0.05);
-      padding: 0.7rem 1rem;
-      border-radius: 0 8px 8px 0;
-    }
-
-    .modal-mandato {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--texto-sec);
-    }
-
-    .modal-mandato-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #4ade80;
-      flex-shrink: 0;
-    }
-
-    .modal-ver-iniciativas {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--rojo);
-      border: 1px solid rgba(196,18,48,0.3);
-      border-radius: 8px;
-      padding: 0.6rem 1rem;
-      transition: background 0.2s;
-      text-decoration: none;
-    }
-
-    .modal-ver-iniciativas:hover { background: rgba(196,18,48,0.08); }
-
-    /* Card cargo badge */
-    .concejal-cargo {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #93c5fd;
-      background: rgba(59,130,246,0.12);
-      border: 1px solid rgba(59,130,246,0.2);
-      border-radius: 4px;
-      padding: 0.12rem 0.45rem;
-    }
-
-    /* Filtro búsqueda */
-    .filtro-input {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      padding: 0.5rem 0.875rem;
-      outline: none;
-      transition: border-color 0.2s;
-      min-width: 170px;
-      flex: 1;
-    }
-    .filtro-input:focus { border-color: var(--rojo); }
-    .filtro-input::placeholder { color: var(--texto-sec); }
-
-    /* ─── CAPACITACIONES ─── */
-    #capacitaciones {}
-
-    .cap-filtros {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .cap-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      color: var(--texto-sec);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 0.45rem 1rem;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-
-    .cap-btn.active, .cap-btn:hover {
-      border-color: var(--rojo);
-      color: var(--texto);
-      background: rgba(196,18,48,0.1);
-    }
-
-    .cap-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .cap-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .cap-card:hover { border-color: var(--rojo); transform: translateY(-2px); }
-
-    .cap-num {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--rojo);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-
-    .cap-card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.35;
-    }
-
-    .cap-card p {
-      font-size: 0.82rem;
-      color: var(--texto-sec);
-      margin-bottom: 1rem;
-      line-height: 1.55;
-    }
-
-    .btn-ver {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--rojo);
-      border: 1px solid rgba(196,18,48,0.35);
-      border-radius: 6px;
-      padding: 0.35rem 0.75rem;
-      transition: background 0.2s;
-    }
-
-    .btn-ver:hover { background: rgba(196,18,48,0.1); }
-
-    /* ─── AGENDA ─── */
-    #agenda { background: rgba(0,0,0,0.2); }
-
-    .agenda-lista {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .evento-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1.25rem;
-      transition: border-color 0.2s;
-    }
-
-    .evento-card:hover { border-color: var(--rojo); }
-
-    .evento-fecha {
-      flex-shrink: 0;
-      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-osc) 100%);
-      border-radius: 10px;
-      padding: 0.6rem 0.9rem;
-      text-align: center;
-      min-width: 56px;
-    }
-
-    .evento-fecha .dia {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #fff;
-      display: block;
-      line-height: 1;
-    }
-
-    .evento-fecha .mes {
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.8);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .evento-info h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .evento-lugar {
-      font-size: 0.8rem;
-      color: var(--texto-sec);
-      margin-bottom: 0.5rem;
-    }
-
-    /* ─── BIBLIOTECA LEGAL ─── */
-    #biblioteca {}
-
-    .bib-filtros {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .bib-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      color: var(--texto-sec);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 0.45rem 1rem;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-
-    .bib-btn.active, .bib-btn:hover {
-      border-color: var(--rojo);
-      color: var(--texto);
-      background: rgba(196,18,48,0.1);
-    }
-
-    .bib-tabla {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .bib-tabla th {
-      text-align: left;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      padding: 0.5rem 0.75rem;
-      border-bottom: 1px solid var(--card-brd);
-    }
-
-    .bib-fila {
-      border-bottom: 1px solid var(--card-brd);
-      transition: background 0.15s;
-      cursor: pointer;
-    }
-
-    .bib-fila:hover { background: rgba(255,255,255,0.02); }
-
-    .bib-fila td {
-      padding: 0.875rem 0.75rem;
-      font-size: 0.875rem;
-      vertical-align: middle;
-    }
-
-    .bib-fila td:first-child { font-weight: 600; }
-
-    .bib-fila td:last-child { text-align: right; }
-
-    .btn-ley {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--rojo);
-      border: 1px solid rgba(196,18,48,0.3);
-      border-radius: 6px;
-      padding: 0.3rem 0.65rem;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-
-    .btn-ley:hover { background: rgba(196,18,48,0.1); }
-
-    @media (max-width: 640px) {
-      .bib-tabla { display: none; }
-      .bib-cards { display: flex !important; flex-direction: column; gap: 0.75rem; }
-    }
-
-    .bib-cards { display: none; }
-
-    .bib-card-item {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-radius: 10px;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .bib-card-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .bib-card-item p  { font-size: 0.78rem; color: var(--texto-sec); }
-
-
-    /* ─── SUMARSE ─── */
-    #sumarse {}
-
-    .sumarse-inner {
-      max-width: 540px;
-      margin: 0 auto;
-    }
-
-    .form-sumarse {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
-
-    .form-group-s { display: flex; flex-direction: column; gap: 0.3rem; }
-
-    .form-group-s label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .form-group-s input,
-    .form-group-s textarea {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      padding: 0.7rem 0.875rem;
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
-      width: 100%;
-    }
-
-    .form-group-s input:focus,
-    .form-group-s textarea:focus { border-color: var(--rojo); }
-
-    .form-group-s textarea { resize: vertical; min-height: 100px; }
-
-    .proximamente-msg {
-      background: rgba(196,18,48,0.08);
-      border: 1px solid rgba(196,18,48,0.2);
-      border-radius: 10px;
-      padding: 1.25rem;
-      text-align: center;
-      color: var(--texto-sec);
-      font-size: 0.9rem;
-      margin-top: 1rem;
-    }
-
-    .proximamente-msg strong { color: var(--rojo); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--card-bg);
-      border-top: 1px solid var(--card-brd);
-      padding: 2.5rem 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .footer-brand img { height: 28px; }
-
-    .footer-brand-text {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    .footer-links a {
-      font-size: 0.82rem;
-      color: var(--texto-sec);
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--rojo); }
-
-    /* ─── PRESENCIA TERRITORIAL ─── */
-    .mapa-layout {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 2.5rem;
-      align-items: start;
-      margin-bottom: 2rem;
-    }
-    .mapa-svg-wrap svg { width: 100%; height: auto; display: block; }
-    .mapa-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .mapa-stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem; font-weight: 700; color: var(--rojo); line-height: 1;
-    }
-    .mapa-stat-label { font-size: 0.78rem; color: var(--texto-sec); line-height: 1.4; margin-top: 0.2rem; }
-    .mapa-leyenda { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 1.25rem; }
-    .leyenda-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: var(--texto-sec); }
-    .mapa-munis-title {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--rojo);
-      margin-bottom: 0.85rem; padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(196,18,48,0.2);
-    }
-    /* ─── MUNICIPALITIES GRID ─── */
-    .munis-all-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 0.875rem;
-      margin-bottom: 1.75rem;
-    }
-    .muni-key-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-top: 2px solid var(--rojo);
-      border-radius: 10px;
-      padding: 0.9rem 1rem;
-      text-decoration: none;
-      display: block;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .muni-key-card:hover { border-color: var(--rojo); transform: translateY(-2px); }
-    .muni-key-card .mk-nombre { font-size: 0.92rem; font-weight: 700; color: var(--texto); margin-bottom: 0.15rem; }
-    .muni-key-card .mk-jefe  { font-size: 0.8rem; color: var(--texto-sec); margin-bottom: 0.35rem; }
-    .muni-key-card .mk-cargo { font-size: 0.68rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .muni-featured-card {
-      background: linear-gradient(135deg, rgba(196,18,48,0.13) 0%, var(--card-bg) 55%);
-      border: 1px solid rgba(196,18,48,0.4);
-      border-top: 4px solid var(--rojo);
-      border-radius: 14px;
-      padding: 1.65rem 1.4rem;
-      text-decoration: none;
-      display: block;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-      box-shadow: 0 4px 24px rgba(196,18,48,0.12);
-      min-height: 128px;
-    }
-    .muni-featured-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(196,18,48,0.22);
-      border-color: rgba(196,18,48,0.7);
-    }
-    .muni-featured-card .mk-nombre { font-size: 1.18rem; font-weight: 700; color: var(--texto); margin-bottom: 0.3rem; }
-    .muni-featured-card .mk-jefe  { font-size: 0.88rem; color: var(--texto-sec); margin-bottom: 0.4rem; }
-    .muni-featured-card .mk-cargo { font-size: 0.72rem; color: var(--rojo); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .btn-dir-full {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.875rem; font-weight: 600; color: var(--texto);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px; padding: 0.7rem 1.75rem;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-    .btn-dir-full:hover { background: rgba(196,18,48,0.1); border-color: rgba(196,18,48,0.4); color: var(--rojo); }
-
-    @media (max-width: 680px) {
-      .mapa-layout { grid-template-columns: 1fr; }
-      .mapa-svg-wrap { max-width: 240px; margin: 0 auto; }
-      .munis-all-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    /* ─── DIVISOR ─── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--card-brd), transparent);
-      margin: 0;
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 640px) {
-      .section { padding: 3.5rem 0; }
-      .hero-title { font-size: 2.2rem; }
-      .banco-temas { grid-template-columns: repeat(2, 1fr); }
-      .problemas-grid { grid-template-columns: repeat(2, 1fr); }
-      .concejales-grid { grid-template-columns: repeat(2, 1fr); }
-      .dir-locs-grid { grid-template-columns: 1fr 1fr; }
-      .agenda-lista .evento-card { flex-direction: column; gap: 0.875rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de Concejales PS Santa Fe</title>
+<style>
+:root {
+  --rojo: #C8102E;
+  --rojo-dark: #8B0B1E;
+  --rojo-light: #FDEAED;
+  --gris: #1E1E1E;
+  --gris-medio: #666;
+  --gris-claro: #F7F7F7;
+  --borde: #E4E4E4;
+  --blanco: #fff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--gris); background: var(--blanco); }
+a { text-decoration: none; }
+
+/* ── NAV ── */
+nav {
+  background: var(--rojo);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+.nav-logo {
+  color: #fff;
+  font-weight: 800;
+  font-size: .95rem;
+  padding: 1rem 0;
+  letter-spacing: -.01em;
+}
+.nav-logo span { opacity: .7; font-weight: 400; }
+.nav-links { display: flex; gap: .25rem; align-items: center; }
+.nav-links a {
+  color: rgba(255,255,255,.85);
+  padding: .45rem .8rem;
+  border-radius: 5px;
+  font-size: .82rem;
+  transition: background .15s;
+}
+.nav-links a:hover { background: rgba(255,255,255,.15); color: #fff; }
+.btn-logout {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.3);
+  padding: .4rem .85rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: .8rem;
+  margin-left: .5rem;
+  transition: background .15s;
+}
+.btn-logout:hover { background: rgba(255,255,255,.28); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(140deg, #7B0A18 0%, var(--rojo) 55%, #E8334A 100%);
+  color: #fff;
+  padding: 4.5rem 2rem 3.5rem;
+  text-align: center;
+}
+.hero-eyebrow {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  opacity: .75;
+  margin-bottom: .75rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: .6rem;
+  letter-spacing: -.02em;
+}
+.hero p { font-size: 1.05rem; opacity: .85; margin-bottom: 2.5rem; }
+.hero-ctas { display: flex; gap: .85rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn-hero-primary {
+  background: #fff;
+  color: var(--rojo);
+  border: none;
+  padding: .75rem 1.6rem;
+  border-radius: 7px;
+  font-weight: 800;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  display: inline-block;
+}
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.btn-hero-secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,.55);
+  padding: .75rem 1.6rem;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-block;
+}
+.btn-hero-secondary:hover { background: rgba(255,255,255,.12); border-color: #fff; }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  display: inline-flex;
+  gap: 0;
+  background: rgba(0,0,0,.22);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.15);
+}
+.stat-item {
+  padding: 1.4rem 2.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num { font-size: 2.4rem; font-weight: 900; line-height: 1; letter-spacing: -.03em; }
+.stat-num.big { font-size: 3.8rem; color: #FFD7DC; }
+.stat-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; opacity: .75; margin-top: .2rem; }
+
+/* ── SECTION BASE ── */
+.section-wrap { max-width: 1120px; margin: 0 auto; padding: 3.5rem 2rem; }
+.section-title { font-size: 1.5rem; font-weight: 800; color: var(--rojo-dark); margin-bottom: .35rem; }
+.section-sub { color: var(--gris-medio); font-size: .875rem; margin-bottom: 2rem; }
+.divider { border: none; border-top: 1px solid var(--borde); }
+
+/* ── DONDE GOBERNAMOS ── */
+.legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.legend-item { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--gris-medio); }
+.ldot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.ldot-muni { background: var(--rojo); }
+.ldot-ciudad { background: #FF8FA3; }
+.ldot-comuna { background: #FFD166; }
+
+.deptos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: .85rem;
+}
+.depto-card {
+  background: var(--gris-claro);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+.depto-name {
+  font-size: .7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gris-medio);
+  margin-bottom: .65rem;
+}
+.locs { display: flex; flex-wrap: wrap; gap: .4rem; }
+.loc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .22rem .55rem;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 500;
+}
+.loc-muni { background: var(--rojo); color: #fff; }
+.loc-ciudad { background: #FFE8EC; color: var(--rojo-dark); border: 1px solid #FFAABB; }
+.loc-comuna { background: #FFF8DF; color: #6B5000; border: 1px solid #FFD166; }
+.loc-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .7; }
+
+/* ── BANCO DE INICIATIVAS ── */
+.filters { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem; }
+.filter-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.filter-label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gris-medio);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+.chip {
+  padding: .3rem .72rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--borde);
+  background: #fff;
+  font-size: .78rem;
+  cursor: pointer;
+  transition: all .12s;
+  user-select: none;
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--rojo); color: var(--rojo); }
+.chip.active { background: var(--rojo); color: #fff; border-color: var(--rojo); }
+.chip-ods {
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  opacity: .65;
+  font-size: .75rem;
+}
+.chip-ods:hover { opacity: .85; color: #fff; }
+.chip-ods.active { opacity: 1; transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.chip-all { background: var(--gris-claro); border-color: var(--borde); }
+.chip-all.active { background: var(--gris); color: #fff; border-color: var(--gris); }
+
+.iniciativas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.ini-card {
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  padding: 1.25rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow .2s, transform .2s, border-color .2s;
+}
+.ini-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.09); transform: translateY(-2px); border-color: #ccc; }
+.ini-badges { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .85rem; }
+.badge {
+  padding: .18rem .5rem;
+  border-radius: 4px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.badge-area { background: #E8F0FE; color: #1a56db; }
+.badge-prob { background: var(--rojo-light); color: var(--rojo-dark); }
+.badge-ods { color: #fff; }
+.ini-title { font-weight: 700; font-size: .93rem; line-height: 1.3; margin-bottom: .4rem; }
+.ini-resumen { font-size: .8rem; color: var(--gris-medio); line-height: 1.5; margin-bottom: .85rem; flex-grow: 1; }
+.ini-meta { font-size: .75rem; color: var(--gris-medio); margin-bottom: .85rem; }
+.ini-meta b { color: var(--gris); }
+.estado-badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  font-size: .7rem;
+  font-weight: 700;
+  margin-bottom: .85rem;
+}
+.estado-aprobada { background: #E8F5E9; color: #1B5E20; }
+.estado-debate { background: #FFF8E1; color: #E65100; }
+.estado-modelo { background: #EDE7F6; color: #311B92; }
+.ini-btn {
+  display: block;
+  text-align: center;
+  background: var(--rojo);
+  color: #fff;
+  padding: .55rem;
+  border-radius: 6px;
+  font-size: .78rem;
+  font-weight: 700;
+  transition: background .15s;
+}
+.ini-btn:hover { background: var(--rojo-dark); }
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 3rem;
+  color: var(--gris-medio);
+}
+.empty-state .empty-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+
+/* ── ODS SECTION ── */
+.ods-intro { font-size: .875rem; color: var(--gris-medio); margin-bottom: 1.75rem; line-height: 1.6; }
+.ods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: .75rem;
+}
+.ods-card {
+  border-radius: 10px;
+  padding: 1.1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: transform .18s, box-shadow .18s, opacity .18s;
+  position: relative;
+  overflow: hidden;
+}
+.ods-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background .15s;
+}
+.ods-card:hover::after { background: rgba(0,0,0,.1); }
+.ods-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.ods-card.dimmed { opacity: .35; }
+.ods-num { font-size: 2rem; font-weight: 900; line-height: 1; }
+.ods-name { font-size: .72rem; margin-top: .3rem; opacity: .92; line-height: 1.25; }
+.ods-card .ods-filter-hint {
+  font-size: .65rem;
+  margin-top: .5rem;
+  opacity: .75;
+  font-style: italic;
+}
+
+/* ── CONCEJALES ── */
+.concejales-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: .75rem;
+}
+.concejal-card {
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  padding: 1.1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s;
+  background: #fff;
+}
+.concejal-card:hover { border-color: var(--rojo); box-shadow: 0 3px 12px rgba(200,16,46,.15); transform: translateY(-1px); }
+.cj-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--rojo-light);
+  color: var(--rojo);
+  font-weight: 900;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto .6rem;
+}
+.cj-name { font-weight: 700; font-size: .82rem; line-height: 1.25; margin-bottom: .2rem; }
+.cj-lugar { font-size: .73rem; color: var(--gris-medio); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem;
+  max-width: 460px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: var(--gris-claro);
+  border: none;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--gris-medio);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--borde); }
+.modal-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--rojo-light);
+  color: var(--rojo);
+  font-weight: 900;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.modal-name { font-size: 1.2rem; font-weight: 800; margin-bottom: .2rem; }
+.modal-cargo { color: var(--gris-medio); font-size: .875rem; margin-bottom: 1.25rem; }
+.modal-grid { display: grid; grid-template-columns: auto 1fr; gap: .4rem 1rem; font-size: .85rem; margin-bottom: 1.25rem; }
+.modal-key { font-weight: 700; color: var(--gris-medio); white-space: nowrap; }
+.modal-val { color: var(--gris); }
+.modal-bio {
+  font-size: .83rem;
+  color: var(--gris-medio);
+  line-height: 1.55;
+  font-style: italic;
+  background: var(--gris-claro);
+  padding: .85rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+}
+.modal-btn {
+  display: block;
+  text-align: center;
+  background: var(--rojo);
+  color: #fff;
+  padding: .75rem;
+  border-radius: 7px;
+  font-weight: 800;
+  font-size: .875rem;
+  transition: background .15s;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+}
+.modal-btn:hover { background: var(--rojo-dark); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--gris);
+  color: rgba(255,255,255,.55);
+  text-align: center;
+  padding: 2rem;
+  font-size: .78rem;
+  margin-top: 4rem;
+}
+footer strong { color: rgba(255,255,255,.8); }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.8rem; }
+  .stats-bar { flex-direction: column; width: 90%; margin: 0 auto; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.12); padding: 1rem 2rem; }
+  .stat-item:last-child { border-bottom: none; }
+  nav { padding: 0 1rem; }
+  .section-wrap { padding: 2.5rem 1rem; }
+}
+</style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════ NAV ═══ -->
-  <nav>
-    <div class="container">
-      <a class="nav-brand" href="#hero">
-        <img src="logo-header.svg" class="nav-rose" alt="PS">
-        <span class="nav-brand-text">Red de Concejales PS&nbsp;·&nbsp;Santa Fe</span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="#banco">Iniciativas</a></li>
-        <li><a href="#problemas">Problemas</a></li>
-        <li><a href="#presencia">Territorio</a></li>
-        <li><a href="#concejales">Concejales</a></li>
-        <li><a href="#biblioteca">Biblioteca</a></li>
-        <li><a href="#agenda">Agenda</a></li>
-      </ul>
-
-      <button class="btn-salir" onclick="cerrarSesion()">↪ Cerrar sesión</button>
-
-      <button class="nav-toggle" onclick="toggleNav()" aria-label="Menú">
-        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Mobile nav -->
-  <div class="nav-mobile" id="navMobile">
-    <a href="#banco"     onclick="closeNav()">Iniciativas</a>
-    <a href="#problemas"  onclick="closeNav()">Problemas comunes</a>
-    <a href="#presencia"  onclick="closeNav()">Territorio</a>
-    <a href="#concejales" onclick="closeNav()">Concejales</a>
-    <a href="#biblioteca"onclick="closeNav()">Biblioteca</a>
-    <a href="#agenda"    onclick="closeNav()">Agenda</a>
-    <button onclick="cerrarSesion()" style="color:var(--rojo);border-bottom:1px solid var(--card-brd);">↪ Cerrar sesión</button>
+<!-- ═══════════════════════════════════════════════════════ NAV -->
+<nav>
+  <div class="nav-logo">Red de Concejales PS <span>· Santa Fe</span></div>
+  <div class="nav-links">
+    <a href="#donde">Donde gobernamos</a>
+    <a href="#banco">Banco de Iniciativas</a>
+    <a href="#ods">ODS 2030</a>
+    <a href="#concejales">Concejales</a>
+    <button class="btn-logout" id="btn-logout">Salir</button>
   </div>
+</nav>
 
-  <!-- ═══════════════════════════════════════ HERO ═══ -->
-  <section id="hero">
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-eyebrow">Red de Concejales PS · Santa Fe</div>
-        <h1 class="hero-title">
-          Ningún concejal debería<br><em>gobernar solo.</em>
-        </h1>
-        <p class="hero-body">
-          La ordenanza que aprobaste en tu municipio puede ahorrarle semanas de trabajo a un colega de otra ciudad. Esta red existe para eso: compartir lo que funciona, conectar quien tiene el problema con quien ya lo resolvió, y construir un socialismo local más fuerte en cada rincón de la provincia.
-        </p>
-        <div class="hero-ctas">
-          <a href="#banco"  class="btn-primary">Ver el banco de iniciativas</a>
-          <a href="#concejales" class="btn-secondary">Ver quién trabaja tu tema</a>
-        </div>
-      </div>
+<!-- ═══════════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Partido Socialista · Provincia de Santa Fe</div>
+  <h1>Red de Concejales<br>Socialistas</h1>
+  <p>Iniciativas, gestión y territorio conectados con los ODS 2030</p>
+  <div class="hero-ctas">
+    <a href="#banco" class="btn-hero-primary">Ver banco de iniciativas</a>
+    <a href="#ods" class="btn-hero-secondary">ODS 2030</a>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Municipios</div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ BANCO DE INICIATIVAS ═══ -->
-  <section class="section" id="banco">
-    <div class="container">
-      <span class="section-tag">Corazón del sitio</span>
-      <h2 class="section-title">Banco de Iniciativas</h2>
-      <p class="section-intro">
-        Proyectos, ordenanzas y experiencias de concejales socialistas de toda la provincia. Lo que funcionó en un concejo puede funcionar en el tuyo.
-      </p>
-
-      <!-- Temas -->
-      <div class="banco-temas">
-        <div class="tema-card">
-          <span class="icono">🏛️</span>
-          <h3>Gobierno y gestión</h3>
-          <p>Organización institucional, presupuesto, gestión municipal</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">🔧</span>
-          <h3>Obras y servicios públicos</h3>
-          <p>Infraestructura, espacios públicos, servicios esenciales</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">📐</span>
-          <h3>Planeamiento urbano</h3>
-          <p>Ordenamiento territorial, vivienda, uso del suelo</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">🤝</span>
-          <h3>Desarrollo humano</h3>
-          <p>Salud, educación, niñez, adultos mayores</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">🔍</span>
-          <h3>Fiscalización y control</h3>
-          <p>Auditoría, rendición de cuentas, rol opositor</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">✊</span>
-          <h3>Género, Seguridad, DDHH</h3>
-          <p>Políticas de género, convivencia, derechos humanos</p>
-        </div>
-        <div class="tema-card">
-          <span class="icono">📋</span>
-          <h3>Transparencia</h3>
-          <p>Acceso a información, gobierno abierto, ética pública</p>
-        </div>
-      </div>
-
-      <!-- Quién ya hizo esto -->
-      <h3 class="replicables-titulo">Quién ya hizo esto</h3>
-      <div class="replicables-grid">
-        <div class="replicable-card">
-          <h4>Ordenanza de Arbolado Urbano</h4>
-          <div class="quien">Rosario · Federico Lifschitz</div>
-          <div class="quien">Sunchales · José Delmastro</div>
-          <div class="quien">Recreo · Omar Picard</div>
-          <br>
-          <span class="badge badge-verde">REPLICABLE</span>
-        </div>
-        <div class="replicable-card">
-          <h4>Protocolo de Violencia de Género en el Espacio Público</h4>
-          <div class="quien">Villa Gobernador Gálvez · Patricia González</div>
-          <div class="quien">Villa Ocampo · Andrea Cracogna</div>
-          <div class="quien">Laguna Paiva · Melina Andrés</div>
-          <br>
-          <span class="badge badge-verde">REPLICABLE</span>
-        </div>
-        <div class="replicable-card">
-          <h4>Presupuesto Participativo Municipal</h4>
-          <div class="quien">Sunchales · Juano Astor</div>
-          <div class="quien">San Carlos Centro · Judith Perren</div>
-          <br>
-          <span class="badge badge-amarillo">EN PROCESO</span>
-        </div>
-      </div>
+    <div class="stat-item">
+      <div class="stat-num">26</div>
+      <div class="stat-label">Comunas</div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ PROBLEMAS COMUNES ═══ -->
-  <section class="section" id="problemas">
-    <div class="container">
-      <span class="section-tag">Pensá desde el problema</span>
-      <h2 class="section-title">Problemas comunes</h2>
-      <p class="section-intro">
-        El concejal piensa desde el problema que tiene enfrente, no desde la categoría temática. Hacé click en tu problema y te mostramos qué se hizo en la provincia.
-      </p>
-
-      <div class="problemas-grid">
-        <div class="problema-card" onclick="irAConcejales('Seguridad vial')">
-          <div class="p-icon">🚗</div>
-          <span>Seguridad vial</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Microbasurales')">
-          <div class="p-icon">🗑️</div>
-          <span>Microbasurales</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Consumo problemático')">
-          <div class="p-icon">💊</div>
-          <span>Consumo problemático</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Accesibilidad')">
-          <div class="p-icon">♿</div>
-          <span>Accesibilidad</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Ambiente')">
-          <div class="p-icon">🌿</div>
-          <span>Ambiente</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Transporte')">
-          <div class="p-icon">🚌</div>
-          <span>Transporte</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Animales sueltos')">
-          <div class="p-icon">🐄</div>
-          <span>Animales sueltos</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Empleo joven')">
-          <div class="p-icon">👶</div>
-          <span>Empleo joven</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Hábitat y vivienda')">
-          <div class="p-icon">🏠</div>
-          <span>Hábitat y vivienda</span>
-        </div>
-        <div class="problema-card" onclick="irAConcejales('Género y DDHH')">
-          <div class="p-icon">👩‍⚖️</div>
-          <span>Género y DDHH</span>
-        </div>
-      </div>
+    <div class="stat-item">
+      <div class="stat-num big">38</div>
+      <div class="stat-label">Concejales</div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ PRESENCIA TERRITORIAL ═══ -->
-  <section class="section-sm" id="presencia">
-    <div class="container">
-      <span class="section-tag">Territorio</span>
-      <h2 class="section-title">Dónde gobernamos</h2>
-      <p class="section-intro">Presencia socialista en los concejos deliberantes de Santa Fe. Los puntos grandes marcan los municipios donde también somos gobierno.</p>
-
-      <div class="mapa-layout">
-        <!-- SVG MAPA DE CALOR -->
-        <div class="mapa-svg-wrap">
-          <svg viewBox="0 0 300 610" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 4px 32px rgba(196,18,48,0.18))">
-            <!-- Contorno simplificado de Santa Fe -->
-            <path d="M32,6 L262,16 L272,62 L256,132 L226,186 L192,272 L186,352 L176,432 L169,522 L161,567 L32,577 L23,432 L19,302 L23,182 L29,82 Z"
-                  fill="rgba(20,5,12,0.85)" stroke="rgba(196,18,48,0.45)" stroke-width="1.5" stroke-linejoin="round"/>
-
-            <!-- === PUNTOS NORMALES (solo concejales) === -->
-            <!-- Villa Ocampo: 2 -->
-            <circle cx="236" cy="44" r="5" fill="#C41230" fill-opacity="0.55"/>
-            <!-- Reconquista: 1 -->
-            <circle cx="215" cy="106" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Vera: 1 -->
-            <circle cx="172" cy="136" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Villa Minetti: 1 -->
-            <circle cx="66" cy="172" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Suardi: 2 -->
-            <circle cx="36" cy="236" r="5" fill="#C41230" fill-opacity="0.55"/>
-            <!-- San Cristóbal: 1 -->
-            <circle cx="95" cy="249" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- San Vicente: 1 -->
-            <circle cx="74" cy="308" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Laguna Paiva: 1 -->
-            <circle cx="142" cy="302" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- San José del Rincón: 1 -->
-            <circle cx="150" cy="328" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Santo Tomé: 1 -->
-            <circle cx="133" cy="337" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- San Carlos Centro: 2 -->
-            <circle cx="105" cy="342" r="5" fill="#C41230" fill-opacity="0.55"/>
-            <!-- Gálvez: 2 -->
-            <circle cx="97" cy="369" r="5" fill="#C41230" fill-opacity="0.55"/>
-            <!-- San Jorge: 1 -->
-            <circle cx="48" cy="358" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- El Trébol: 1 -->
-            <circle cx="60" cy="385" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Firmat: 1 -->
-            <circle cx="77" cy="502" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Venado Tuerto: 1 -->
-            <circle cx="41" cy="528" r="4" fill="#C41230" fill-opacity="0.4"/>
-            <!-- Villa Constitución: 2 -->
-            <circle cx="164" cy="481" r="5" fill="#C41230" fill-opacity="0.55"/>
-            <!-- Rosario: 3 (sin intendente) -->
-            <circle cx="140" cy="453" r="6.5" fill="#C41230" fill-opacity="0.65"/>
-            <text x="150" y="449" font-family="system-ui,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.45)">Rosario</text>
-
-            <!-- === MUNICIPIOS CON GOBIERNO SOCIALISTA (con halo) === -->
-            <!-- Las Toscas -->
-            <circle cx="243" cy="80" r="13" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="243" cy="80" r="8"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="243" y="68" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Las Toscas</text>
-
-            <!-- Sunchales -->
-            <circle cx="71" cy="270" r="14" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="71" cy="270" r="9"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="88" y="274" font-family="system-ui,sans-serif" font-size="9.5" fill="rgba(255,255,255,0.82)" font-weight="700">Sunchales</text>
-
-            <!-- Recreo -->
-            <circle cx="133" cy="314" r="13" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="133" cy="314" r="8"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="133" y="303" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Recreo</text>
-
-            <!-- San José de la Esquina -->
-            <circle cx="65" cy="467" r="13" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="65" cy="467" r="8"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="80" y="463" font-family="system-ui,sans-serif" font-size="8" fill="rgba(255,255,255,0.75)" font-weight="700">Sj. Esquina</text>
-
-            <!-- Alvear -->
-            <circle cx="184" cy="465" r="13" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="184" cy="465" r="8"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="184" y="454" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.82)" font-weight="700">Alvear</text>
-
-            <!-- Villa Gobernador Gálvez -->
-            <circle cx="128" cy="472" r="13" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="128" cy="472" r="8"  fill="#C41230" fill-opacity="0.92"/>
-            <text x="113" y="484" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" fill="rgba(255,255,255,0.75)" font-weight="700">VGG</text>
-
-            <!-- Pueblo Esther -->
-            <circle cx="153" cy="480" r="12" fill="#C41230" fill-opacity="0.18"/>
-            <circle cx="153" cy="480" r="7.5" fill="#C41230" fill-opacity="0.88"/>
-            <text x="166" y="484" font-family="system-ui,sans-serif" font-size="7.5" fill="rgba(255,255,255,0.72)" font-weight="700">P.Esther</text>
-          </svg>
-        </div>
-
-        <!-- PANEL DE DATOS -->
-        <div>
-          <div class="mapa-stats">
-            <div>
-              <div class="mapa-stat-num">7</div>
-              <div class="mapa-stat-label">municipios con<br>gobierno socialista</div>
-            </div>
-            <div>
-              <div class="mapa-stat-num">38</div>
-              <div class="mapa-stat-label">concejales en<br>toda la provincia</div>
-            </div>
-            <div>
-              <div class="mapa-stat-num">24</div>
-              <div class="mapa-stat-label">ciudades con<br>presencia PS</div>
-            </div>
-          </div>
-          <div class="mapa-leyenda">
-            <div class="leyenda-item">
-              <svg width="20" height="20" viewBox="0 0 20 20">
-                <circle cx="10" cy="10" r="9" fill="#C41230" fill-opacity="0.2"/>
-                <circle cx="10" cy="10" r="6" fill="#C41230"/>
-              </svg>
-              <span>Municipio con intendente PS</span>
-            </div>
-            <div class="leyenda-item">
-              <svg width="14" height="14" viewBox="0 0 14 14">
-                <circle cx="7" cy="7" r="5.5" fill="#C41230" fill-opacity="0.55"/>
-              </svg>
-              <span>Con concejales PS (tamaño = cantidad)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MUNICIPIOS CON GOBIERNO SOCIALISTA -->
-      <p class="mapa-munis-title" style="margin-top:2.5rem">Municipios con gobierno socialista</p>
-
-      <!-- 7 municipios en un solo grid -->
-      <div class="munis-all-grid">
-        <a class="muni-featured-card" href="https://www.recreo.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Recreo</div>
-          <div class="mk-jefe">Omar Colombo</div>
-          <div class="mk-cargo">Intendente · Dpto. La Capital</div>
-        </a>
-        <a class="muni-featured-card" href="https://www.generalalvear.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Alvear</div>
-          <div class="mk-jefe">Carlos Pighin</div>
-          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
-        </a>
-        <a class="muni-featured-card" href="https://www.sunchales.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Sunchales</div>
-          <div class="mk-jefe">Pablo Pinotti</div>
-          <div class="mk-cargo">Intendente · Dpto. Castellanos</div>
-        </a>
-        <a class="muni-featured-card" href="https://www.lastoscas.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Las Toscas</div>
-          <div class="mk-jefe">Ivan Sanchez</div>
-          <div class="mk-cargo">Intendente · Dpto. Gral. Obligado</div>
-        </a>
-        <a class="muni-key-card" href="https://www.sanjosevirtual.com.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">San José de la Esquina</div>
-          <div class="mk-jefe">Ezequiel Ruani</div>
-          <div class="mk-cargo">Intendente · Dpto. Caseros</div>
-        </a>
-        <a class="muni-key-card" href="https://www.puebloesther.gob.ar" target="_blank" rel="noopener">
-          <div class="mk-nombre">Pueblo Esther</div>
-          <div class="mk-jefe">Martin Gherardi</div>
-          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
-        </a>
-        <a class="muni-key-card" href="https://vggmunicipalidad.gov.ar/" target="_blank" rel="noopener">
-          <div class="mk-nombre">Villa Gobernador Gálvez</div>
-          <div class="mk-jefe">Alberto Ricci</div>
-          <div class="mk-cargo">Intendente · Dpto. Rosario</div>
-        </a>
-      </div>
-
-      <!-- Botón al directorio completo -->
-      <div style="text-align:center; margin-top:0.25rem">
-        <a href="autoridades.html" class="btn-dir-full">🗺️ Autoridades completas →</a>
-      </div>
+    <div class="stat-item">
+      <div class="stat-num">15</div>
+      <div class="stat-label">Departamentos</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="divider"></div>
+<!-- ═══════════════════════════════════════════════════════ DONDE GOBERNAMOS -->
+<div class="section-wrap" id="donde">
+  <h2 class="section-title">Donde gobernamos</h2>
+  <p class="section-sub">Presencia socialista en 15 departamentos de la provincia de Santa Fe</p>
+  <div class="legend">
+    <div class="legend-item"><span class="ldot ldot-muni"></span> Municipio (PS gobierna el ejecutivo)</div>
+    <div class="legend-item"><span class="ldot ldot-ciudad"></span> Ciudad / Municipio (concejales PS en minoría)</div>
+    <div class="legend-item"><span class="ldot ldot-comuna"></span> Comuna (PS gobierna el ejecutivo)</div>
+  </div>
+  <div class="deptos-grid" id="deptos-grid"></div>
+</div>
+<hr class="divider">
 
-  <!-- ═══════════════════════════════════════ CONCEJALES ═══ -->
-  <section class="section" id="concejales">
-    <div class="container">
-      <span class="section-tag">Directorio</span>
-      <h2 class="section-title">Concejales de la Red</h2>
-      <p class="section-intro">
-        38 concejales socialistas en toda la provincia. Hacé clic en una ficha para ver su perfil completo.
-      </p>
+<!-- ═══════════════════════════════════════════════════════ BANCO DE INICIATIVAS -->
+<div class="section-wrap" id="banco">
+  <h2 class="section-title">Banco de Iniciativas</h2>
+  <p class="section-sub">Triple clasificación: área · problema · ODS 2030. Una ordenanza puede responder a múltiples problemas y objetivos.</p>
 
-      <!-- Filtros -->
-      <div class="filtros-red">
-        <input type="text" class="filtro-input" id="filtroNombre" placeholder="🔍 Buscar por nombre…" oninput="filtrarConcejales()">
-        <select class="filtro-select" id="filtroDpto" onchange="filtrarConcejales()">
-          <option value="">Todos los departamentos</option>
-        </select>
-        <select class="filtro-select" id="filtroEsp" onchange="filtrarConcejales()">
-          <option value="">Todos los problemas</option>
-          <option>Seguridad vial</option>
-          <option>Microbasurales</option>
-          <option>Consumo problemático</option>
-          <option>Accesibilidad</option>
-          <option>Ambiente</option>
-          <option>Transporte</option>
-          <option>Animales sueltos</option>
-          <option>Empleo joven</option>
-          <option>Hábitat y vivienda</option>
-          <option>Género y DDHH</option>
-        </select>
-      </div>
-
-      <div class="concejales-grid" id="concejalesGrid"></div>
-      <p class="no-resultados" id="noResultados">No hay concejales que coincidan con el filtro seleccionado.</p>
+  <div class="filters">
+    <div class="filter-row">
+      <span class="filter-label">Área</span>
+      <div id="chips-area"></div>
     </div>
-  </section>
-
-  <!-- Modal de concejal -->
-  <div class="modal-overlay" id="modalOverlay" onclick="cerrarModal(event)">
-    <div class="modal-box" id="modalBox">
-      <div class="modal-header">
-        <button class="modal-close" onclick="cerrarModalBtn()">✕</button>
-        <img class="modal-avatar" id="mFoto" src="" alt="">
-        <div class="modal-nombre" id="mNombre"></div>
-        <div class="modal-lugar" id="mLugar"></div>
-      </div>
-      <div class="modal-body">
-        <div id="mMandatoWrap" style="display:none">
-          <div class="modal-mandato">
-            <span class="modal-mandato-dot"></span>
-            <span id="mMandato"></span>
-          </div>
-        </div>
-        <div id="mBioWrap" style="display:none">
-          <div class="modal-sect-label">Trayectoria</div>
-          <div class="modal-bio-text" id="mBio"></div>
-        </div>
-        <div id="mEspWrap">
-          <div class="modal-sect-label">Especialidades</div>
-          <div class="modal-esp-tags" id="mEsp"></div>
-        </div>
-        <div id="mTemasWrap">
-          <div class="modal-sect-label">Áreas de trabajo</div>
-          <div class="modal-temas" id="mTemas"></div>
-        </div>
-        <div class="modal-contacto" id="mContacto"></div>
-        <a class="modal-ver-iniciativas" id="mVerIniciativas" href="#" target="_blank" rel="noopener" style="display:none">
-          📂 Ver iniciativas en Drive
-        </a>
-      </div>
+    <div class="filter-row">
+      <span class="filter-label">Problema</span>
+      <div id="chips-prob"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">ODS</span>
+      <div id="chips-ods"></div>
     </div>
   </div>
 
-  <div class="divider"></div>
+  <div class="iniciativas-grid" id="iniciativas-grid"></div>
+</div>
+<hr class="divider">
 
-  <!-- ═══════════════════════════════════════ CAPACITACIONES ═══ -->
-  <section class="section" id="capacitaciones">
-    <div class="container">
-      <span class="section-tag">Formación</span>
-      <h2 class="section-title">Capacitaciones</h2>
-      <p class="section-intro">
-        Módulos para fortalecer el trabajo en el concejo, tanto para quienes comienzan como para mandatos avanzados.
-      </p>
+<!-- ═══════════════════════════════════════════════════════ ODS 2030 -->
+<div class="section-wrap" id="ods">
+  <h2 class="section-title">ODS 2030</h2>
+  <p class="section-sub">Objetivos de Desarrollo Sostenible de la ONU adaptados a la gestión municipal.</p>
+  <p class="ods-intro">
+    Los 17 ODS son el marco global que guía el trabajo de la red. Cada iniciativa del banco está vinculada a uno o más objetivos, permitiendo ver qué impacto territorial tienen las ordenanzas locales en relación al desarrollo sostenible. Hacé click en un objetivo para filtrar las iniciativas correspondientes.
+  </p>
+  <div class="ods-grid" id="ods-grid"></div>
+</div>
+<hr class="divider">
 
-      <div class="cap-filtros">
-        <button class="cap-btn active" onclick="filtrarCap('todos', this)">Todos</button>
-        <button class="cap-btn" onclick="filtrarCap('primero', this)">Primer mandato</button>
-        <button class="cap-btn" onclick="filtrarCap('avanzado', this)">Mandatos avanzados</button>
-      </div>
+<!-- ═══════════════════════════════════════════════════════ CONCEJALES -->
+<div class="section-wrap" id="concejales">
+  <h2 class="section-title">Concejales</h2>
+  <p class="section-sub">38 concejales socialistas en más de 30 gobiernos locales de Santa Fe. Hacé click para ver el perfil y sus iniciativas.</p>
+  <div class="concejales-grid" id="concejales-grid"></div>
+</div>
 
-      <div class="cap-grid" id="capGrid">
-        <div class="cap-card" data-nivel="primero">
-          <div class="cap-num">Módulo 01</div>
-          <h3>Técnica legislativa</h3>
-          <p>Cómo redactar ordenanzas y resoluciones con claridad jurídica. Estructura, motivación y articulado.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
-        <div class="cap-card" data-nivel="primero">
-          <div class="cap-num">Módulo 02</div>
-          <h3>Presupuesto municipal</h3>
-          <p>Lectura e interpretación del presupuesto. Cómo controlar la ejecución y detectar desvíos.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
-        <div class="cap-card" data-nivel="primero avanzado">
-          <div class="cap-num">Módulo 03</div>
-          <h3>Comunicación política local</h3>
-          <p>Redes sociales, medios locales y narrativa para concejales. Cómo hacer visible el trabajo legislativo.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
-        <div class="cap-card" data-nivel="primero avanzado">
-          <div class="cap-num">Módulo 04</div>
-          <h3>Género en el concejo</h3>
-          <p>Aplicación práctica de la perspectiva de género en la producción legislativa y en la dinámica institucional.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
-        <div class="cap-card" data-nivel="avanzado">
-          <div class="cap-num">Módulo 05</div>
-          <h3>Medio ambiente</h3>
-          <p>Herramientas normativas para la gestión ambiental local: arbolado, residuos, contaminación y ordenanzas verdes.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
-        <div class="cap-card" data-nivel="avanzado">
-          <div class="cap-num">Módulo 06</div>
-          <h3>Control y fiscalización</h3>
-          <p>El rol del concejal opositor: pedidos de informe, interpelación, auditoría y acceso a documentación pública.</p>
-          <span class="btn-ver" style="opacity:0.45;cursor:default;pointer-events:none;">Próximamente</span>
-        </div>
+<!-- ═══════════════════════════════════════════════════════ MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="modal-avatar" id="modal-avatar"></div>
+    <div class="modal-name" id="modal-name"></div>
+    <div class="modal-cargo" id="modal-cargo"></div>
+    <div class="modal-grid" id="modal-grid"></div>
+    <div class="modal-bio" id="modal-bio">Perfil pendiente de carga. El concejal/a podrá completar su descripción, áreas de trabajo e iniciativas.</div>
+    <button class="modal-btn" id="modal-ver-ordenanzas">Ver ordenanzas</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <strong>Red de Concejales Socialistas · Partido Socialista Santa Fe</strong><br>
+  <span style="margin-top:.4rem;display:block">Plataforma de gestión, coordinación e intercambio de iniciativas municipales</span>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// CONFIG — cuando tengas el Google Sheet publicado, reemplazá el ID:
+// const SHEET_ID = 'TU_SHEET_ID_AQUI';
+// const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+// ════════════════════════════════════════════════════════════════════
+
+// ── LOGIN ──────────────────────────────────────────────────────────
+if (!sessionStorage.getItem('redps_auth')) {
+  window.location.href = 'login.html';
+}
+document.getElementById('btn-logout').addEventListener('click', () => {
+  sessionStorage.removeItem('redps_auth');
+  window.location.href = 'login.html';
+});
+
+// ── DATOS: ODS ─────────────────────────────────────────────────────
+const ODS = [
+  { n: 1,  nombre: "Fin de la pobreza",               color: "#E5243B" },
+  { n: 2,  nombre: "Hambre cero",                      color: "#DDA63A" },
+  { n: 3,  nombre: "Salud y bienestar",                color: "#4C9F38" },
+  { n: 4,  nombre: "Educación de calidad",             color: "#C5192D" },
+  { n: 5,  nombre: "Igualdad de género",               color: "#FF3A21" },
+  { n: 6,  nombre: "Agua y saneamiento",               color: "#26BDE2" },
+  { n: 7,  nombre: "Energía asequible",                color: "#FCC30B" },
+  { n: 8,  nombre: "Trabajo decente",                  color: "#A21942" },
+  { n: 9,  nombre: "Industria e innovación",           color: "#FD6925" },
+  { n: 10, nombre: "Reducción de desigualdades",       color: "#DD1367" },
+  { n: 11, nombre: "Ciudades sostenibles",             color: "#FD9D24" },
+  { n: 12, nombre: "Producción responsable",           color: "#BF8B2E" },
+  { n: 13, nombre: "Acción por el clima",              color: "#3F7E44" },
+  { n: 14, nombre: "Vida submarina",                   color: "#0A97D9" },
+  { n: 15, nombre: "Ecosistemas terrestres",           color: "#56C02B" },
+  { n: 16, nombre: "Paz y justicia",                   color: "#00689D" },
+  { n: 17, nombre: "Alianzas para los objetivos",      color: "#19486A" },
+];
+
+// ── DATOS: ÁREAS Y PROBLEMAS ───────────────────────────────────────
+const AREAS = [
+  "Gobierno",
+  "Obras y SS. Públicos",
+  "Planeamiento",
+  "Fiscalización",
+  "Desarrollo Humano y Producción",
+  "Género, Seguridad y DD.HH.",
+  "Transparencia y Adm. Pública",
+];
+
+const TODOS_PROBLEMAS = [
+  "Seguridad vial", "Microbasurales", "Consumo problemático",
+  "Accesibilidad", "Ambiente", "Transporte",
+  "Animales sueltos", "Empleo joven", "Hábitat y vivienda", "Género y DDHH",
+];
+
+// ── DATOS: INICIATIVAS (ejemplo — reemplazar con lectura del Sheet) ─
+const INICIATIVAS = [
+  {
+    titulo: "Puntos limpios de reciclado urbano",
+    area: "Gobierno",
+    problemas: ["Ambiente", "Microbasurales"],
+    ods: [11, 12, 13],
+    concejal: "Brenda Torrini",
+    ciudad: "Sunchales",
+    estado: "Aprobada",
+    link: "#",
+    resumen: "Creación de puntos fijos para separación y reciclado de residuos sólidos urbanos en los accesos del ejido municipal."
+  },
+  {
+    titulo: "Cupo laboral joven en empresas con beneficios municipales",
+    area: "Desarrollo Humano y Producción",
+    problemas: ["Empleo joven"],
+    ods: [8, 10],
+    concejal: "Micaela Mineiro",
+    ciudad: "Venado Tuerto",
+    estado: "Aprobada",
+    link: "#",
+    resumen: "Toda empresa que reciba subsidio, exención o beneficio municipal debe reservar el 20% de su planta para jóvenes de 18 a 30 años."
+  },
+  {
+    titulo: "Protocolo de actuación ante violencia de género",
+    area: "Género, Seguridad y DD.HH.",
+    problemas: ["Género y DDHH"],
+    ods: [5, 16],
+    concejal: "Alina Vargas Amato",
+    ciudad: "Firmat",
+    estado: "Aprobada",
+    link: "#",
+    resumen: "Establece un protocolo unificado de intervención municipal ante situaciones de violencia por razones de género."
+  },
+  {
+    titulo: "Transporte público accesible para personas con discapacidad",
+    area: "Obras y SS. Públicos",
+    problemas: ["Accesibilidad", "Transporte"],
+    ods: [10, 11],
+    concejal: "José Delmastro",
+    ciudad: "Sunchales",
+    estado: "En debate",
+    link: "#",
+    resumen: "Ordena adecuar las unidades del transporte público municipal con rampas, señalética braille y audio-guía."
+  },
+  {
+    titulo: "Plan municipal de arbolado y forestación urbana",
+    area: "Planeamiento",
+    problemas: ["Ambiente", "Hábitat y vivienda"],
+    ods: [11, 13, 15],
+    concejal: "Camila Rodriguez del Curto",
+    ciudad: "San José del Rincón",
+    estado: "En debate",
+    link: "#",
+    resumen: "Plan decenal de forestación con especies nativas en espacios públicos, corredores viales y frentes de edificios."
+  },
+  {
+    titulo: "Prevención del consumo problemático en adolescentes",
+    area: "Gobierno",
+    problemas: ["Consumo problemático"],
+    ods: [3, 16],
+    concejal: "Benjamín Perruccio",
+    ciudad: "Alvear",
+    estado: "Modelo replicable",
+    link: "#",
+    resumen: "Programa de talleres de prevención del consumo de sustancias en escuelas secundarias, con abordaje comunitario."
+  },
+];
+
+// ── DATOS: DEPARTAMENTOS ───────────────────────────────────────────
+const DEPARTAMENTOS = [
+  { nombre: "Caseros", lugares: [
+    { n: "San José de la Esquina", t: "muni" },
+    { n: "Bigand", t: "comuna" },
+  ]},
+  { nombre: "Castellanos", lugares: [
+    { n: "Sunchales", t: "muni" },
+    { n: "San Vicente", t: "ciudad" },
+    { n: "Eusebia", t: "comuna" }, { n: "Colonia Raquel", t: "comuna" },
+    { n: "Aldao", t: "comuna" }, { n: "Col. Margarita", t: "comuna" },
+    { n: "Zenón Pereyra", t: "comuna" }, { n: "Col. Iturraspe", t: "comuna" },
+    { n: "Colonia Maua", t: "comuna" },
+  ]},
+  { nombre: "Constitución", lugares: [
+    { n: "Villa Constitución", t: "ciudad" },
+    { n: "Cañada Rica", t: "comuna" }, { n: "J.B. Molina", t: "comuna" },
+    { n: "Sargento Cabral", t: "comuna" },
+  ]},
+  { nombre: "Garay", lugares: [
+    { n: "Sta. Rosa de Calchines", t: "comuna" },
+  ]},
+  { nombre: "General Lopez", lugares: [
+    { n: "Venado Tuerto", t: "ciudad" }, { n: "Firmat", t: "ciudad" },
+    { n: "Diego de Alvear", t: "comuna" }, { n: "Aaron Castellanos", t: "comuna" },
+    { n: "Christophersen", t: "comuna" }, { n: "San Francisco", t: "comuna" },
+  ]},
+  { nombre: "General Obligado", lugares: [
+    { n: "Las Toscas", t: "muni" },
+    { n: "Reconquista", t: "ciudad" }, { n: "Villa Ocampo", t: "ciudad" },
+    { n: "S. Antonio de Obligado", t: "comuna" },
+  ]},
+  { nombre: "Iriondo", lugares: [
+    { n: "Correa", t: "ciudad" }, { n: "Villa Eloisa", t: "ciudad" },
+  ]},
+  { nombre: "La Capital", lugares: [
+    { n: "Recreo", t: "muni" },
+    { n: "San José del Rincón", t: "ciudad" }, { n: "Laguna Paiva", t: "ciudad" },
+    { n: "Santo Tomé", t: "ciudad" },
+  ]},
+  { nombre: "Las Colonias", lugares: [
+    { n: "San Carlos Centro", t: "ciudad" }, { n: "Santo Domingo", t: "comuna" },
+  ]},
+  { nombre: "Nueve de Julio", lugares: [
+    { n: "Villa Minetti", t: "ciudad" },
+    { n: "Esteban Rams", t: "comuna" }, { n: "Juan de Garay", t: "comuna" },
+  ]},
+  { nombre: "Rosario", lugares: [
+    { n: "Alvear", t: "muni" }, { n: "Pueblo Esther", t: "muni" },
+    { n: "Villa Gobernador Galvez", t: "muni" },
+    { n: "Rosario", t: "ciudad" },
+    { n: "Acebal", t: "comuna" }, { n: "Coronel Dominguez", t: "comuna" },
+    { n: "Villa Amelia", t: "comuna" },
+  ]},
+  { nombre: "San Cristóbal", lugares: [
+    { n: "San Cristóbal", t: "ciudad" }, { n: "Suardi", t: "ciudad" },
+  ]},
+  { nombre: "San Jerónimo", lugares: [
+    { n: "Gálvez", t: "ciudad" }, { n: "Barrancas", t: "comuna" },
+  ]},
+  { nombre: "San Martín", lugares: [
+    { n: "San Jorge", t: "ciudad" }, { n: "El Trébol", t: "ciudad" },
+    { n: "San Martín de las Escobas", t: "comuna" },
+  ]},
+  { nombre: "Vera", lugares: [
+    { n: "Vera", t: "ciudad" }, { n: "La Gallareta", t: "comuna" },
+  ]},
+];
+
+// ── DATOS: CONCEJALES ──────────────────────────────────────────────
+const CONCEJALES = [
+  { nombre: "Yoana Dalbello",           municipio: "San José de la Esquina", depto: "Caseros",          tel: "3467 43-8952" },
+  { nombre: "Juan Pablo Coniglio",      municipio: "San José de la Esquina", depto: "Caseros",          tel: "3467 41-7291" },
+  { nombre: "José Delmastro",           municipio: "Sunchales",              depto: "Castellanos",      tel: "3493 41-6305" },
+  { nombre: "Brenda Torrini",           municipio: "Sunchales",              depto: "Castellanos",      tel: "3493 45-5600" },
+  { nombre: "Juano Astor",              municipio: "Sunchales",              depto: "Castellanos",      tel: "3493 49-5863" },
+  { nombre: "Juan Carlos Marchese",     municipio: "San Vicente",            depto: "Castellanos",      tel: "3401 64-0111" },
+  { nombre: "Diego Martin",             municipio: "Villa Constitución",     depto: "Constitución",     tel: "3400 41-7834" },
+  { nombre: "Francisco Bracalenti",     municipio: "Villa Constitución",     depto: "Constitución",     tel: "3364 64-2204" },
+  { nombre: "Micaela Mineiro",          municipio: "Venado Tuerto",          depto: "General Lopez",    tel: "3462 63-9815" },
+  { nombre: "Alina Vargas Amato",       municipio: "Firmat",                 depto: "General Lopez",    tel: "3465 59-2384" },
+  { nombre: "Alejandro Delssin",        municipio: "Las Toscas",             depto: "General Obligado", tel: "3482 55-4567" },
+  { nombre: "Miguel Gutierrez",         municipio: "Las Toscas",             depto: "General Obligado", tel: "3482 37-6610" },
+  { nombre: "Marisa Flores",            municipio: "Reconquista",            depto: "General Obligado", tel: "3482 51-4685" },
+  { nombre: "Daina Ramirez",            municipio: "Villa Ocampo",           depto: "General Obligado", tel: "3482 60-4622" },
+  { nombre: "Andrea Cracogna",          municipio: "Villa Ocampo",           depto: "General Obligado", tel: "3482 39-4937" },
+  { nombre: "Nahuel Cejas",             municipio: "Correa",                 depto: "Iriondo",          tel: "3471 51-2397" },
+  { nombre: "Luciano Pallotti",         municipio: "Villa Eloisa",           depto: "Iriondo",          tel: "3401 64-5653" },
+  { nombre: "Omar Picard",              municipio: "Recreo",                 depto: "La Capital",       tel: "3426 29-8463" },
+  { nombre: "Camila Rodriguez del Curto", municipio: "San José del Rincón", depto: "La Capital",       tel: "3425 35-7954" },
+  { nombre: "Melina Andrés",            municipio: "Laguna Paiva",           depto: "La Capital",       tel: "3425 46-2249" },
+  { nombre: "Alejandra Chena",          municipio: "Santo Tomé",             depto: "La Capital",       tel: "3424 05-4647" },
+  { nombre: "Judith Perren",            municipio: "San Carlos Centro",      depto: "Las Colonias",     tel: "3404 41-9610" },
+  { nombre: "Gabriel Otazo",            municipio: "San Carlos Centro",      depto: "Las Colonias",     tel: "3425 36-5763" },
+  { nombre: "Pedro Junco",              municipio: "Villa Minetti",          depto: "Nueve de Julio",   tel: "3491 69-8608" },
+  { nombre: "Benjamín Perruccio",       municipio: "Alvear",                 depto: "Rosario",          tel: "3417 04-6068" },
+  { nombre: "Flavia Banfi",             municipio: "Alvear",                 depto: "Rosario",          tel: "3412 09-0213" },
+  { nombre: "Federico Lifschitz",       municipio: "Rosario",                depto: "Rosario",          tel: "3413 49-4950" },
+  { nombre: "Manuel Sciutto",           municipio: "Rosario",                depto: "Rosario",          tel: "3412 29-6544" },
+  { nombre: "Alicia Pino",              municipio: "Rosario",                depto: "Rosario",          tel: "3412 79-7712" },
+  { nombre: "Esteban Lenci",            municipio: "Villa Gobernador Galvez",depto: "Rosario",          tel: "3416 43-3416" },
+  { nombre: "Patricia González",        municipio: "Villa Gobernador Galvez",depto: "Rosario",          tel: "3413 21-6254" },
+  { nombre: "José Bulsicco",            municipio: "Villa Gobernador Galvez",depto: "Rosario",          tel: "3415 02-5501" },
+  { nombre: "Maximiliano Lopez",        municipio: "San Cristóbal",          depto: "San Cristóbal",    tel: "3416 88-0285" },
+  { nombre: "Agustín Peretti",          municipio: "Suardi",                 depto: "San Cristóbal",    tel: "3562 52-1673" },
+  { nombre: "Gonzalo Rui",              municipio: "Suardi",                 depto: "San Cristóbal",    tel: "3562 41-0017" },
+  { nombre: "Santiago Pestarini",       municipio: "Gálvez",                 depto: "San Jerónimo",     tel: "" },
+  { nombre: "Monica Rivelo",            municipio: "Gálvez",                 depto: "San Jerónimo",     tel: "3404 49-1935" },
+  { nombre: "Rodrigo Duín",             municipio: "San Jorge",              depto: "San Martín",       tel: "3406 64-4909" },
+  { nombre: "Laura Raspantti",          municipio: "El Trébol",              depto: "San Martín",       tel: "" },
+  { nombre: "Ana Paula Capello",        municipio: "Vera",                   depto: "Vera",             tel: "" },
+];
+
+// ── ESTADO DE FILTROS ──────────────────────────────────────────────
+const filtros = { area: null, prob: null, ods: null };
+
+// ── INICIALES ──────────────────────────────────────────────────────
+function iniciales(nombre) {
+  return nombre.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
+}
+
+// ── RENDER: DEPARTAMENTOS ──────────────────────────────────────────
+function renderDeptos() {
+  const grid = document.getElementById('deptos-grid');
+  grid.innerHTML = DEPARTAMENTOS.map(d => `
+    <div class="depto-card">
+      <div class="depto-name">${d.nombre}</div>
+      <div class="locs">
+        ${d.lugares.map(l => `
+          <span class="loc-tag loc-${l.t}">
+            <span class="loc-dot"></span>${l.n}
+          </span>
+        `).join('')}
       </div>
     </div>
-  </section>
+  `).join('');
+}
 
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ AGENDA ═══ -->
-  <section class="section" id="agenda">
-    <div class="container">
-      <span class="section-tag">Próximas actividades</span>
-      <h2 class="section-title">Agenda</h2>
-      <p class="section-intro">
-        Encuentros, capacitaciones y jornadas de la Red de Concejales.
-      </p>
-
-      <div class="agenda-lista">
-        <div class="evento-card">
-          <div class="evento-fecha"><span class="dia">18</span><span class="mes">Jul</span></div>
-          <div class="evento-info">
-            <h3>Jornada de Técnica Legislativa — Rosario</h3>
-            <div class="evento-lugar">📍 Concejo Municipal de Rosario · 9:00 a 13:00 hs</div>
-            <span class="badge badge-verde">Inscripción abierta</span>
-          </div>
-        </div>
-        <div class="evento-card">
-          <div class="evento-fecha"><span class="dia">02</span><span class="mes">Ago</span></div>
-          <div class="evento-info">
-            <h3>Encuentro Regional Norte — Reconquista</h3>
-            <div class="evento-lugar">📍 Municipalidad de Reconquista · 10:00 a 17:00 hs</div>
-            <span class="badge badge-azul">Sólo concejales de la red</span>
-          </div>
-        </div>
-        <div class="evento-card">
-          <div class="evento-fecha"><span class="dia">15</span><span class="mes">Ago</span></div>
-          <div class="evento-info">
-            <h3>Capacitación virtual — Género en el Concejo</h3>
-            <div class="evento-lugar">🖥️ Modalidad virtual · 18:00 a 20:00 hs</div>
-            <span class="badge badge-verde">Inscripción abierta</span>
-          </div>
-        </div>
-        <div class="evento-card">
-          <div class="evento-fecha"><span class="dia">06</span><span class="mes">Sep</span></div>
-          <div class="evento-info">
-            <h3>Plenario Provincial de la Red — Santa Fe capital</h3>
-            <div class="evento-lugar">📍 Sede PS Santa Fe · 9:00 a 18:00 hs</div>
-            <span class="badge badge-amarillo">Próximamente</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ BIBLIOTECA LEGAL ═══ -->
-  <section class="section" id="biblioteca">
-    <div class="container">
-      <span class="section-tag">Marco normativo</span>
-      <h2 class="section-title">Biblioteca Legal</h2>
-      <p class="section-intro">
-        Las leyes que necesitás tener a mano, organizadas por nivel.
-      </p>
-
-      <div class="bib-filtros">
-        <button class="bib-btn active" onclick="filtrarBib('todos', this)">Todas</button>
-        <button class="bib-btn" onclick="filtrarBib('nacional', this)">Nacional</button>
-        <button class="bib-btn" onclick="filtrarBib('provincial', this)">Provincial SF</button>
-      </div>
-
-      <!-- Tabla (desktop) -->
-      <table class="bib-tabla">
-        <thead>
-          <tr>
-            <th>Ley</th>
-            <th>Descripción</th>
-            <th>Nivel</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="bibTablaBody"></tbody>
-      </table>
-
-      <!-- Cards (mobile) -->
-      <div class="bib-cards" id="bibCards"></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════ SUMARSE ═══ -->
-  <section class="section" id="sumarse">
-    <div class="container">
-      <div class="sumarse-inner">
-        <span class="section-tag">Sumarse</span>
-        <h2 class="section-title">Sumarse a la Red</h2>
-        <p class="section-intro" style="margin-bottom:1.5rem;">
-          ¿Integrás el bloque PS en tu municipio y todavía no estás en la red? Completá este formulario.
-        </p>
-
-        <form class="form-sumarse" onsubmit="enviarFormulario(event)">
-          <div class="form-row">
-            <div class="form-group-s">
-              <label for="s-nombre">Nombre completo</label>
-              <input type="text" id="s-nombre" placeholder="María López" required>
-            </div>
-            <div class="form-group-s">
-              <label for="s-ciudad">Municipio / Ciudad</label>
-              <input type="text" id="s-ciudad" placeholder="San José de la Esquina" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group-s">
-              <label for="s-email">Email</label>
-              <input type="email" id="s-email" placeholder="maria@ejemplo.com" required>
-            </div>
-            <div class="form-group-s">
-              <label for="s-tel">Teléfono</label>
-              <input type="tel" id="s-tel" placeholder="3400 00-0000">
-            </div>
-          </div>
-          <div class="form-group-s">
-            <label for="s-mensaje">¿Por qué querés sumarte?</label>
-            <textarea id="s-mensaje" placeholder="Contanos brevemente…"></textarea>
-          </div>
-          <div style="margin-top:0.25rem;">
-            <label style="display:flex; align-items:flex-start; gap:0.65rem; cursor:pointer; font-size:0.81rem; color:var(--texto-sec); line-height:1.45;">
-              <input type="checkbox" id="s-consent" required
-                     style="margin-top:0.18rem; accent-color:var(--rojo); flex-shrink:0; width:15px; height:15px; cursor:pointer;">
-              <span>Autorizo el uso de mis datos personales para el directorio interno de la red. La información será tratada de forma confidencial y no será compartida fuera del ámbito del Partido Socialista de Santa Fe.</span>
-            </label>
-          </div>
-          <button type="submit" class="btn-primary" style="width:100%; margin-top:0.75rem; border:none; cursor:pointer; font-family:'Inter',sans-serif;">
-            Enviar solicitud
-          </button>
-        </form>
-
-        <div class="proximamente-msg" id="msgProximo" style="display:none">
-          <strong>¡Gracias!</strong> Tu solicitud fue registrada. La incorporación de nuevos concejales a la red se procesa manualmente — te contactaremos a la brevedad.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════ FOOTER ═══ -->
-  <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <img
-            src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
-            alt="PS"
-            onerror="this.style.display='none'">
-          <span class="footer-brand-text">Red de Concejales Socialistas<br>de Santa Fe</span>
-        </div>
-        <div class="footer-links">
-          <a href="mailto:autoridadeslocales@gmail.com">autoridadeslocales@gmail.com</a>
-          <a href="login.html">Acceso concejales</a>
-          <a href="#banco">Banco de iniciativas</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ═══════════════════════════════════════ SCRIPTS ═══ -->
-  <script>
-    // ─── PROTECCIÓN DE SESIÓN ───
-    (function() {
-      const sesion = localStorage.getItem('concejalesps_sesion');
-      const loginTime = parseInt(localStorage.getItem('concejalesps_login_time') || '0', 10);
-      const OCHO_HORAS = 8 * 60 * 60 * 1000;
-      if (sesion !== 'ok' || (loginTime && Date.now() - loginTime > OCHO_HORAS)) {
-        localStorage.removeItem('concejalesps_sesion');
-        localStorage.removeItem('concejalesps_usuario');
-        localStorage.removeItem('concejalesps_login_time');
-        window.location.href = 'login.html';
-      }
-    })();
-
-    function cerrarSesion() {
-      localStorage.removeItem('concejalesps_sesion');
-      localStorage.removeItem('concejalesps_usuario');
-      localStorage.removeItem('concejalesps_login_time');
-      window.location.href = 'login.html';
-    }
-
-    // ─── NAV MOBILE ───
-    function toggleNav() {
-      document.getElementById('navMobile').classList.toggle('open');
-    }
-
-    function closeNav() {
-      document.getElementById('navMobile').classList.remove('open');
-    }
-
-    // ─── DATOS: CONCEJALES ───
-    const CONCEJALES = [
-      { id: 1,  nombre: "Yoana Dalbello",            localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 43-8952", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],          especialidades: ["Género y DDHH", "Accesibilidad"] },
-      { id: 2,  nombre: "Juan Pablo Coniglio",        localidad: "San José de la Esquina", departamento: "Caseros",        tel: "3467 41-7291", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Fiscalización y control"],           especialidades: ["Animales sueltos", "Microbasurales"] },
-      { id: 3,  nombre: "José Delmastro",             localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 41-6305", ig: "",                  mail: "josedelmastro41@gmail.com",             foto: "", bio: "", temas: ["Obras y servicios públicos", "Planeamiento urbano"],       especialidades: ["Hábitat y vivienda", "Seguridad vial"] },
-      { id: 4,  nombre: "Brenda Torrini",             localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 45-5600", ig: "",                  mail: "brendatorririconcejal@gmail.com",       foto: "", bio: "", temas: ["Gobierno y gestión", "Planeamiento urbano"],              especialidades: ["Ambiente", "Microbasurales"] },
-      { id: 5,  nombre: "Juano Astor",                localidad: "Sunchales",              departamento: "Castellanos",    tel: "3493 49-5863", ig: "",                  mail: "juan.astor95@gmail.com",                foto: "", bio: "", temas: ["Gobierno y gestión", "Transparencia"],                    especialidades: ["Empleo joven", "Hábitat y vivienda"] },
-      { id: 6,  nombre: "Juan Carlos Marchese",       localidad: "San Vicente",            departamento: "Castellanos",    tel: "3401 64-0111", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Empleo joven", "Consumo problemático"] },
-      { id: 7,  nombre: "Diego Martin",               localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3400 41-7834", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Hábitat y vivienda", "Transporte"] },
-      { id: 8,  nombre: "Francisco Bracalenti",       localidad: "Villa Constitución",     departamento: "Constitución",   tel: "3364 64-2204", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control"],                                 especialidades: ["Microbasurales", "Seguridad vial"] },
-      { id: 9,  nombre: "Micaela Mineiro",            localidad: "Venado Tuerto",          departamento: "Gral. López",    tel: "3462 63-9815", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Empleo joven"] },
-      { id: 10, nombre: "Alina Vargas Amato",         localidad: "Firmat",                 departamento: "Gral. López",    tel: "3465 59-2384", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH", "Consumo problemático"] },
-      { id: 11, nombre: "Alejandro Delssin",          localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 55-4567", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Transporte", "Seguridad vial"] },
-      { id: 12, nombre: "Miguel Gutierrez",           localidad: "Las Toscas",             departamento: "Gral. Obligado", tel: "3482 37-6610", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Animales sueltos", "Accesibilidad"] },
-      { id: 13, nombre: "Marisa Flores",              localidad: "Reconquista",            departamento: "Gral. Obligado", tel: "3482 51-4685", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Consumo problemático", "Género y DDHH"] },
-      { id: 14, nombre: "Daina Ramirez",              localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 60-4622", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Empleo joven", "Accesibilidad"] },
-      { id: 15, nombre: "Andrea Cracogna",            localidad: "Villa Ocampo",           departamento: "Gral. Obligado", tel: "3482 39-4937", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH"] },
-      { id: 16, nombre: "Omar Picard",                localidad: "Recreo",                 departamento: "La Capital",     tel: "3426 29-8463", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Obras y servicios públicos"],       especialidades: ["Seguridad vial", "Transporte"] },
-      { id: 17, nombre: "Camila Rodriguez del Curto", localidad: "San José del Rincón",    departamento: "La Capital",     tel: "3425 35-7954", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Empleo joven"] },
-      { id: 18, nombre: "Melina Andrés",              localidad: "Laguna Paiva",           departamento: "La Capital",     tel: "3425 46-2249", ig: "@andres.melina",     mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Consumo problemático"] },
-      { id: 19, nombre: "Alejandra Chena",            localidad: "Santo Tomé",             departamento: "La Capital",     tel: "3424 05-4647", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Accesibilidad", "Hábitat y vivienda"] },
-      { id: 20, nombre: "Judith Perren",              localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3404 41-9610", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control", "Transparencia"],               especialidades: ["Microbasurales", "Accesibilidad"] },
-      { id: 21, nombre: "Gabriel Otazo",              localidad: "San Carlos Centro",      departamento: "Las Colonias",   tel: "3425 36-5763", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Microbasurales"] },
-      { id: 22, nombre: "Pedro Junco",                localidad: "Villa Minetti",          departamento: "9 de Julio",     tel: "3491 69-8608", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Gobierno y gestión"],                especialidades: ["Empleo joven", "Animales sueltos"] },
-      { id: 23, nombre: "Benjamín Perruccio",         localidad: "Alvear",                 departamento: "Rosario",        tel: "3417 04-6068", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Accesibilidad", "Hábitat y vivienda"] },
-      { id: 24, nombre: "Flavia Banfi",               localidad: "Alvear",                 departamento: "Rosario",        tel: "3412 09-0213", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH", "Empleo joven"] },
-      { id: 25, nombre: "Federico Lifschitz",         localidad: "Rosario",                departamento: "Rosario",        tel: "3413 49-4950", ig: "@fede_lifschitz",   mail: "federicolifschitz@concejorosario.gov.ar",foto: "", bio: "", temas: ["Fiscalización y control", "Obras y servicios públicos"], especialidades: ["Microbasurales", "Seguridad vial"] },
-      { id: 26, nombre: "Manuel Sciutto",             localidad: "Rosario",                departamento: "Rosario",        tel: "3412 29-6544", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión", "Planeamiento urbano"],              especialidades: ["Hábitat y vivienda", "Ambiente"] },
-      { id: 27, nombre: "Alicia Pino",                localidad: "Rosario",                departamento: "Rosario",        tel: "3412 79-7712", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Accesibilidad"] },
-      { id: 28, nombre: "Esteban Lenci",              localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3416 43-3416", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Transporte", "Hábitat y vivienda"] },
-      { id: 29, nombre: "Patricia González",          localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3413 21-6254", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH", "Desarrollo humano"],           especialidades: ["Género y DDHH"] },
-      { id: 30, nombre: "José Bulsicco",              localidad: "Villa Gobernador Gálvez",departamento: "Rosario",        tel: "3415 02-5501", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Fiscalización y control"],                                 especialidades: ["Microbasurales", "Animales sueltos"] },
-      { id: 31, nombre: "Maximiliano Lopez",          localidad: "San Cristóbal",          departamento: "San Cristóbal",  tel: "3416 88-0285", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Animales sueltos", "Accesibilidad"] },
-      { id: 32, nombre: "Agustín Peretti",            localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 52-1673", ig: "",                  mail: "aperetti.suardi@gmail.com",             foto: "", bio: "", temas: ["Gobierno y gestión", "Desarrollo humano"],                especialidades: ["Empleo joven", "Hábitat y vivienda"] },
-      { id: 33, nombre: "Gonzalo Rui",                localidad: "Suardi",                 departamento: "San Cristóbal",  tel: "3562 41-0017", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Transporte"] },
-      { id: 34, nombre: "Santiago Pestarini",         localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Gobierno y gestión"],                                      especialidades: ["Hábitat y vivienda", "Accesibilidad"] },
-      { id: 35, nombre: "Monica Rivelo",              localidad: "Gálvez",                 departamento: "San Jerónimo",   tel: "3404 49-1935", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Género, Seguridad, DDHH"],                                 especialidades: ["Género y DDHH"] },
-      { id: 36, nombre: "Rodrigo Duín",               localidad: "San Jorge",              departamento: "San Martín",     tel: "3406 64-4909", ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Obras y servicios públicos"],                              especialidades: ["Seguridad vial", "Ambiente"] },
-      { id: 37, nombre: "Laura Raspantti",            localidad: "El Trébol",              departamento: "San Martín",     tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano", "Género, Seguridad, DDHH"],           especialidades: ["Género y DDHH", "Empleo joven"] },
-      { id: 38, nombre: "Ana Paula Capello",          localidad: "Vera",                   departamento: "Vera",           tel: "",             ig: "",                  mail: "",                                     foto: "", bio: "", temas: ["Desarrollo humano"],                                       especialidades: ["Consumo problemático", "Accesibilidad"] },
-    ];
-
-    // ─── DATOS: BIBLIOTECA LEGAL ───
-    const LEYES = [
-      { nombre: "Constitución Nacional 1994", desc: "Art. 123 — autonomía municipal", nivel: "nacional",   link: "https://www.argentina.gob.ar/sites/default/files/constitucion-nacional-7-0.pdf" },
-      { nombre: "Constitución SF 2025",       desc: "Nueva carta magna, 161 artículos", nivel: "provincial", link: "https://www.santafe.gob.ar/ms/reforma-constitucion/wp-content/uploads/sites/86/2025/09/CONSTITUCION-DE-LA-PROV-DE-SF-2025_VF-WEB.pdf" },
-      { nombre: "Ley 2756 SF",                desc: "Ley Orgánica de Municipalidades",  nivel: "provincial", link: "https://www.santafe.gov.ar/tribunalelectoral/wp-content/uploads/2022/11/Ley-N%C2%B0-2756.pdf" },
-      { nombre: "Ley 13.513 SF",              desc: "Acceso a la Información Pública SF", nivel: "provincial", link: "https://www.santafe.gov.ar/index.php/web/content/view/full/143174/(subtema)/93811" },
-      { nombre: "Ley 2439 SF",                desc: "Ley Orgánica de Comunas",           nivel: "provincial", link: "https://www.santafe.gov.ar/index.php/web/content/view/full/82019" },
-      { nombre: "Ley 27.275 Nacional",        desc: "Acceso a la Información Pública",   nivel: "nacional",   link: "https://servicios.infoleg.gob.ar/infolegInternet/anexos/265000-269999/265949/norma.htm" },
-      { nombre: "Ley 27.412 Nacional",        desc: "Paridad de género",                 nivel: "nacional",   link: "https://servicios.infoleg.gob.ar/infolegInternet/anexos/305000-309999/305386/norma.htm" },
-      { nombre: "Ley 27.499 Nacional",        desc: "Ley Micaela",                       nivel: "nacional",   link: "https://servicios.infoleg.gob.ar/infolegInternet/anexos/315000-319999/318666/norma.htm" },
-      { nombre: "Ley 25.675 Nacional",        desc: "Ley General del Ambiente",          nivel: "nacional",   link: "https://servicios.infoleg.gob.ar/infolegInternet/anexos/75000-79999/79980/norma.htm" },
-      { nombre: "Ley 26.061 Nacional",        desc: "Protección de niños/as/adolescentes",nivel: "nacional",  link: "https://servicios.infoleg.gob.ar/infolegInternet/anexos/110000-114999/110778/norma.htm" },
-    ];
-
-    // ─── INIT: DEPARTAMENTOS ───
-    function initDepartamentos() {
-      const dptos = [...new Set(CONCEJALES.map(c => c.departamento))].sort();
-      const sel = document.getElementById('filtroDpto');
-      dptos.forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d; opt.textContent = d;
-        sel.appendChild(opt);
-      });
-    }
-
-    // ─── RENDER: CONCEJALES ───
-    function avatarUrl(nombre, foto) {
-      if (foto) return foto;
-      const encoded = encodeURIComponent(nombre);
-      return `https://ui-avatars.com/api/?name=${encoded}&background=C41230&color=fff&size=200`;
-    }
-
-    const ESP_ICONS = {
-      'Seguridad vial': '🚗', 'Microbasurales': '🗑️', 'Consumo problemático': '💊',
-      'Accesibilidad': '♿', 'Ambiente': '🌿', 'Transporte': '🚌',
-      'Animales sueltos': '🐄', 'Empleo joven': '👶', 'Hábitat y vivienda': '🏠',
-      'Género y DDHH': '👩‍⚖️'
-    };
-
-    function filtrarConcejales() {
-      const nombre = (document.getElementById('filtroNombre').value || '').toLowerCase().trim();
-      const dpto   = document.getElementById('filtroDpto').value;
-      const esp    = document.getElementById('filtroEsp').value;
-      const lista  = CONCEJALES.filter(c =>
-        (!nombre || c.nombre.toLowerCase().includes(nombre)) &&
-        (!dpto   || c.departamento === dpto) &&
-        (!esp    || (c.especialidades || []).includes(esp))
-      );
-      renderConcejales(lista);
-    }
-
-    function renderConcejales(lista) {
-      const grid  = document.getElementById('concejalesGrid');
-      const noRes = document.getElementById('noResultados');
-      grid.innerHTML = '';
-
-      if (lista.length === 0) {
-        noRes.style.display = 'block';
-        return;
-      }
-      noRes.style.display = 'none';
-
-      lista.forEach(c => {
-        const div = document.createElement('div');
-        div.className = 'concejal-card';
-        div.onclick = () => abrirModal(c);
-        const espTags = (c.especialidades || []).map(e =>
-          `<span class="concejal-tema-tag">${ESP_ICONS[e] || ''} ${e}</span>`
-        ).join('');
-        div.innerHTML = `
-          <img class="concejal-avatar" src="${avatarUrl(c.nombre, c.foto)}" alt="${c.nombre}" loading="lazy">
-          <div class="concejal-nombre">${c.nombre}</div>
-          <span class="concejal-cargo">Concejal PS</span>
-          <div class="concejal-lugar">${c.localidad} · ${c.departamento}</div>
-          <div class="concejal-temas">${espTags}</div>
-        `;
-        grid.appendChild(div);
-      });
-    }
-
-    // ─── MODAL ───
-    function abrirModal(c) {
-      document.getElementById('mFoto').src    = avatarUrl(c.nombre, c.foto);
-      document.getElementById('mFoto').alt    = c.nombre;
-      document.getElementById('mNombre').textContent = c.nombre;
-      document.getElementById('mLugar').textContent  = `${c.localidad} · Dpto. ${c.departamento}`;
-
-      // Bio/trayectoria
-      const bioWrap = document.getElementById('mBioWrap');
-      const bioEl   = document.getElementById('mBio');
-      if (c.bio) {
-        bioEl.textContent = c.bio;
-        bioWrap.style.display = 'block';
-      } else {
-        bioWrap.style.display = 'none';
-      }
-
-      // Especialidades (ciudadano)
-      const espEl = document.getElementById('mEsp');
-      espEl.innerHTML = (c.especialidades || []).map(e =>
-        `<span class="modal-esp-tag">${ESP_ICONS[e] || ''} ${e}</span>`
-      ).join('') || '<span style="font-size:0.8rem;color:var(--texto-sec)">Por completar</span>';
-
-      // Temas / áreas institucionales
-      document.getElementById('mTemas').innerHTML =
-        c.temas.map(t => `<span class="badge badge-rojo">${t}</span>`).join('');
-
-      // Contacto
-      let contacto = '';
-      if (c.tel)  contacto += `<a href="tel:${c.tel.replace(/\s|-/g,'')}"><span class="ico">📞</span>${c.tel}</a>`;
-      if (c.mail) contacto += `<a href="mailto:${c.mail}"><span class="ico">✉️</span>${c.mail}</a>`;
-      if (c.ig)   contacto += `<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" rel="noopener"><span class="ico">📸</span>${c.ig}</a>`;
-      if (!contacto) contacto = '<p style="font-size:0.82rem;color:var(--texto-sec)">Datos de contacto próximamente.</p>';
-      document.getElementById('mContacto').innerHTML = contacto;
-
-      // Ver iniciativas (búsqueda en Drive por nombre)
-      const verLink = document.getElementById('mVerIniciativas');
-      const query = encodeURIComponent(c.nombre);
-      verLink.href = `https://drive.google.com/drive/search?q=${query}`;
-      verLink.style.display = 'flex';
-
-      document.getElementById('modalOverlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function cerrarModalBtn() {
-      document.getElementById('modalOverlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    function cerrarModal(e) {
-      if (e.target === document.getElementById('modalOverlay')) cerrarModalBtn();
-    }
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') cerrarModalBtn();
+// ── RENDER: CHIPS ÁREA ─────────────────────────────────────────────
+function renderChipsArea() {
+  const container = document.getElementById('chips-area');
+  const todo = `<span class="chip chip-all ${!filtros.area ? 'active' : ''}" data-area="">Todas</span>`;
+  const chips = AREAS.map(a =>
+    `<span class="chip ${filtros.area === a ? 'active' : ''}" data-area="${a}">${a}</span>`
+  ).join('');
+  container.innerHTML = todo + chips;
+  container.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      filtros.area = c.dataset.area || null;
+      renderChipsArea();
+      renderIniciativas();
     });
+  });
+}
 
-    // ─── Scroll desde problemas → concejales filtrado ───
-    function irAConcejales(esp) {
-      document.getElementById('filtroEsp').value = esp;
-      filtrarConcejales();
-      document.getElementById('concejales').scrollIntoView({ behavior: 'smooth' });
-    }
+// ── RENDER: CHIPS PROBLEMA ─────────────────────────────────────────
+function renderChipsProb() {
+  const container = document.getElementById('chips-prob');
+  const todo = `<span class="chip chip-all ${!filtros.prob ? 'active' : ''}" data-prob="">Todos</span>`;
+  const chips = TODOS_PROBLEMAS.map(p =>
+    `<span class="chip ${filtros.prob === p ? 'active' : ''}" data-prob="${p}">${p}</span>`
+  ).join('');
+  container.innerHTML = todo + chips;
+  container.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      filtros.prob = c.dataset.prob || null;
+      renderChipsProb();
+      renderIniciativas();
+    });
+  });
+}
 
-    // backward compat
-    function irAlBanco(tema) { irAConcejales(tema); }
+// ── RENDER: CHIPS ODS ─────────────────────────────────────────────
+function renderChipsOds() {
+  const container = document.getElementById('chips-ods');
+  const todo = `<span class="chip chip-all ${!filtros.ods ? 'active' : ''}" data-ods="">Todos</span>`;
+  const chips = ODS.map(o =>
+    `<span class="chip chip-ods ${filtros.ods === o.n ? 'active' : ''}" data-ods="${o.n}"
+      style="background:${o.color}" title="ODS ${o.n}: ${o.nombre}">ODS ${o.n}</span>`
+  ).join('');
+  container.innerHTML = todo + chips;
+  container.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      filtros.ods = c.dataset.ods ? parseInt(c.dataset.ods) : null;
+      renderChipsOds();
+      renderIniciativas();
+      // Sync con sección ODS
+      renderOds();
+    });
+  });
+}
 
-    // ─── CAPACITACIONES: filtro ───
-    function filtrarCap(nivel, btn) {
-      document.querySelectorAll('.cap-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.cap-card').forEach(card => {
-        const niv = card.dataset.nivel || '';
-        card.style.display = (nivel === 'todos' || niv.includes(nivel)) ? '' : 'none';
-      });
-    }
+// ── RENDER: INICIATIVAS ────────────────────────────────────────────
+function renderIniciativas() {
+  const grid = document.getElementById('iniciativas-grid');
+  let lista = INICIATIVAS;
+  if (filtros.area) lista = lista.filter(i => i.area === filtros.area);
+  if (filtros.prob) lista = lista.filter(i => i.problemas.includes(filtros.prob));
+  if (filtros.ods)  lista = lista.filter(i => i.ods.includes(filtros.ods));
 
-    // ─── BIBLIOTECA ───
-    let bibFiltroActual = 'todos';
+  if (!lista.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <p>No hay iniciativas con esa combinación de filtros.<br>
+      <small>El banco se completa a medida que los concejales cargan sus ordenanzas.</small></p>
+    </div>`;
+    return;
+  }
 
-    function renderBib(filtro) {
-      bibFiltroActual = filtro;
-      const lista = filtro === 'todos' ? LEYES : LEYES.filter(l => l.nivel === filtro);
+  grid.innerHTML = lista.map(ini => {
+    const estadoClass = ini.estado === 'Aprobada' ? 'aprobada'
+                      : ini.estado === 'En debate' ? 'debate' : 'modelo';
+    const odsBadges = ini.ods.map(n => {
+      const o = ODS.find(x => x.n === n);
+      return `<span class="badge badge-ods" style="background:${o.color}" title="${o.nombre}">ODS ${n}</span>`;
+    }).join('');
+    const probBadges = ini.problemas.map(p =>
+      `<span class="badge badge-prob">${p}</span>`
+    ).join('');
+    return `
+      <div class="ini-card">
+        <div class="ini-badges">
+          <span class="badge badge-area">${ini.area}</span>
+          ${probBadges}
+          ${odsBadges}
+        </div>
+        <div class="ini-title">${ini.titulo}</div>
+        <div class="ini-resumen">${ini.resumen}</div>
+        <div class="ini-meta"><b>${ini.concejal}</b> · ${ini.ciudad}</div>
+        <span class="estado-badge estado-${estadoClass}">${ini.estado}</span>
+        <a class="ini-btn" href="${ini.link}" target="_blank">Ver ordenanza</a>
+      </div>
+    `;
+  }).join('');
+}
 
-      // Tabla
-      const tbody = document.getElementById('bibTablaBody');
-      tbody.innerHTML = '';
-      lista.forEach(l => {
-        const badge = l.nivel === 'nacional' ? 'badge-azul' : 'badge-verde';
-        const label = l.nivel === 'nacional' ? 'Nacional' : 'Provincial SF';
-        const tr = document.createElement('tr');
-        tr.className = 'bib-fila';
-        tr.innerHTML = `
-          <td>${l.nombre}</td>
-          <td style="color:var(--texto-sec)">${l.desc}</td>
-          <td><span class="badge ${badge}">${label}</span></td>
-          <td><a href="${l.link}" target="_blank" rel="noopener" class="btn-ley">Ver →</a></td>
-        `;
-        tbody.appendChild(tr);
-      });
+// ── RENDER: ODS SECTION ────────────────────────────────────────────
+function renderOds() {
+  const grid = document.getElementById('ods-grid');
+  grid.innerHTML = ODS.map(o => {
+    const dimmed = filtros.ods && filtros.ods !== o.n ? 'dimmed' : '';
+    return `
+      <div class="ods-card ${dimmed}" data-ods="${o.n}" style="background:${o.color}">
+        <div class="ods-num">${o.n}</div>
+        <div class="ods-name">${o.nombre}</div>
+        <div class="ods-filter-hint">Filtrar iniciativas →</div>
+      </div>
+    `;
+  }).join('');
+  grid.querySelectorAll('.ods-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const n = parseInt(card.dataset.ods);
+      filtros.ods = filtros.ods === n ? null : n;
+      renderChipsOds();
+      renderIniciativas();
+      renderOds();
+      document.getElementById('banco').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+}
 
-      // Cards mobile
-      const cards = document.getElementById('bibCards');
-      cards.innerHTML = '';
-      lista.forEach(l => {
-        const badge = l.nivel === 'nacional' ? 'badge-azul' : 'badge-verde';
-        const label = l.nivel === 'nacional' ? 'Nacional' : 'Provincial SF';
-        const div = document.createElement('div');
-        div.className = 'bib-card-item';
-        div.innerHTML = `
-          <div>
-            <h4>${l.nombre}</h4>
-            <p>${l.desc}</p>
-            <span class="badge ${badge}" style="margin-top:0.4rem;display:inline-block">${label}</span>
-          </div>
-          <a href="${l.link}" target="_blank" rel="noopener" class="btn-ley" style="flex-shrink:0">Ver →</a>
-        `;
-        cards.appendChild(div);
-      });
-    }
+// ── RENDER: CONCEJALES ─────────────────────────────────────────────
+function renderConcejales() {
+  const grid = document.getElementById('concejales-grid');
+  grid.innerHTML = CONCEJALES.map((c, i) => `
+    <div class="concejal-card" data-idx="${i}">
+      <div class="cj-avatar">${iniciales(c.nombre)}</div>
+      <div class="cj-name">${c.nombre}</div>
+      <div class="cj-lugar">${c.municipio}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.concejal-card').forEach(card => {
+    card.addEventListener('click', () => abrirModal(parseInt(card.dataset.idx)));
+  });
+}
 
-    function filtrarBib(filtro, btn) {
-      document.querySelectorAll('.bib-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderBib(filtro);
-    }
+// ── MODAL ──────────────────────────────────────────────────────────
+function abrirModal(idx) {
+  const c = CONCEJALES[idx];
+  document.getElementById('modal-avatar').textContent = iniciales(c.nombre);
+  document.getElementById('modal-name').textContent = c.nombre;
+  document.getElementById('modal-cargo').textContent = `Concejal · ${c.municipio}`;
+  document.getElementById('modal-grid').innerHTML = `
+    <span class="modal-key">Municipio</span><span class="modal-val">${c.municipio}</span>
+    <span class="modal-key">Departamento</span><span class="modal-val">${c.depto}</span>
+    ${c.tel ? `<span class="modal-key">Teléfono</span><span class="modal-val">${c.tel}</span>` : ''}
+  `;
 
-    // ─── FORMULARIO SUMARSE ───
-    // Reemplazá SCRIPT_GAS_URL con la URL de tu Apps Script deployado
-    const SCRIPT_GAS_URL = 'REEMPLAZAR_CON_URL_APPS_SCRIPT';
-    function enviarFormulario(e) {
-      e.preventDefault();
-      var btn = e.target.querySelector('button[type=submit]');
-      if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
-      var data = new FormData();
-      data.append('tipo',   'sumarse');
-      data.append('nombre', (document.getElementById('s-nombre').value || '').trim());
-      data.append('ciudad', (document.getElementById('s-ciudad').value || '').trim());
-      data.append('email',  (document.getElementById('s-email').value  || '').trim());
-      fetch(SCRIPT_GAS_URL, { method:'POST', body:data, mode:'no-cors' })
-        .finally(function() {
-          document.querySelector('.form-sumarse').style.display = 'none';
-          document.getElementById('msgProximo').style.display = 'block';
-        });
-    }
+  const btn = document.getElementById('modal-ver-ordenanzas');
+  btn.onclick = () => {
+    cerrarModal();
+    // Filtrar banco por concejal (pendiente: cuando el Sheet esté activo)
+    document.getElementById('banco').scrollIntoView({ behavior: 'smooth' });
+  };
 
-    // ─── INIT ───
-    initDepartamentos();
-    filtrarConcejales();
-    renderBib('todos');
+  document.getElementById('modal').classList.add('open');
+}
 
-    // AUTORIDADES placeholder (datos completos en autoridades.html)
-    const AUTORIDADES = [
-      // CASEROS
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Intendente',   n:'Ezequiel Ruani',              t:'3425 31-5947'},
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Yoana Dalbello',              t:'3467 43-8952'},
-      {d:'Caseros',          l:'San José de la Esquina',    c:'Concejal',     n:'Juan Pablo Coniglio',         t:'3467 41-7291'},
-      {d:'Caseros',          l:'Bigand',                    c:'Pte. Comunal', n:'Natalia Valeri',              t:'3416 84-7333'},
-      // CASTELLANOS
-      {d:'Castellanos',      l:'Sunchales',                 c:'Intendente',   n:'Pablo Pinotti',               t:'3492 32-0854'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'José Delmastro',              t:'3493 41-6305'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Brenda Torrini',              t:'3493 45-5600'},
-      {d:'Castellanos',      l:'Sunchales',                 c:'Concejal',     n:'Juano Astor',                 t:'3493 49-5863'},
-      {d:'Castellanos',      l:'San Vicente',               c:'Concejal',     n:'Juan Carlos Marchese',        t:'3401 64-0111'},
-      {d:'Castellanos',      l:'Eusebia',                   c:'Pte. Comunal', n:'Susana Gimenez',              t:'3493 44-3782'},
-      {d:'Castellanos',      l:'Colonia Raquel',            c:'Pte. Comunal', n:'Luciana Peter',               t:'3493 43-6850'},
-      {d:'Castellanos',      l:'Aldao',                     c:'Pte. Comunal', n:'Lorena Eberhardt',            t:'3493 46-0435'},
-      {d:'Castellanos',      l:'Colonia Margarita',         c:'Pte. Comunal', n:'Titi Muratore',               t:'3492 30-3062'},
-      {d:'Castellanos',      l:'Zenón Pereyra',             c:'Pte. Comunal', n:'Veronica Gallo',              t:'3564 33-5478'},
-      {d:'Castellanos',      l:'Colonia Iturraspe',         c:'Pte. Comunal', n:'Dario Picco',                 t:'3492 31-6148'},
-      {d:'Castellanos',      l:'Colonia Mauá',              c:'Pte. Comunal', n:'Ricardo Garbagnolli',         t:'3493 66-2551'},
-      // CONSTITUCIÓN
-      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Diego Martin',                t:'3400 41-7834'},
-      {d:'Constitución',     l:'Villa Constitución',        c:'Concejal',     n:'Francisco Bracalenti',        t:'3364 64-2204'},
-      {d:'Constitución',     l:'Cañada Rica',               c:'Pte. Comunal', n:'Oscar Fernandez',             t:'3364 56-2696'},
-      {d:'Constitución',     l:'J.B. Molina',               c:'Pte. Comunal', n:'Ignacio Galligani',           t:'3413 58-4766'},
-      {d:'Constitución',     l:'Sargento Cabral',           c:'Pte. Comunal', n:'Juan Ignacio Genzano',        t:'3415 94-4275'},
-      // GARAY
-      {d:'Garay',            l:'Santa Rosa de Calchines',   c:'Pte. Comunal', n:'Carlos Yossen',               t:'3424 87-1117'},
-      // GENERAL LÓPEZ
-      {d:'General López',    l:'Venado Tuerto',             c:'Concejal',     n:'Micaela Mineiro',             t:'3462 63-9815'},
-      {d:'General López',    l:'Firmat',                    c:'Concejal',     n:'Alina Vargas Amato',          t:'3465 59-2384'},
-      {d:'General López',    l:'Diego de Alvear',           c:'Pte. Comunal', n:'Pablo Sosa',                  t:'3382 57-1759'},
-      {d:'General López',    l:'Aarón Castellanos',         c:'Pte. Comunal', n:'Wualther Ramanzin',           t:'3382 45-7353'},
-      {d:'General López',    l:'Christophersen',            c:'Pte. Comunal', n:'Javier Martinez',             t:'3462 55-3778'},
-      {d:'General López',    l:'San Francisco de Sta. Fe',  c:'Pte. Comunal', n:'Ignacio Freytes',             t:'3462 63-2255'},
-      // GENERAL OBLIGADO
-      {d:'General Obligado', l:'Las Toscas',                c:'Intendente',   n:'Ivan Sanchez',                t:'3482 63-8006'},
-      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Alejandro Delssin',           t:'3482 55-4567'},
-      {d:'General Obligado', l:'Las Toscas',                c:'Concejal',     n:'Miguel Gutierrez',            t:'3482 37-6610'},
-      {d:'General Obligado', l:'Reconquista',               c:'Concejal',     n:'Marisa Flores',               t:'3482 51-4685'},
-      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Daina Ramirez',               t:'3482 60-4622'},
-      {d:'General Obligado', l:'Villa Ocampo',              c:'Concejal',     n:'Andrea Cracogna',             t:'3482 39-4937'},
-      {d:'General Obligado', l:'San Antonio de Obligado',   c:'Pte. Comunal', n:'Jorge Ale',                   t:'3482 59-1309'},
-      // IRIONDO
-      {d:'Iriondo',          l:'Correa',                    c:'Pte. Comunal', n:'Nahuel Cejas',                t:'3471 51-2397'},
-      {d:'Iriondo',          l:'Villa Eloisa',              c:'Pte. Comunal', n:'Luciano Pallotti',            t:'3401 64-5653'},
-      // LA CAPITAL
-      {d:'La Capital',       l:'Recreo',                    c:'Intendente',   n:'Omar Colombo',                t:'3426 14-0998'},
-      {d:'La Capital',       l:'Recreo',                    c:'Concejal',     n:'Omar Picard',                 t:'3426 29-8463'},
-      {d:'La Capital',       l:'San José del Rincón',       c:'Concejal',     n:'Camila Rodriguez del Curto',  t:'3425 35-7954'},
-      {d:'La Capital',       l:'Laguna Paiva',              c:'Concejal',     n:'Melina Andrés',               t:'3425 46-2249'},
-      {d:'La Capital',       l:'Santo Tomé',                c:'Concejal',     n:'Alejandra Chena',             t:'3424 05-4647'},
-      // LAS COLONIAS
-      {d:'Las Colonias',     l:'Santo Domingo',             c:'Pte. Comunal', n:'Patricia Arber',              t:'3496 44-3742'},
-      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Judith Perren',               t:'3404 41-9610'},
-      {d:'Las Colonias',     l:'San Carlos Centro',         c:'Concejal',     n:'Gabriel Otazo',               t:'3425 36-5763'},
-      // NUEVE DE JULIO
-      {d:'Nueve de Julio',   l:'Esteban Rams',              c:'Pte. Comunal', n:'Jose Luis Busto',             t:'3491 50-2630'},
-      {d:'Nueve de Julio',   l:'Juan de Garay',             c:'Pte. Comunal', n:'Leonardo Vera',               t:'3491 68-7677'},
-      {d:'Nueve de Julio',   l:'Villa Minetti',             c:'Concejal',     n:'Pedro Junco',                 t:'3491 69-8608'},
-      // ROSARIO
-      {d:'Rosario',          l:'Alvear',                    c:'Intendente',   n:'Carlos Pighin',               t:'3413 60-1680'},
-      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Benjamín Perruccio',          t:'3417 04-6068'},
-      {d:'Rosario',          l:'Alvear',                    c:'Concejal',     n:'Flavia Banfi',                t:'3412 09-0213'},
-      {d:'Rosario',          l:'Pueblo Esther',             c:'Intendente',   n:'Martin Gherardi',             t:''},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Federico Lifschitz',          t:'3413 49-4950'},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Manuel Sciutto',              t:'3412 29-6544'},
-      {d:'Rosario',          l:'Rosario',                   c:'Concejal',     n:'Alicia Pino',                 t:'3412 79-7712'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Intendente',   n:'Alberto Ricci',               t:'3413 51-0594'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Esteban Lenci',               t:'3416 43-3416'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'Patricia González',           t:'3413 21-6254'},
-      {d:'Rosario',          l:'Villa Gobernador Gálvez',   c:'Concejal',     n:'José Bulsicco',               t:'3415 02-5501'},
-      {d:'Rosario',          l:'Acebal',                    c:'Pte. Comunal', n:'Lala Lucci',                  t:'3469 69-5941'},
-      {d:'Rosario',          l:'Coronel Dominguez',         c:'Pte. Comunal', n:'Mónica Villegas',             t:'3402 50-6069'},
-      {d:'Rosario',          l:'Villa Amelia',              c:'Pte. Comunal', n:'Javier Ruggeri',              t:'3402 55-9863'},
-      // SAN CRISTÓBAL
-      {d:'San Cristóbal',    l:'San Cristóbal',             c:'Concejal',     n:'Maximiliano Lopez',           t:'3416 88-0285'},
-      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Agustin Peretti',             t:'3562 52-1673'},
-      {d:'San Cristóbal',    l:'Suardi',                    c:'Concejal',     n:'Gonzalo Rui',                 t:'3562 41-0017'},
-      // SAN JERÓNIMO
-      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Santiago Pestarini',          t:''},
-      {d:'San Jerónimo',     l:'Gálvez',                    c:'Concejal',     n:'Monica Rivelo',               t:'3404 49-1935'},
-      {d:'San Jerónimo',     l:'Barrancas',                 c:'Pte. Comunal', n:'Gustavo Ramos',               t:'3466 55-9714'},
-      // SAN MARTÍN
-      {d:'San Martín',       l:'San Jorge',                 c:'Concejal',     n:'Rodrigo Duín',                t:'3406 64-4909'},
-      {d:'San Martín',       l:'El Trébol',                 c:'Concejal',     n:'Laura Raspantti',             t:''},
-      {d:'San Martín',       l:'San Martín de las Escobas', c:'Pte. Comunal', n:'Marcos Alarcon',              t:'3406 45-6869'},
-      // VERA
-      {d:'Vera',             l:'La Gallareta',              c:'Pte. Comunal', n:'Fernando Nicola',             t:'3483 48-2342'},
-      {d:'Vera',             l:'Vera',                      c:'Concejal',     n:'Ana Paula Capello',           t:''},
-    ];
-  </script>
+function cerrarModal() {
+  document.getElementById('modal').classList.remove('open');
+}
 
-  <!-- ═══ DECORATIVO: LOGO PS WATERMARK ═══ -->
-  <div class="ps-watermark" aria-hidden="true">
-    <img src="logo-header.svg" alt="">
-  </div>
-  <div class="ps-watermark-2" aria-hidden="true">
-    <img src="logo-header.svg" alt="">
-  </div>
+document.getElementById('modal-close').addEventListener('click', cerrarModal);
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) cerrarModal();
+});
+
+// ── INIT ───────────────────────────────────────────────────────────
+renderDeptos();
+renderChipsArea();
+renderChipsProb();
+renderChipsOds();
+renderIniciativas();
+renderOds();
+renderConcejales();
+</script>
 </body>
 </html>
