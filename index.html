@@ -571,11 +571,13 @@ footer strong { color: rgba(255,255,255,.8); }
 // ════════════════════════════════════════════════════════════════════
 
 // ── LOGIN ──────────────────────────────────────────────────────────
-if (!sessionStorage.getItem('redps_auth')) {
+if (localStorage.getItem('concejalesps_sesion') !== 'ok') {
   window.location.href = 'login.html';
 }
 document.getElementById('btn-logout').addEventListener('click', () => {
-  sessionStorage.removeItem('redps_auth');
+  localStorage.removeItem('concejalesps_sesion');
+  localStorage.removeItem('concejalesps_usuario');
+  localStorage.removeItem('concejalesps_login_time');
   window.location.href = 'login.html';
 });
 
