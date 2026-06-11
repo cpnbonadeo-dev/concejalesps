@@ -18,7 +18,7 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;color:var(--negro);background:var(--blanco);line-height:1.65;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--negro);background:var(--blanco);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 
 /* NAV */
@@ -49,8 +49,8 @@ nav{position:fixed;inset:0 0 auto 0;z-index:200;height:60px;background:rgba(13,5
 .btn-ghost{background:transparent;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.2)}
 .btn-ghost:hover{background:rgba(255,255,255,.06);color:white}
 .hero-panel{display:flex;flex-direction:column;gap:.75rem}
-.panel-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;transition:border-color .2s}
-.panel-stat:hover{border-color:rgba(196,18,48,.35)}
+.panel-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;transition:all .2s;text-decoration:none;cursor:pointer}
+.panel-stat:hover{border-color:rgba(196,18,48,.5);background:rgba(196,18,48,.08);transform:translateX(4px)}
 .stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--rojo-vivo);line-height:1;flex-shrink:0;min-width:60px}
 .stat-text strong{display:block;color:white;font-size:.82rem;font-weight:600;margin-bottom:.15rem}
 .stat-text span{color:rgba(255,255,255,.4);font-size:.72rem}
@@ -236,6 +236,19 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   .footer-inner{grid-template-columns:1fr 1fr;gap:2rem}
   .nav-menu{display:none}
 }
+@media(max-width:700px){
+  .hero-inner{padding:3rem 0 4rem}
+  .hero-title{font-size:2rem}
+  .panel-stat .stat-num{font-size:1.6rem;min-width:44px}
+  #territorio .container>div{grid-template-columns:1fr!important}
+  #territorio .container>div>div:last-child{grid-template-columns:1fr!important}
+  #territorio svg{width:100%;max-width:200px;margin:0 auto;display:block}
+  .rol-cifras{grid-template-columns:1fr 1fr}
+  .section{padding:3.5rem 1.25rem}
+  .banco-grid{grid-template-columns:1fr}
+  .concejales-grid{grid-template-columns:1fr 1fr}
+  .footer-inner{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -251,6 +264,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </a>
   <ul class="nav-menu">
     <li><a href="#banco">Banco de Iniciativas</a></li>
+    <li><a href="#problemas">Problemas</a></li>
     <li><a href="#ods">ODS 2030</a></li>
     <li><a href="#biblioteca">Biblioteca Legal</a></li>
     <li><a href="#localidades">Localidades</a></li>
@@ -267,23 +281,27 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <div>
       <div class="hero-kicker">Partido Socialista · Provincia de Santa Fe</div>
       <h1 class="hero-title">La distancia entre<br>la política y la gente<br>se cierra <em>desde acá.</em></h1>
-      <blockquote class="hero-quote">El descreimiento tiene una sola chance de revertirse: de la mano de quienes gobiernan cerca. Los intendentes y concejales que están en contacto directo con la realidad de los vecinos son hoy la respuesta más concreta a una de las crisis más profundas de nuestra democracia.<br><br>Este espacio busca que podamos crecer juntos, compartir lo que funciona y construir un socialismo más fuerte en cada rincón de la provincia — todo al servicio de una sociedad mejor.</blockquote>
+      <p style="color:rgba(255,255,255,.5);font-size:.95rem;line-height:1.7;margin-bottom:2rem;max-width:500px;">Un espacio donde concejales socialistas de toda Santa Fe comparten ordenanzas, experiencias y herramientas para gobernar mejor — juntos.</p>
       <div class="hero-btns">
         <a href="#banco" class="btn btn-rojo">📂 Ver banco de iniciativas</a>
         <a href="#sumarse" class="btn btn-ghost">Quiero sumarme</a>
       </div>
     </div>
     <div class="hero-panel">
-      <div class="panel-stat"><div class="stat-num">+70</div><div class="stat-text"><strong>Autoridades en la red</strong><span>De todo el territorio santafesino</span></div></div>
-      <div class="panel-stat"><div class="stat-num">7</div><div class="stat-text"><strong>Áreas temáticas</strong><span>Banco de iniciativas organizado</span></div></div>
-      <div class="panel-stat"><div class="stat-num">15</div><div class="stat-text"><strong>Departamentos activos</strong><span>Gobiernos locales</span></div></div>
-      <div class="panel-stat"><div class="stat-num">+100</div><div class="stat-text"><strong>Proyectos compartidos</strong><span>Ordenanzas, propuestas e iniciativas</span></div></div>
+      <a href="autoridades.html" class="panel-stat"><div class="stat-num">+70</div><div class="stat-text"><strong>Autoridades en la red</strong><span>Ver directorio completo →</span></div></a>
+      <a href="#banco" class="panel-stat"><div class="stat-num">7</div><div class="stat-text"><strong>Áreas temáticas</strong><span>Ir al banco de iniciativas →</span></div></a>
+      <a href="#concejales" class="panel-stat"><div class="stat-num" style="font-size:2.8rem;">38</div><div class="stat-text"><strong>Concejales socialistas</strong><span>Ver directorio y proyectos →</span></div></a>
+      <a href="#banco" class="panel-stat"><div class="stat-num">+100</div><div class="stat-text"><strong>Proyectos disponibles</strong><span>Ordenanzas para replicar →</span></div></a>
     </div>
   </div>
 </section>
 
-<div id="manifiesto">
-  <div class="manifiesto-inner">
+<div id="manifiesto" style="position:relative;overflow:hidden;">
+  <!-- Rosa PS como decoración sepia -->
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
+       alt="" aria-hidden="true"
+       style="position:absolute;right:-2rem;top:50%;transform:translateY(-50%);width:280px;height:280px;opacity:.07;filter:sepia(1) brightness(2);pointer-events:none;user-select:none;">
+  <div class="manifiesto-inner" style="position:relative;z-index:1;">
     <h2 class="manifiesto-titulo">El descreimiento<br>se revierte<br><em>desde lo local.</em></h2>
     <div class="manifiesto-texto">
       <p>La distancia entre la política y el sentir de la gente es hoy una de las crisis más profundas de nuestra democracia. Y la única chance de revertirla está en manos de quienes gobiernan cerca: los intendentes y concejales que están en contacto directo con la realidad de los vecinos.</p>
@@ -310,8 +328,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
         </div>
       </div>
       <div class="rol-cifras">
-        <div class="cifra-card reveal"><span class="cifra-num">363</span><p>Gobiernos locales en Santa Fe donde el PS tiene concejales</p></div>
-        <div class="cifra-card reveal"><span class="cifra-num">6</span><p>Secciones electorales en las que el PS tiene presencia legislativa local</p></div>
+        <div class="cifra-card reveal"><span class="cifra-num">38</span><p>Concejales PS activos en toda la provincia de Santa Fe</p></div>
+        <div class="cifra-card reveal"><span class="cifra-num">15</span><p>Departamentos santafesinos con presencia legislativa del PS</p></div>
         <div class="cifra-card reveal"><span class="cifra-num">4</span><p>Años de mandato para construir un legado real en la comunidad</p></div>
         <div class="cifra-card reveal"><span class="cifra-num">∞</span><p>Impacto de una buena ordenanza que otros municipios replican</p></div>
       </div>
@@ -382,15 +400,17 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div class="banco-card banco-card-subir reveal" onclick="document.getElementById('sumarse').scrollIntoView({behavior:'smooth'})"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">Contactanos →</span></div></div>
     </div>
 
-    <!-- PROBLEMAS DEL TERRITORIO -->
-    <div style="margin-top:3rem;padding-top:2.5rem;border-top:2px solid #EDE5E6;">
-      <div style="margin-bottom:1.75rem;">
-        <div class="tag tag-rojo">Problemas del territorio</div>
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--negro);margin:.4rem 0 .5rem;">Los 10 problemas más frecuentes en la gestión local</h3>
-        <p style="font-size:.85rem;color:var(--gris-texto);max-width:640px;line-height:1.65;">Cada problema puede abordarse desde una o varias áreas del Banco, y vincularse a uno o varios ODS. Hacé clic en un ODS para ver cómo se aplica localmente.</p>
-      </div>
-      <div id="problemas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;"></div>
+  </div>
+</section>
+
+<section id="problemas" class="section" style="background:#0D0509">
+  <div class="container">
+    <div class="section-header">
+      <div class="tag" style="background:rgba(196,18,48,.2);color:#FF6B7A;">Problemas del territorio</div>
+      <h2 class="section-title" style="color:white;">Los 10 problemas más frecuentes en la gestión local</h2>
+      <p class="section-desc" style="color:rgba(255,255,255,.5);">Cada problema puede abordarse desde una o varias áreas del Banco, y vincularse a uno o varios ODS. Hacé clic en un ODS para ver cómo se aplica localmente.</p>
     </div>
+    <div id="problemas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;"></div>
   </div>
 </section>
 
@@ -494,7 +514,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
         <h3 style="font-size:.85rem;">Pueblo Esther</h3>
         <div class="dept" style="font-size:.68rem;">Int.: Martin Gherardi · Rosario</div>
       </a>
-      <a href="https://www.villagobernador.gob.ar" target="_blank" class="loc-card reveal" style="text-decoration:none;padding:1rem;">
+      <a href="https://vggmunicipalidad.gov.ar" target="_blank" class="loc-card reveal" style="text-decoration:none;padding:1rem;">
         <div style="font-size:1.3rem;margin-bottom:.35rem;">⚙️</div>
         <h3 style="font-size:.85rem;">Villa Gobernador Gálvez</h3>
         <div class="dept" style="font-size:.68rem;">Int.: Alberto Ricci · Rosario</div>
@@ -600,6 +620,10 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
 
 <script>
 
+// Datos extendidos por concejal — foto, bio y proyectos se completan luego
+const CONCEJALES_EXT = {};
+// Ejemplo: CONCEJALES_EXT["Brenda Torrini"] = { foto:"url", bio:"...", proyectos:[{tipo:"Ordenanza",titulo:"...",link:"..."}] }
+
 const CONCEJALES = [
   {n:"Yoana Dalbello",l:"San José de la Esquina",d:"Caseros",ig:"",mail:""},
   {n:"Juan Pablo Coniglio",l:"San José de la Esquina",d:"Caseros",ig:"",mail:""},
@@ -643,31 +667,88 @@ const CONCEJALES = [
 
 function ini(nombre){const p=nombre.trim().split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase();}
 
+function abrirConcejal(nombre){
+  const c=CONCEJALES.find(x=>x.n===nombre);
+  const ext=CONCEJALES_EXT[nombre]||{};
+  const foto=ext.foto;
+  const bio=ext.bio||'';
+  const proy=ext.proyectos||[];
+
+  let m=document.getElementById('concejal-modal');
+  if(!m){m=document.createElement('div');m.id='concejal-modal';document.body.appendChild(m);}
+  m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:flex;align-items:flex-start;justify-content:flex-end;backdrop-filter:blur(6px);padding:0;';
+  m.onclick=e=>{if(e.target===m)cerrarConcejal();};
+
+  const igBtn=c.ig?`<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:#833AB415;border:1px solid #833AB440;color:#c374e8;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">📷 Instagram</a>`:'';
+  const mailBtn=c.mail?`<a href="mailto:${c.mail}" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(196,18,48,.1);border:1px solid rgba(196,18,48,.3);color:#FF6B7A;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">✉️ Email</a>`:'';
+  const proyHtml=proy.length?`
+    <div style="margin-top:1.5rem;">
+      <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:.75rem;">Proyectos presentados</div>
+      ${proy.map(p=>`<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.75rem 1rem;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+        <div>
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--rojo-vivo,#E8192C);margin-bottom:.2rem;">${p.tipo}</div>
+          <div style="font-size:.83rem;color:rgba(255,255,255,.85);">${p.titulo}</div>
+        </div>
+        ${p.link?`<a href="${p.link}" target="_blank" style="font-size:.72rem;color:rgba(255,255,255,.45);white-space:nowrap;text-decoration:none;flex-shrink:0;">Ver →</a>`:''}
+      </div>`).join('')}
+    </div>`:
+    `<div style="margin-top:1.5rem;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.1);border-radius:10px;padding:1.25rem;text-align:center;color:rgba(255,255,255,.3);font-size:.8rem;">Proyectos pendientes de carga</div>`;
+
+  m.innerHTML=`
+  <div style="background:#120207;width:100%;max-width:480px;height:100vh;overflow-y:auto;box-shadow:-24px 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;">
+    <div style="background:linear-gradient(160deg,#1e0510,#2c0812);padding:2rem 1.75rem 1.5rem;position:relative;border-bottom:1px solid rgba(196,18,48,.2);">
+      <button onclick="cerrarConcejal()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.08);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.55);font-size:.9rem;line-height:1;">✕</button>
+      <div style="display:flex;gap:1.25rem;align-items:center;">
+        ${foto
+          ? `<img src="${foto}" alt="${c.n}" style="width:88px;height:88px;border-radius:50%;object-fit:cover;border:3px solid rgba(196,18,48,.4);flex-shrink:0;">`
+          : `<div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#C41230,#8B0A1F);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:white;border:3px solid rgba(255,255,255,.1);flex-shrink:0;">${ini(c.n)}</div>`
+        }
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:white;line-height:1.15;margin-bottom:.3rem;">${c.n}</div>
+          <div style="font-size:.78rem;color:#E8192C;font-weight:600;margin-bottom:.2rem;">Concejal · ${c.l}</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.35);">Depto. ${c.d}</div>
+        </div>
+      </div>
+      ${(igBtn||mailBtn)?`<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem;">${igBtn}${mailBtn}</div>`:''}
+    </div>
+    <div style="padding:1.75rem;flex:1;">
+      ${bio?`<div style="margin-bottom:1.5rem;"><div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:.6rem;">Acerca de</div><p style="font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7;">${bio}</p></div>`
+           :`<div style="background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.1);border-radius:10px;padding:1.25rem;text-align:center;color:rgba(255,255,255,.3);font-size:.8rem;margin-bottom:1.5rem;">Biografía pendiente de carga</div>`}
+      ${proyHtml}
+    </div>
+  </div>`;
+  document.body.style.overflow='hidden';
+}
+
+function cerrarConcejal(){
+  const m=document.getElementById('concejal-modal');
+  if(m)m.style.display='none';
+  document.body.style.overflow='';
+}
+
 const grid=document.getElementById('gridConcejales');
 if(grid){
   CONCEJALES.forEach(c=>{
     const card=document.createElement('div');
-    card.style.cssText='background:white;border:1px solid #EDE5E6;border-radius:14px;overflow:hidden;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.06);';
+    card.style.cssText='background:white;border:1px solid #EDE5E6;border-radius:14px;overflow:hidden;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.06);cursor:pointer;';
+    card.onclick=()=>abrirConcejal(c.n);
     card.onmouseenter=()=>{card.style.transform='translateY(-4px)';card.style.boxShadow='0 8px 28px rgba(196,18,48,.14)';card.style.borderColor='rgba(196,18,48,.3)'};
     card.onmouseleave=()=>{card.style.transform='';card.style.boxShadow='0 2px 12px rgba(0,0,0,.06)';card.style.borderColor='#EDE5E6'};
-    const igBtn = c.ig
-      ? `<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" style="flex:1;text-align:center;padding:.4rem;border-radius:7px;font-size:.72rem;font-weight:600;border:1px solid #EDE5E6;background:#F8F4F4;color:#833AB4;text-decoration:none;transition:all .18s;" onmouseenter="this.style.background='#833AB4';this.style.color='white'" onmouseleave="this.style.background='#F8F4F4';this.style.color='#833AB4'">📷 ${c.ig}</a>`
-      : `<span style="flex:1;text-align:center;padding:.4rem;border-radius:7px;font-size:.72rem;color:rgba(0,0,0,.25);border:1px dashed #E0D8D9;">sin Instagram</span>`;
-    const mailBtn = c.mail
-      ? `<a href="mailto:${c.mail}" style="flex:1;text-align:center;padding:.4rem;border-radius:7px;font-size:.72rem;font-weight:600;border:1px solid #EDE5E6;background:#F8F4F4;color:#C41230;text-decoration:none;" onmouseenter="this.style.background='#C41230';this.style.color='white'" onmouseleave="this.style.background='#F8F4F4';this.style.color='#C41230'">✉️ Email</a>`
-      : `<span style="flex:1;text-align:center;padding:.4rem;border-radius:7px;font-size:.72rem;color:rgba(0,0,0,.25);border:1px dashed #E0D8D9;">sin email</span>`;
+    const ext=CONCEJALES_EXT[c.n]||{};
+    const foto=ext.foto;
     card.innerHTML=`
       <div style="background:linear-gradient(135deg,#1A0C0F,#2C0812);padding:1.5rem 1.25rem 1rem;text-align:center;position:relative;">
-        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#C41230,#8B0A1F);margin:0 auto .75rem;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:white;border:3px solid rgba(255,255,255,.12);">${ini(c.n)}</div>
+        ${foto
+          ? `<img src="${foto}" alt="${c.n}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.12);margin:0 auto .75rem;display:block;">`
+          : `<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#C41230,#8B0A1F);margin:0 auto .75rem;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:white;border:3px solid rgba(255,255,255,.12);">${ini(c.n)}</div>`
+        }
         <div style="font-weight:700;font-size:.92rem;color:white;margin-bottom:.2rem;line-height:1.3;">${c.n}</div>
         <div style="font-size:.72rem;color:#E8192C;font-weight:600;">Concejal · ${c.l}</div>
         <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#C41230;"></div>
       </div>
-      <div style="padding:1rem 1.25rem;">
-        <div style="font-size:.72rem;color:#6B4A50;margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem;">
-          <span style="background:rgba(196,18,48,.08);color:#C41230;padding:.15rem .5rem;border-radius:10px;font-weight:600;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;">Depto. ${c.d}</span>
-        </div>
-        <div style="display:flex;gap:.5rem;">${igBtn}${mailBtn}</div>
+      <div style="padding:.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+        <span style="background:rgba(196,18,48,.08);color:#C41230;padding:.15rem .5rem;border-radius:10px;font-weight:600;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;">Depto. ${c.d}</span>
+        <span style="font-size:.72rem;color:rgba(0,0,0,.3);">Ver perfil →</span>
       </div>`;
     grid.appendChild(card);
   });
@@ -723,15 +804,15 @@ const PROBLEMAS=[
   const g=document.getElementById('problemas-grid');
   if(!g)return;
   g.innerHTML=PROBLEMAS.map(p=>`
-    <div style="background:white;border:1px solid #EDE5E6;border-radius:12px;padding:1.35rem 1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:all .22s;"
-         onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,.12)';this.style.borderColor='rgba(196,18,48,.2)'"
-         onmouseleave="this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,.06)';this.style.borderColor='#EDE5E6'">
-      <div style="font-size:1.6rem;margin-bottom:.55rem;">${p.icono}</div>
-      <div style="font-weight:700;font-size:.93rem;color:var(--negro);margin-bottom:.25rem;">${p.nombre}</div>
-      <div style="font-size:.72rem;color:var(--gris-texto);margin-bottom:.85rem;">📂 ${p.area}</div>
-      <div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(0,0,0,.25);margin-bottom:.45rem;">ODS vinculados</div>
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.6rem;transition:all .22s;"
+         onmouseenter="this.style.background='rgba(196,18,48,.1)';this.style.borderColor='rgba(196,18,48,.35)';this.style.transform='translateY(-3px)'"
+         onmouseleave="this.style.background='rgba(255,255,255,.04)';this.style.borderColor='rgba(255,255,255,.07)';this.style.transform=''">
+      <div style="font-size:2.6rem;line-height:1;margin-bottom:.75rem;">${p.icono}</div>
+      <div style="font-weight:700;font-size:1rem;color:white;margin-bottom:.2rem;">${p.nombre}</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:1rem;">📂 ${p.area}</div>
+      <div style="font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.2);margin-bottom:.45rem;">ODS vinculados</div>
       <div style="display:flex;gap:.35rem;flex-wrap:wrap;">
-        ${p.ods.map(o=>`<span onclick="abrirOds(${o.n})" title="Ver ODS ${o.n}" style="display:inline-flex;align-items:center;background:${o.c}18;border:1px solid ${o.c}50;color:${o.c};border-radius:20px;font-size:.7rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='${o.c}35'" onmouseleave="this.style.background='${o.c}18'">ODS&nbsp;${o.n}</span>`).join('')}
+        ${p.ods.map(o=>`<span onclick="abrirOds(${o.n})" title="Ver ODS ${o.n}" style="display:inline-flex;align-items:center;background:${o.c}25;border:1px solid ${o.c}60;color:${o.c};border-radius:20px;font-size:.7rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='${o.c}45'" onmouseleave="this.style.background='${o.c}25'">ODS&nbsp;${o.n}</span>`).join('')}
       </div>
     </div>`).join('');
 })();
@@ -798,7 +879,7 @@ const ODS_DATA=[
     meta:"Gestionar sosteniblemente los bosques, combatir la desertificación, y detener la pérdida de biodiversidad.",
     local:"Reservas naturales urbanas, control de quemas, siembra de especies nativas, parques lineales, arbolado.",
     ejemplos:["Reserva natural municipal","Ordenanza anti-quema","Programa de siembra de especies autóctonas"]},
-  {n:16,nombre:"Paz y justicia",                color:"#00689D",
+  {n:16,nombre:"Paz y justicia  {n:16,nombre:"Paz y justicia",                color:"#00689D",
     meta:"Promover sociedades pacíficas e inclusivas, acceso a la justicia y construir instituciones eficaces.",
     local:"Acceso a la información pública municipal, presupuesto participativo, prevención de violencia, mediación comunitaria.",
     ejemplos:["Ordenanza de acceso a la información pública","Presupuesto participativo barrial","Centro de mediación comunitaria"]},
@@ -812,38 +893,71 @@ const ODS_DATA=[
   const g=document.getElementById('ods-grid');
   if(!g)return;
   g.innerHTML=ODS_DATA.map(o=>`
-    <div class="ods-item reveal" style="background:${o.color};border-radius:12px;padding:1.1rem;cursor:pointer;transition:transform .18s,box-shadow .18s;position:relative;overflow:hidden;"
-      onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 28px rgba(0,0,0,.5)'"
-      onmouseleave="this.style.transform='';this.style.boxShadow=''"
-      onclick="abrirOds(${o.n})">
-      <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;line-height:1;color:white;">${o.n}</div>
-      <div style="font-size:.72rem;margin-top:.3rem;line-height:1.25;color:rgba(255,255,255,.93);">${o.nombre}</div>
-      <div style="font-size:.62rem;margin-top:.45rem;color:rgba(255,255,255,.6);font-style:italic;">Ver aplicación local →</div>
+    <div id="ods-card-${o.n}" style="background:${o.color};border-radius:14px;overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:0 2px 12px rgba(0,0,0,.35);"
+      onclick="toggleOds(${o.n})"
+      onmouseenter="if(!this.classList.contains('expanded')){this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.5)'}"
+      onmouseleave="if(!this.classList.contains('expanded')){this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,.35)'}">
+      <div style="padding:1.1rem;">
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;line-height:1;color:white;">${o.n}</div>
+        <div style="font-size:.8rem;margin-top:.3rem;line-height:1.3;color:rgba(255,255,255,.95);font-weight:600;">${o.nombre}</div>
+        <div style="font-size:.65rem;margin-top:.4rem;color:rgba(255,255,255,.65);">Tocá para ver más ↓</div>
+      </div>
+      <div id="ods-detail-${o.n}" style="display:none;padding:0 1.1rem 1.1rem;border-top:1px solid rgba(255,255,255,.2);">
+        <p style="font-size:.75rem;color:rgba(255,255,255,.75);line-height:1.55;margin:0.75rem 0 .6rem;font-style:italic;">${o.meta||''}</p>
+        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:.75rem;margin-bottom:.6rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:.35rem;">En el Concejo local</div>
+          <p style="font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.55;">${o.local}</p>
+        </div>
+        ${(o.ejemplos||[]).length?`<div style="margin-top:.5rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:.35rem;">Ejemplos de ordenanzas</div><ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:.3rem;">${(o.ejemplos||[]).map(e=>`<li style="font-size:.75rem;color:rgba(255,255,255,.8);">✦ ${e}</li>`).join('')}</ul></div>`:''}
+      </div>
     </div>`).join('');
 })();
 
-let odsModal=null;
-function abrirOds(n){
-  const o=ODS_DATA.find(x=>x.n===n);
-  if(!odsModal||!document.body.contains(odsModal)){
-    odsModal=document.createElement('div');
-    odsModal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(6px);';
-    odsModal.onclick=e=>{if(e.target===odsModal){odsModal.remove();odsModal=null;}};
-    document.body.appendChild(odsModal);
-  }
-  const ejemplosHtml=(o.ejemplos||[]).map(e=>`<li style="font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:.3rem;">✦ ${e}</li>`).join('');
-  odsModal.innerHTML=`<div style="background:#1A0C0F;border:1px solid #3a1828;border-top:4px solid ${o.color};border-radius:14px;padding:2rem;max-width:500px;width:100%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
-    <button onclick="odsModal.remove();odsModal=null;" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.6);font-size:.85rem;line-height:1;">✕</button>
-    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
-      <div style="background:${o.color};width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:white;flex-shrink:0;">${o.n}</div>
-      <div>
-        <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:${o.color};margin-bottom:.2rem;">ODS ${o.n} · Agenda 2030</div>
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:white;line-height:1.2;">${o.nombre}</h3>
-      </div>
-    </div>
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:1rem;margin-bottom:1rem;">
-      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.45rem;font-weight:700;">Meta global</div>
-      <p style="font-size:.83rem;color:rgba(255,255,255,.65);line-height:1.6;font-style:italic;">${o.meta||''}</p>
+function toggleOds(n){
+  const card=document.getElementById('ods-card-'+n);
+  const det=document.getElementById('ods-detail-'+n);
+  const open=det.style.display==='block';
+  det.style.display=open?'none':'block';
+  card.classList.toggle('expanded',!open);
+  card.style.transform='';
+  card.style.boxShadow=open?'0 2px 12px rgba(0,0,0,.35)':'0 4px 20px rgba(0,0,0,.5)';
+}
+
+const deptos=[
+  {n:"Rosario",v:16},{n:"Castellanos",v:11},{n:"Gral. Obligado",v:7},
+  {n:"Gral. López",v:6},{n:"La Capital",v:5},{n:"Constitución",v:5},
+  {n:"Caseros",v:4},{n:"San Jerónimo",v:3},{n:"Las Colonias",v:3},
+  {n:"San Martín",v:3},{n:"9 de Julio",v:3},{n:"Iriondo",v:2},
+  {n:"San Cristóbal",v:2},{n:"Vera",v:2},{n:"Garay",v:1}
+];
+function colorBar(v){if(v>=12)return'#501313';if(v>=8)return'#791F1F';if(v>=4)return'#E24B4A';return'#F09595';}
+const bt=document.getElementById('barrasTerritorio');
+if(bt){deptos.forEach(d=>{const pct=Math.round(d.v/16*100);const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:5px;';row.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,.55);width:88px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.n}</span><div style="flex:1;background:rgba(255,255,255,.08);border-radius:4px;height:16px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${colorBar(d.v)};border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;min-width:20px;"><span style="font-size:10px;font-weight:600;color:${d.v>=4?'white':'#791F1F'};">${d.v}</span></div></div>`;bt.appendChild(row);});}
+
+function filtrarBiblio(cat,btn){
+  document.querySelectorAll('.biblio-cat-btn').forEach(b=>b.classList.remove('activo'));
+  btn.classList.add('activo');
+  document.querySelectorAll('.ley-card').forEach(c=>{
+    c.style.display=(cat==='todos'||c.dataset.cat===cat)?'':'none';
+  });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)} });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function handleSumarse(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.btn-full');
+  btn.textContent='✅ ¡Te sumamos al foro! Te contactamos pronto.';
+  btn.style.background='#27AE60';
+  setTimeout(()=>{btn.textContent='Sumarme al foro →';btn.style.background='';e.target.reset()},4000);
+}
+</script>
+</body>
+</html>
+5,255,255,.65);line-height:1.6;font-style:italic;">${o.meta||''}</p>
     </div>
     <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-left:3px solid ${o.color};border-radius:0 10px 10px 0;padding:1rem;margin-bottom:1rem;">
       <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.45rem;font-weight:700;">Aplicación en el Concejo local</div>
