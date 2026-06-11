@@ -879,7 +879,7 @@ const ODS_DATA=[
     meta:"Gestionar sosteniblemente los bosques, combatir la desertificación, y detener la pérdida de biodiversidad.",
     local:"Reservas naturales urbanas, control de quemas, siembra de especies nativas, parques lineales, arbolado.",
     ejemplos:["Reserva natural municipal","Ordenanza anti-quema","Programa de siembra de especies autóctonas"]},
-  {n:16,nombre:"Paz y justicia  {n:16,nombre:"Paz y justicia",                color:"#00689D",
+  {n:16,nombre:"Paz y justicia",                color:"#00689D",
     meta:"Promover sociedades pacíficas e inclusivas, acceso a la justicia y construir instituciones eficaces.",
     local:"Acceso a la información pública municipal, presupuesto participativo, prevención de violencia, mediación comunitaria.",
     ejemplos:["Ordenanza de acceso a la información pública","Presupuesto participativo barrial","Centro de mediación comunitaria"]},
@@ -921,50 +921,6 @@ function toggleOds(n){
   card.classList.toggle('expanded',!open);
   card.style.transform='';
   card.style.boxShadow=open?'0 2px 12px rgba(0,0,0,.35)':'0 4px 20px rgba(0,0,0,.5)';
-}
-
-const deptos=[
-  {n:"Rosario",v:16},{n:"Castellanos",v:11},{n:"Gral. Obligado",v:7},
-  {n:"Gral. López",v:6},{n:"La Capital",v:5},{n:"Constitución",v:5},
-  {n:"Caseros",v:4},{n:"San Jerónimo",v:3},{n:"Las Colonias",v:3},
-  {n:"San Martín",v:3},{n:"9 de Julio",v:3},{n:"Iriondo",v:2},
-  {n:"San Cristóbal",v:2},{n:"Vera",v:2},{n:"Garay",v:1}
-];
-function colorBar(v){if(v>=12)return'#501313';if(v>=8)return'#791F1F';if(v>=4)return'#E24B4A';return'#F09595';}
-const bt=document.getElementById('barrasTerritorio');
-if(bt){deptos.forEach(d=>{const pct=Math.round(d.v/16*100);const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:5px;';row.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,.55);width:88px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.n}</span><div style="flex:1;background:rgba(255,255,255,.08);border-radius:4px;height:16px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${colorBar(d.v)};border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;min-width:20px;"><span style="font-size:10px;font-weight:600;color:${d.v>=4?'white':'#791F1F'};">${d.v}</span></div></div>`;bt.appendChild(row);});}
-
-function filtrarBiblio(cat,btn){
-  document.querySelectorAll('.biblio-cat-btn').forEach(b=>b.classList.remove('activo'));
-  btn.classList.add('activo');
-  document.querySelectorAll('.ley-card').forEach(c=>{
-    c.style.display=(cat==='todos'||c.dataset.cat===cat)?'':'none';
-  });
-}
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)} });
-},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-function handleSumarse(e){
-  e.preventDefault();
-  const btn=e.target.querySelector('.btn-full');
-  btn.textContent='✅ ¡Te sumamos al foro! Te contactamos pronto.';
-  btn.style.background='#27AE60';
-  setTimeout(()=>{btn.textContent='Sumarme al foro →';btn.style.background='';e.target.reset()},4000);
-}
-</script>
-</body>
-</html>
-5,255,255,.65);line-height:1.6;font-style:italic;">${o.meta||''}</p>
-    </div>
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-left:3px solid ${o.color};border-radius:0 10px 10px 0;padding:1rem;margin-bottom:1rem;">
-      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.45rem;font-weight:700;">Aplicación en el Concejo local</div>
-      <p style="font-size:.875rem;color:rgba(255,255,255,.8);line-height:1.65;">${o.local}</p>
-    </div>
-    ${ejemplosHtml?`<div style="margin-bottom:.5rem;"><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.55rem;font-weight:700;">Ejemplos de ordenanzas modelo</div><ul style="list-style:none;padding:0;">${ejemplosHtml}</ul></div>`:''}
-  </div>`;
 }
 
 function handleSumarse(e){
