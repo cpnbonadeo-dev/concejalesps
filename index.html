@@ -457,13 +457,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <p class="section-desc" style="color:rgba(255,255,255,.5);">Cada problema puede abordarse desde una o varias áreas del Banco, y vincularse a uno o varios ODS. Hacé clic en un ODS para ver cómo se aplica localmente.</p>
     </div>
     <div id="problemas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;"></div>
-    <div style="margin-top:1rem;">
-      <div onclick="abrirFormProyecto()" style="background:rgba(196,18,48,.06);border:2px dashed rgba(196,18,48,.3);border-radius:14px;padding:1.6rem;cursor:pointer;text-align:center;transition:all .22s;" onmouseenter="this.style.background='rgba(196,18,48,.12)';this.style.borderColor='rgba(196,18,48,.6)'" onmouseleave="this.style.background='rgba(196,18,48,.06)';this.style.borderColor='rgba(196,18,48,.3)'">
-        <div style="font-size:2.6rem;line-height:1;margin-bottom:.75rem;">➕</div>
-        <div style="font-weight:700;font-size:1rem;color:white;margin-bottom:.35rem;">Subí tu iniciativa</div>
-        <div style="font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.5;">Compartí una ordenanza o proyecto que haya funcionado en tu municipio.</div>
-        <div style="margin-top:.75rem;font-size:.78rem;color:var(--rojo,#C41230);font-weight:600;">Sumar proyecto →</div>
-      </div>
+    <div style="display:none" id="problemas-subir-placeholder">
     </div>
     <div id="problemas-panel" style="display:none;margin-top:2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.5rem;"></div>
   </div>
@@ -914,6 +908,35 @@ Enviado desde concejalesps.vercel.app`;
   cerrarFormProyecto();
 }
 
+// Carga instagram/facebook desde el Sheet de liga de concejales
+(async function cargarRedesSociales(){
+  try{
+    const SHEET='16Y5BqzJauMD_DAbR0HZ3CFk9LhbYe234v3G-3D6-ZBw';
+    const TAB=encodeURIComponent('liga de concejales');
+    const url=`https://docs.google.com/spreadsheets/d/${SHEET}/gviz/tq?tqx=out:json&sheet=${TAB}&tq=select%20*`;
+    const res=await fetch(url);
+    const txt=await res.text();
+    const data=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));
+    const rows=data.table.rows;
+    const header=rows[0].c.map(c=>c?c.v:'');
+    const iNombre=header.findIndex(h=>h&&h.toLowerCase().includes('nombre'));
+    const iIg=header.findIndex(h=>h&&h.toLowerCase().includes('instagram'));
+    const iFb=header.findIndex(h=>h&&h.toLowerCase().includes('facebook'));
+    if(iNombre<0||iIg<0)return;
+    rows.slice(1).forEach(row=>{
+      const cel=row.c;
+      const nombre=(cel[iNombre]&&cel[iNombre].v)||'';
+      const ig=(cel[iIg]&&cel[iIg].v)||'';
+      const fb=(iFb>=0&&cel[iFb]&&cel[iFb].v)||'';
+      const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
+      if(concejal){
+        if(ig) concejal.ig=ig.replace('@','');
+        if(fb) concejal.fb=fb.replace('@','');
+      }
+    });
+  }catch(e){console.warn('No se pudieron cargar redes sociales:',e);}
+})();
+
 const grid=document.getElementById('gridConcejales');
 if(grid){
   CONCEJALES.forEach(c=>{
@@ -1127,7 +1150,15 @@ const PROBLEMAS=[
       <div style="display:flex;gap:.35rem;flex-wrap:wrap;">
         ${p.ods.map(o=>`<span onclick="event.stopPropagation();filtrarPorOds(${o.n})" title="Ver ODS ${o.n}" style="display:inline-flex;align-items:center;background:${o.c}25;border:1px solid ${o.c}60;color:${o.c};border-radius:20px;font-size:.7rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='${o.c}45'" onmouseleave="this.style.background='${o.c}25'">ODS&nbsp;${o.n}</span>`).join('')}
       </div>
-    </div>`).join('');
+    </div>`).join('')+`
+    <div onclick="abrirFormProyecto()" style="background:rgba(196,18,48,.05);border:1px dashed rgba(196,18,48,.35);border-radius:14px;padding:1.6rem;transition:all .22s;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;"
+         onmouseenter="this.style.background='rgba(196,18,48,.12)';this.style.borderColor='rgba(196,18,48,.6)';this.style.transform='translateY(-3px)'"
+         onmouseleave="this.style.background='rgba(196,18,48,.05)';this.style.borderColor='rgba(196,18,48,.35)';this.style.transform=''">
+      <div style="font-size:2.6rem;line-height:1;margin-bottom:.75rem;">➕</div>
+      <div style="font-weight:700;font-size:1rem;color:white;margin-bottom:.35rem;">Subí tu iniciativa</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5;margin-bottom:.75rem;">Compartí una ordenanza que haya funcionado en tu municipio.</div>
+      <div style="font-size:.7rem;color:rgba(196,18,48,.7);font-weight:600;">Sumar proyecto →</div>
+    </div>`;
 })();
 
 // ODS 2030
@@ -1198,4 +1229,52 @@ const ODS_DATA=[
     ejemplos:["Ordenanza de acceso a la información pública","Presupuesto participativo barrial","Centro de mediación comunitaria"]},
   {n:17,nombre:"Alianzas para los objetivos",   color:"#19486A",
     meta:"Fortalecer los medios de ejecución y revitalizar la Alianza Mundial para el Desarrollo Sostenible.",
-    local:"Redes intermunicipales de conc
+    local:"Redes intermunicipales de concejales, convenios con ONG y universidades, banco de iniciativas compartido, hermanamientos.",
+    ejemplos:["Red de concejos para ordenanzas modelo","Convenio con la universidad local","Banco interregional de iniciativas PS"]},
+];
+
+(function renderOds(){
+  const g=document.getElementById('ods-grid');
+  if(!g)return;
+  g.innerHTML=ODS_DATA.map(o=>`
+    <div id="ods-card-${o.n}" style="background:${o.color};border-radius:14px;overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:0 2px 12px rgba(0,0,0,.35);"
+      onclick="toggleOds(${o.n})"
+      onmouseenter="if(!this.classList.contains('expanded')){this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.5)'}"
+      onmouseleave="if(!this.classList.contains('expanded')){this.style.transform='';this.style.boxShadow='0 2px 12px rgba(0,0,0,.35)'}">
+      <div style="padding:1.1rem;">
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;line-height:1;color:white;">${o.n}</div>
+        <div style="font-size:.8rem;margin-top:.3rem;line-height:1.3;color:rgba(255,255,255,.95);font-weight:600;">${o.nombre}</div>
+        <div style="font-size:.65rem;margin-top:.4rem;color:rgba(255,255,255,.65);">Tocá para ver más ↓</div>
+      </div>
+      <div id="ods-detail-${o.n}" style="display:none;padding:0 1.1rem 1.1rem;border-top:1px solid rgba(255,255,255,.2);">
+        <p style="font-size:.75rem;color:rgba(255,255,255,.75);line-height:1.55;margin:0.75rem 0 .6rem;font-style:italic;">${o.meta||''}</p>
+        <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:.75rem;margin-bottom:.6rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:.35rem;">En el Concejo local</div>
+          <p style="font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.55;">${o.local}</p>
+        </div>
+        ${(o.ejemplos||[]).length?`<div style="margin-top:.5rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:.35rem;">Ejemplos de ordenanzas</div><ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:.3rem;">${(o.ejemplos||[]).map(e=>`<li style="font-size:.75rem;color:rgba(255,255,255,.8);">✦ ${e}</li>`).join('')}</ul></div>`:''}
+        <button onclick="event.stopPropagation();filtrarPorOds(${o.n})" style="margin-top:.85rem;width:100%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:.5rem;color:white;font-size:.75rem;font-weight:700;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,.25)'" onmouseleave="this.style.background='rgba(255,255,255,.15)'">📂 Ver ordenanzas del banco →</button>
+      </div>
+    </div>`).join('');
+})();
+
+function toggleOds(n){
+  const card=document.getElementById('ods-card-'+n);
+  const det=document.getElementById('ods-detail-'+n);
+  const open=det.style.display==='block';
+  det.style.display=open?'none':'block';
+  card.classList.toggle('expanded',!open);
+  card.style.transform='';
+  card.style.boxShadow=open?'0 2px 12px rgba(0,0,0,.35)':'0 4px 20px rgba(0,0,0,.5)';
+}
+
+function handleSumarse(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.btn-full');
+  btn.textContent='✅ ¡Te sumamos al foro! Te contactamos pronto.';
+  btn.style.background='#27AE60';
+  setTimeout(()=>{btn.textContent='Sumarme al foro →';btn.style.background='';e.target.reset()},4000);
+}
+</script>
+</body>
+</html>
