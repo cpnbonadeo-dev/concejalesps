@@ -229,16 +229,19 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
 .reveal.visible{opacity:1;transform:none}
 
 /* HAMBURGER */
-.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.5rem;z-index:210}
-.hamburger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.75);border-radius:2px;transition:all .25s}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.6rem;z-index:210;flex-shrink:0;margin-left:.5rem}
+.hamburger span{display:block;width:24px;height:2px;background:rgba(255,255,255,.85);border-radius:2px;transition:all .25s}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.nav-dropdown{display:none;position:absolute;top:60px;left:0;right:0;background:rgba(13,5,9,.97);border-bottom:1px solid rgba(196,18,48,.3);z-index:205;flex-direction:column;padding:.5rem 0}
+.nav-dropdown{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(13,5,9,.98);border-bottom:2px solid rgba(196,18,48,.4);z-index:205;flex-direction:column;padding:.5rem 0;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .nav-dropdown.open{display:flex}
-.nav-dropdown a{color:rgba(255,255,255,.65);font-size:.9rem;padding:.85rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.04);transition:color .15s}
+.nav-dropdown a{color:rgba(255,255,255,.75);font-size:.95rem;padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.05);transition:all .15s;display:flex;align-items:center;gap:.6rem}
 .nav-dropdown a:last-child{border-bottom:none}
-.nav-dropdown a:hover{color:white;background:rgba(255,255,255,.04)}
+.nav-dropdown a:hover{color:white;background:rgba(196,18,48,.12);padding-left:2rem}
+
+/* ROSA DECORATIVA */
+.rosa-deco{position:absolute;pointer-events:none;user-select:none;background:none;border:none;}
 
 @media(max-width:900px){
   .hero-inner{grid-template-columns:1fr;gap:2.5rem}
@@ -246,8 +249,10 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   .rol-grid{grid-template-columns:1fr}
   .agenda-grid{grid-template-columns:1fr}
   .footer-inner{grid-template-columns:1fr 1fr;gap:2rem}
-  .nav-menu{display:none}
-  .hamburger{display:flex}
+  .nav-menu{display:none!important}
+  .hamburger{display:flex!important}
+  nav{padding:0 1rem}
+  .logo-text span{display:none}
 }
 @media(max-width:700px){
   html,body{max-width:100%;overflow-x:hidden}
@@ -309,7 +314,10 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <a href="#" onclick="localStorage.removeItem('concejalesps_sesion');window.location.href='login.html';return false;" style="color:rgba(196,18,48,.6)">🚪 Salir</a>
 </div>
 
-<section id="inicio">
+<section id="inicio" style="position:relative;">
+  <!-- Rosa decorativa hero -->
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="left:-60px;bottom:5%;width:380px;height:380px;opacity:.05;filter:brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(305deg);">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="right:2%;top:12%;width:220px;height:220px;opacity:.04;filter:brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(305deg);">
   <div class="hero-inner">
     <div>
       <div class="hero-kicker">Partido Socialista · Provincia de Santa Fe</div>
@@ -415,8 +423,9 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="banco" class="section" style="background:var(--gris-suave)">
-  <div class="container">
+<section id="banco" class="section" style="background:var(--gris-suave);position:relative;overflow:hidden;">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="right:-40px;bottom:-40px;width:300px;height:300px;opacity:.05;filter:sepia(1) saturate(3) hue-rotate(310deg) brightness(1.2);">
+  <div class="container" style="position:relative;z-index:1;">
     <div class="section-header">
       <div class="tag tag-rojo">Banco de Iniciativas</div>
       <h2 class="section-title">Proyectos organizados por área</h2>
@@ -446,7 +455,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div class="banco-card banco-card-subir reveal" onclick="abrirFormProyecto()"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">Sumar proyecto →</span></div></div>
     </div>
     <!-- Panel resultados banco -->
-    <div id="banco-panel" style="display:none;margin-top:2rem;background:rgba(0,0,0,.08);border-radius:14px;padding:1.5rem;"></div>
+    <div id="banco-panel" style="display:none;margin-top:2rem;background:linear-gradient(145deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);border-radius:14px;padding:1.5rem;"></div>
 
   </div>
 </section>
@@ -574,7 +583,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="concejales" class="section" style="background:var(--gris-suave)">
+<section id="concejales" class="section" style="background:var(--gris-suave);position:relative;overflow:hidden;">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="left:-50px;top:0;width:340px;height:340px;opacity:.05;filter:sepia(1) saturate(3) hue-rotate(310deg) brightness(1.2);">
   <div class="container">
     <div class="section-header">
       <div class="tag tag-rojo">Directorio</div>
@@ -712,8 +722,9 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </div>
 
-<footer>
-  <div class="footer-inner">
+<footer style="position:relative;overflow:hidden;">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="right:-30px;bottom:-30px;width:320px;height:320px;opacity:.06;filter:brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(305deg);">
+  <div class="footer-inner" style="position:relative;z-index:1;">
     <div class="footer-brand">
       <div class="logo"><div class="logo-escudo" style="width:38px;height:38px;font-size:1rem">PS</div><div class="logo-text"><strong style="font-size:.88rem">Foro Autoridades Locales</strong><span>Partido Socialista · Santa Fe</span></div></div>
       <p>Espacio de encuentro, intercambio y formación de concejales del Partido Socialista en la provincia de Santa Fe.</p>
@@ -723,7 +734,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <div class="footer-col"><h5>El foro</h5><ul><li><a href="autoridades.html">Directorio y mapa</a></li><li><a href="#localidades">Localidades</a></li><li><a href="#rol">El rol del concejal</a></li></ul></div>
     <div class="footer-col"><h5>Áreas temáticas</h5><ul><li><a href="https://drive.google.com/drive/folders/1Io5We8CdbzruHABt1W5gb2SLJr01NQml" target="_blank">Gobierno</a></li><li><a href="https://drive.google.com/drive/folders/1IjgsMR_70qUTAHfhW8B70H8rlvSrp_si" target="_blank">Género · DDHH</a></li><li><a href="https://drive.google.com/drive/folders/1z6V_xCbNZqc_i7ZLES76rVXvhn413Va5" target="_blank">Transparencia</a></li><li><a href="https://drive.google.com/drive/folders/10IyZ8hkfQs9qSHCs5MaazL-QJ2cf1n3U" target="_blank">Desarrollo Humano</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><span><strong>Foro Autoridades Locales PS Santa Fe</strong> · Red de concejales socialistas de la provincia</span><span>Santa Fe, Argentina · 2026</span></div>
+  <div class="footer-bottom" style="position:relative;z-index:1;"><span><strong>Foro Autoridades Locales PS Santa Fe</strong> · Red de concejales socialistas de la provincia</span><span>Santa Fe, Argentina · 2026</span></div>
 </footer>
 
 <script>
@@ -733,42 +744,42 @@ const CONCEJALES_EXT = {};
 // Ejemplo: CONCEJALES_EXT["Brenda Torrini"] = { foto:"url", bio:"...", proyectos:[{tipo:"Ordenanza",titulo:"...",link:"..."}] }
 
 const CONCEJALES = [
-  {n:"Yoana Dalbello",l:"San José de la Esquina",d:"Caseros",ig:"",mail:"",cel:""},
-  {n:"Juan Pablo Coniglio",l:"San José de la Esquina",d:"Caseros",ig:"",mail:"",cel:""},
-  {n:"José Delmastro",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:""},
-  {n:"Brenda Torrini",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:""},
-  {n:"Juano Astor",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:""},
-  {n:"Juan Carlos Marchese",l:"San Vicente",d:"Castellanos",ig:"",mail:"",cel:""},
-  {n:"Diego Martin",l:"Villa Constitución",d:"Constitución",ig:"",mail:"",cel:""},
-  {n:"Francisco Bracalenti",l:"Villa Constitución",d:"Constitución",ig:"",mail:"",cel:""},
-  {n:"Micaela Mineiro",l:"Venado Tuerto",d:"Gral. López",ig:"",mail:"",cel:""},
-  {n:"Alina Vargas Amato",l:"Firmat",d:"Gral. López",ig:"",mail:"",cel:""},
-  {n:"Alejandro Delssin",l:"Las Toscas",d:"Gral. Obligado",ig:"",mail:"",cel:""},
-  {n:"Miguel Gutierrez",l:"Las Toscas",d:"Gral. Obligado",ig:"",mail:"",cel:""},
-  {n:"Marisa Flores",l:"Reconquista",d:"Gral. Obligado",ig:"",mail:"",cel:""},
-  {n:"Daina Ramirez",l:"Villa Ocampo",d:"Gral. Obligado",ig:"",mail:"",cel:""},
-  {n:"Andrea Cracogna",l:"Villa Ocampo",d:"Gral. Obligado",ig:"",mail:"",cel:""},
-  {n:"Omar Picard",l:"Recreo",d:"La Capital",ig:"",mail:"",cel:""},
-  {n:"Camila Rodriguez del Curto",l:"San José del Rincón",d:"La Capital",ig:"",mail:"",cel:""},
-  {n:"Melina Andrés",l:"Laguna Paiva",d:"La Capital",ig:"",mail:"",cel:""},
-  {n:"Alejandra Chena",l:"Santo Tomé",d:"La Capital",ig:"",mail:"",cel:""},
-  {n:"Judith Perren",l:"San Carlos Centro",d:"Las Colonias",ig:"",mail:"",cel:""},
-  {n:"Gabriel Otazo",l:"San Carlos Centro",d:"Las Colonias",ig:"",mail:"",cel:""},
-  {n:"Pedro Junco",l:"Villa Minetti",d:"9 de Julio",ig:"",mail:"",cel:""},
-  {n:"Benjamín Perruccio",l:"Alvear",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Flavia Banfi",l:"Alvear",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Federico Lifschitz",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Manuel Sciutto",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Alicia Pino",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Esteban Lenci",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Patricia González",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"José Bulsicco",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Maximiliano Lopez",l:"San Cristóbal",d:"Rosario",ig:"",mail:"",cel:""},
-  {n:"Agustin Peretti",l:"Suardi",d:"San Cristóbal",ig:"",mail:"",cel:""},
-  {n:"Gonzalo Rui",l:"Suardi",d:"San Cristóbal",ig:"",mail:"",cel:""},
+  {n:"Yoana Dalbello",l:"San José de la Esquina",d:"Caseros",ig:"",mail:"",cel:"3467438952"},
+  {n:"Juan Pablo Coniglio",l:"San José de la Esquina",d:"Caseros",ig:"",mail:"",cel:"3467417291"},
+  {n:"José Delmastro",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:"3493416305"},
+  {n:"Brenda Torrini",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:"3493455600"},
+  {n:"Juano Astor",l:"Sunchales",d:"Castellanos",ig:"",mail:"",cel:"3493495863"},
+  {n:"Juan Carlos Marchese",l:"San Vicente",d:"Castellanos",ig:"",mail:"",cel:"3401640111"},
+  {n:"Diego Martin",l:"Villa Constitución",d:"Constitución",ig:"",mail:"",cel:"3400417834"},
+  {n:"Francisco Bracalenti",l:"Villa Constitución",d:"Constitución",ig:"",mail:"",cel:"3364642204"},
+  {n:"Micaela Mineiro",l:"Venado Tuerto",d:"Gral. López",ig:"",mail:"",cel:"3462639815"},
+  {n:"Alina Vargas Amato",l:"Firmat",d:"Gral. López",ig:"",mail:"",cel:"3465592384"},
+  {n:"Alejandro Delssin",l:"Las Toscas",d:"Gral. Obligado",ig:"",mail:"",cel:"3482554567"},
+  {n:"Miguel Gutierrez",l:"Las Toscas",d:"Gral. Obligado",ig:"",mail:"",cel:"3482376610"},
+  {n:"Marisa Flores",l:"Reconquista",d:"Gral. Obligado",ig:"",mail:"",cel:"3482514685"},
+  {n:"Daina Ramirez",l:"Villa Ocampo",d:"Gral. Obligado",ig:"",mail:"",cel:"3482604622"},
+  {n:"Andrea Cracogna",l:"Villa Ocampo",d:"Gral. Obligado",ig:"",mail:"",cel:"3482394937"},
+  {n:"Omar Picard",l:"Recreo",d:"La Capital",ig:"",mail:"",cel:"3426298463"},
+  {n:"Camila Rodriguez del Curto",l:"San José del Rincón",d:"La Capital",ig:"",mail:"",cel:"3425357954"},
+  {n:"Melina Andrés",l:"Laguna Paiva",d:"La Capital",ig:"",mail:"",cel:"3425462249"},
+  {n:"Alejandra Chena",l:"Santo Tomé",d:"La Capital",ig:"",mail:"",cel:"3424054647"},
+  {n:"Judith Perren",l:"San Carlos Centro",d:"Las Colonias",ig:"",mail:"",cel:"3404419610"},
+  {n:"Gabriel Otazo",l:"San Carlos Centro",d:"Las Colonias",ig:"",mail:"",cel:"3425365763"},
+  {n:"Pedro Junco",l:"Villa Minetti",d:"9 de Julio",ig:"",mail:"",cel:"3491698608"},
+  {n:"Benjamín Perruccio",l:"Alvear",d:"Rosario",ig:"",mail:"",cel:"3417046068"},
+  {n:"Flavia Banfi",l:"Alvear",d:"Rosario",ig:"",mail:"",cel:"3412090213"},
+  {n:"Federico Lifschitz",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:"3413494950"},
+  {n:"Manuel Sciutto",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:"3412296544"},
+  {n:"Alicia Pino",l:"Rosario",d:"Rosario",ig:"",mail:"",cel:"3412797712"},
+  {n:"Esteban Lenci",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:"3416433416"},
+  {n:"Patricia González",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:"3413216254"},
+  {n:"José Bulsicco",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",mail:"",cel:"3415025501"},
+  {n:"Maximiliano Lopez",l:"San Cristóbal",d:"San Cristóbal",ig:"",mail:"",cel:"3416880285"},
+  {n:"Agustin Peretti",l:"Suardi",d:"San Cristóbal",ig:"",mail:"",cel:"3562521673"},
+  {n:"Gonzalo Rui",l:"Suardi",d:"San Cristóbal",ig:"",mail:"",cel:"3562410017"},
   {n:"Santiago Pestarini",l:"Gálvez",d:"San Jerónimo",ig:"",mail:"",cel:""},
-  {n:"Monica Rivelo",l:"Gálvez",d:"San Jerónimo",ig:"",mail:"",cel:""},
-  {n:"Rodrigo Duín",l:"San Jorge",d:"San Martín",ig:"",mail:"",cel:""},
+  {n:"Monica Rivelo",l:"Gálvez",d:"San Jerónimo",ig:"",mail:"",cel:"3404491935"},
+  {n:"Rodrigo Duín",l:"San Jorge",d:"San Martín",ig:"",mail:"",cel:"3406644909"},
   {n:"Laura Raspantti",l:"El Trébol",d:"San Martín",ig:"",mail:"",cel:""},
   {n:"Ana Paula Capello",l:"Vera",d:"Vera",ig:"",mail:"",cel:""},
 ];
@@ -787,7 +798,7 @@ function abrirConcejal(nombre){
   m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:flex;align-items:flex-start;justify-content:flex-end;backdrop-filter:blur(6px);padding:0;';
   m.onclick=e=>{if(e.target===m)cerrarConcejal();};
 
-  const waMsg=encodeURIComponent('Hola cumpa, te escribo porque saqué tu número de la página de concejales del PS 👋');
+  const waMsg=encodeURIComponent('Hola! saqué tu número del foro de autoridades locales del PS. ¿Cómo estás?');
   const waBtn=c.cel?`<a href="https://wa.me/549${c.cel.replace(/\D/g,'')}?text=${waMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:#25D36615;border:1px solid #25D36640;color:#25D366;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">💬 WhatsApp</a>`:'';
   const igBtn=c.ig?`<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:#833AB415;border:1px solid #833AB440;color:#c374e8;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">📷 Instagram</a>`:'';
   const mailBtn=c.mail?`<a href="mailto:${c.mail}" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(196,18,48,.1);border:1px solid rgba(196,18,48,.3);color:#FF6B7A;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">✉️ Email</a>`:'';
