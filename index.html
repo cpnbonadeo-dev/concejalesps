@@ -367,7 +367,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="territorio" style="background:linear-gradient(145deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);padding:4.5rem 2rem;">
+<section id="territorio" style="background:linear-gradient(145deg,#1A0508 0%,#2C0A12 50%,#3A0D18 100%);padding:4.5rem 2rem;">
   <div class="container">
     <div style="display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:start;">
       <div>
@@ -449,7 +449,10 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="problemas" class="section" style="background:#0D0509">
+<section id="problemas" class="section" style="background:linear-gradient(160deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);position:relative;overflow:hidden;">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:.05;">
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fist-prob" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse"><text x="10" y="55" font-size="48" fill="#C41230" font-family="serif">✊</text></pattern></defs><rect width="100%" height="100%" fill="url(#fist-prob)"/></svg>
+</div>
   <div class="container">
     <div class="section-header">
       <div class="tag" style="background:rgba(196,18,48,.2);color:#FF6B7A;">Problemas del territorio</div>
@@ -463,7 +466,10 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="ods" class="section" style="background:linear-gradient(145deg,#150205 0%,#1A0C0F 40%,#2A0810 100%)">
+<section id="ods" class="section" style="background:linear-gradient(145deg,#1A0508 0%,#2C0A12 40%,#3D0E1A 100%);position:relative;overflow:hidden;">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:.07;">
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fist-ods" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse"><text x="10" y="55" font-size="48" fill="#C41230" font-family="serif">✊</text></pattern></defs><rect width="100%" height="100%" fill="url(#fist-ods)"/></svg>
+</div>
   <div class="container">
     <div class="section-header biblioteca-header">
       <div class="tag tag-blanco">Marco Global</div>
@@ -482,7 +488,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <div class="container">
     <div class="section-header biblioteca-header">
       <div class="tag tag-blanco">Biblioteca Legal</div>
-      <h2 class="section-title" style="color:white">El marco normativo que todo concejal debe conocer</h2>
+      <h2 class="section-title" style="color:white">El marco normativo que toda concejala y concejal debe conocer</h2>
       <p class="section-desc" style="color:rgba(255,255,255,.5)">Desde la Constitución Nacional hasta las leyes provinciales. Todos los textos fundamentales, en un solo lugar.</p>
     </div>
     <div class="biblio-categorias">
@@ -578,7 +584,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <div class="container">
     <div class="section-header">
       <div class="tag tag-rojo">Directorio</div>
-      <h2 class="section-title">Concejales y concejalas</h2>
+      <h2 class="section-title">Concejalas y Concejales</h2>
       <p class="section-desc">Conocé al equipo. Cada perfil es una puerta de contacto, un área de especialización, una red de experiencia disponible para toda la bancada.</p>
     </div>
     <div id="gridConcejales" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-bottom:2rem;"></div>
@@ -593,7 +599,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <div class="container">
     <div class="section-header-center">
       <div class="tag tag-rojo">Formación</div>
-      <h2 class="section-title">Capacitaciones para concejales</h2>
+      <h2 class="section-title">Capacitaciones para Concejalas y Concejales</h2>
       <p class="section-desc">Un concejal que se forma, gestiona mejor. Una bancada que aprende junta, legisla con más impacto.</p>
     </div>
     <div class="cap-grid">
@@ -912,7 +918,7 @@ Enviado desde concejalesps.vercel.app`;
 (async function cargarRedesSociales(){
   try{
     const SHEET='16Y5BqzJauMD_DAbR0HZ3CFk9LhbYe234v3G-3D6-ZBw';
-    const TAB=encodeURIComponent('liga de concejales');
+    const TAB=encodeURIComponent('autoridades locales');
     const url=`https://docs.google.com/spreadsheets/d/${SHEET}/gviz/tq?tqx=out:json&sheet=${TAB}&tq=select%20*`;
     const res=await fetch(url);
     const txt=await res.text();
@@ -1056,7 +1062,11 @@ function _renderPanel(panelId, items, label) {
   setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
 }
 
-async function buscarEnBanco(query) {
+async function normalizar(str) {
+  return (str || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function buscarEnBanco(query) {
   query = (query || '').trim();
   if (!query) {
     document.getElementById('banco-panel').style.display = 'none';
@@ -1066,12 +1076,10 @@ async function buscarEnBanco(query) {
   panel.innerHTML = '<div style="text-align:center;padding:1.5rem;color:rgba(0,0,0,.4);">Buscando…</div>';
   panel.style.display = 'block';
   const datos = await cargarDatosBanco();
-  const q = query.toLowerCase();
+  const q = normalizar(query);
   const resultados = datos.filter(r =>
     [r.titulo, r.area, r.problema, r.ods, r.concejal, r.localidad, r.depto, r.notas]
-      .some(campo => campo && campo.toLowerCase().includes(q))
-  );
-  _renderPanel('banco-panel', resultados, `"${query}"`);
+      .some(campo => campo && normalizar(campo).includes(q))
 }
 
 async function filtrarPorArea(area) {
