@@ -367,7 +367,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="territorio" style="background:linear-gradient(145deg,#1A0508 0%,#2C0A12 50%,#3A0D18 100%);padding:4.5rem 2rem;">
+<section id="territorio" style="background:linear-gradient(145deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);padding:4.5rem 2rem;">
   <div class="container">
     <div style="display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:start;">
       <div>
@@ -449,11 +449,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="problemas" class="section" style="background:linear-gradient(160deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);position:relative;overflow:hidden;">
-<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:.05;">
-<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fist-prob" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse"><text x="10" y="55" font-size="48" fill="#C41230" font-family="serif">✊</text></pattern></defs><rect width="100%" height="100%" fill="url(#fist-prob)"/></svg>
-</div>
-  <div class="container">
+<section id="problemas" class="section" style="background:#0D0509">
+<div class="container">
     <div class="section-header">
       <div class="tag" style="background:rgba(196,18,48,.2);color:#FF6B7A;">Problemas del territorio</div>
       <h2 class="section-title" style="color:white;">Los 10 problemas más frecuentes en la gestión local</h2>
@@ -466,11 +463,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="ods" class="section" style="background:linear-gradient(145deg,#1A0508 0%,#2C0A12 40%,#3D0E1A 100%);position:relative;overflow:hidden;">
-<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:.07;">
-<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fist-ods" x="0" y="0" width="90" height="90" patternUnits="userSpaceOnUse"><text x="10" y="55" font-size="48" fill="#C41230" font-family="serif">✊</text></pattern></defs><rect width="100%" height="100%" fill="url(#fist-ods)"/></svg>
-</div>
-  <div class="container">
+<section id="ods" class="section" style="background:linear-gradient(145deg,#150205 0%,#1A0C0F 40%,#2A0810 100%)">
+<div class="container">
     <div class="section-header biblioteca-header">
       <div class="tag tag-blanco">Marco Global</div>
       <h2 class="section-title" style="color:white">ODS 2030 para la gestión local</h2>
@@ -1066,7 +1060,7 @@ async function normalizar(str) {
   return (str || '').toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
-function buscarEnBanco(query) {
+async function buscarEnBanco(query) {
   query = (query || '').trim();
   if (!query) {
     document.getElementById('banco-panel').style.display = 'none';
@@ -1080,6 +1074,8 @@ function buscarEnBanco(query) {
   const resultados = datos.filter(r =>
     [r.titulo, r.area, r.problema, r.ods, r.concejal, r.localidad, r.depto, r.notas]
       .some(campo => campo && normalizar(campo).includes(q))
+  );
+  _renderPanel('banco-panel', resultados, `Resultados para "${query}"`);
 }
 
 async function filtrarPorArea(area) {
