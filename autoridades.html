@@ -1,416 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autoridades Locales · Partido Socialista Santa Fe</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-:root{--rojo:#C41230;--rojo-vivo:#E8192C;--rojo-dark:#8B0A1F;--negro:#0D0509;--gris-10:#1A0C0F;--gris-sf:#F8F4F4;--texto:#2C1A1D;--texto-suave:#6B4A50;--borde:#EDE5E6;--sombra:0 2px 16px rgba(0,0,0,.07);--sombra-md:0 6px 32px rgba(0,0,0,.12);--r:12px}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;color:var(--texto);background:var(--gris-sf);-webkit-font-smoothing:antialiased}
-nav{position:sticky;top:0;z-index:500;height:56px;background:rgba(13,5,9,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,18,48,.35);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
-.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
-.nav-escudo{width:30px;height:30px;border-radius:50%;background:var(--rojo);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:.85rem;color:white}
-.nav-texto strong{color:white;font-size:.78rem;display:block}
-.nav-texto span{color:rgba(255,255,255,.4);font-size:.65rem;letter-spacing:.05em;text-transform:uppercase}
-.nav-back{color:rgba(255,255,255,.5);font-size:.75rem;text-decoration:none;display:flex;align-items:center;gap:.35rem;transition:color .18s}
-.nav-back:hover{color:white}
-.page-header{background:linear-gradient(160deg,var(--negro) 0%,var(--gris-10) 50%,#2C0812 100%);padding:3.5rem 2rem 2.5rem;position:relative;overflow:hidden}
-.page-header::after{content:'';position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(196,18,48,.18) 0%,transparent 70%);pointer-events:none}
-.header-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1}
-.header-kicker{display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.4);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
-.header-kicker::before{content:'';display:block;width:20px;height:2px;background:var(--rojo)}
-.header-inner h1{font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:900;color:white;line-height:1.1;margin-bottom:.6rem}
-.header-inner h1 em{font-style:italic;color:var(--rojo-vivo)}
-.header-inner p{color:rgba(255,255,255,.5);font-size:.9rem;max-width:560px;line-height:1.65}
-.stats-bar{background:var(--rojo);padding:0 2rem}
-.stats-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:center;flex-wrap:wrap}
-.stat-item{padding:1rem 2.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.15)}
-.stat-item:last-child{border-right:none}
-.stat-item .n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;color:white;display:block;line-height:1}
-.stat-item .l{font-size:.72rem;color:rgba(255,255,255,.7);font-weight:600;margin-top:.2rem}
-.main-layout{max-width:1160px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
-.mapa-card{background:#0D0509;border-radius:var(--r);border:1px solid rgba(196,18,48,.35);box-shadow:0 4px 24px rgba(0,0,0,.4);overflow:hidden;position:sticky;top:70px}
-.mapa-header{padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;background:#150205}
-.mapa-header h3{font-size:.88rem;font-weight:700;color:white}
-.mapa-header p{font-size:.72rem;color:rgba(255,255,255,.45)}
-#mapa{height:480px;width:100%}
-.mapa-leyenda{padding:.85rem 1.25rem;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:1.25rem;flex-wrap:wrap;background:#150205}
-.leyenda-item{display:flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.6)}
-.leyenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.filtros-card{background:white;border-radius:var(--r);border:1px solid var(--borde);box-shadow:var(--sombra);padding:1.25rem;margin-bottom:1.25rem}
-.filtros-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
-.filtro-label{font-size:.72rem;font-weight:700;color:var(--texto-suave);text-transform:uppercase;letter-spacing:.07em}
-.filtro-select,.filtro-input{padding:.45rem .85rem;border:1px solid var(--borde);border-radius:8px;font-size:.82rem;font-family:inherit;color:var(--texto);background:var(--gris-sf);outline:none;transition:border-color .18s;cursor:pointer}
-.filtro-select:focus,.filtro-input:focus{border-color:var(--rojo);background:white}
-.filtro-input{flex:1;min-width:180px}
-.btn-reset{background:none;border:1px solid var(--borde);border-radius:8px;padding:.45rem .85rem;font-size:.78rem;color:var(--texto-suave);cursor:pointer;font-family:inherit;transition:all .18s}
-.btn-reset:hover{border-color:var(--rojo);color:var(--rojo)}
-.filtros-result{font-size:.75rem;color:var(--texto-suave);margin-top:.75rem}
-.filtros-result strong{color:var(--negro)}
-.depto-section{margin-bottom:1rem}
-.depto-header{background:white;border:1px solid var(--borde);border-radius:var(--r);padding:.9rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .2s;user-select:none}
-.depto-header:hover{border-color:rgba(196,18,48,.3)}
-.depto-header.open{border-radius:var(--r) var(--r) 0 0;border-color:var(--rojo)}
-.depto-nombre{font-weight:700;font-size:.9rem;color:var(--negro);display:flex;align-items:center;gap:.6rem}
-.depto-badge{font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:rgba(196,18,48,.08);color:var(--rojo);padding:.15rem .5rem;border-radius:10px}
-.depto-count{font-size:.75rem;color:var(--texto-suave);display:flex;align-items:center;gap:.5rem}
-.depto-arrow{transition:transform .25s;font-size:.75rem}
-.depto-header.open .depto-arrow{transform:rotate(180deg)}
-.depto-body{background:white;border:1px solid var(--rojo);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden;display:none}
-.depto-body.open{display:block}
-.autoridad-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:.5rem 1.25rem;align-items:center;padding:.9rem 1.25rem;border-bottom:1px solid var(--borde);transition:background .15s}
-.autoridad-row:last-child{border-bottom:none}
-.autoridad-row:hover{background:var(--gris-sf)}
-.cargo-badge{display:inline-flex;align-items:center;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .55rem;border-radius:10px;white-space:nowrap;flex-shrink:0}
-.cargo-intendente{background:#FFF3CD;color:#856404;border:1px solid #FFE69C}
-.cargo-concejal{background:#FDE8E9;color:var(--rojo-dark);border:1px solid #FAC5C8}
-.cargo-presidente{background:#D1ECF1;color:#0C5460;border:1px solid #ABD8E1}
-.aut-lugar{font-size:.78rem;color:var(--texto-suave)}
-.aut-lugar strong{color:var(--negro);font-weight:600;display:block;font-size:.82rem}
-.aut-nombre{font-size:.88rem;font-weight:600;color:var(--negro)}
-.aut-ig{font-size:.78rem;color:var(--texto-suave);display:flex;align-items:center;gap:.35rem;white-space:nowrap}
-.aut-ig a{color:#833AB4;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:.3rem}
-.aut-ig a:hover{text-decoration:underline}
-.ig-sin{color:rgba(0,0,0,.2);font-size:.72rem;font-style:italic}
-.empty-state{text-align:center;padding:3rem 1rem;color:var(--texto-suave)}
-.empty-state span{font-size:2rem;display:block;margin-bottom:.75rem}
-.leaflet-popup-content-wrapper{border-radius:10px!important;box-shadow:0 8px 32px rgba(0,0,0,.5)!important;background:#1A0C0F!important;border:1px solid rgba(196,18,48,.3)!important}
-.popup-content{padding:.25rem 0}
-.popup-cargo{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
-.popup-nombre{font-weight:700;font-size:.92rem;color:#fff;margin-bottom:.15rem}
-.popup-lugar{font-size:.78rem;color:rgba(255,255,255,.5)}
-.leaflet-popup-tip{background:#1A0C0F!important}
-@media(max-width:900px){.main-layout{grid-template-columns:1fr}.mapa-card{position:static}#mapa{height:350px}.autoridad-row{grid-template-columns:auto 1fr}.aut-ig{grid-column:2}.stats-inner{justify-content:flex-start;overflow-x:auto}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoridades Locales · PS Santa Fe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0D0509;
+      --rojo:     #C41230;
+      --rojo-osc: #8a0c20;
+      --texto:    #ffffff;
+      --texto-sec:#c0a0b0;
+      --card-bg:  #1a0a10;
+      --card-brd: #2a1020;
+    }
+    body { background: var(--bg); color: var(--texto); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav {
+      border-top: 4px solid var(--rojo);
+      background: rgba(13,5,9,0.96);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--card-brd);
+    }
+    .nav-inner {
+      max-width: 1260px; margin: 0 auto; padding: 0 1.5rem;
+      height: 58px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-left { display: flex; align-items: center; gap: 0.875rem; }
+    .btn-volver {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.82rem; font-weight: 600; color: var(--texto-sec);
+      background: none; border: 1px solid var(--card-brd);
+      border-radius: 6px; padding: 0.35rem 0.75rem;
+      text-decoration: none; transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-volver:hover { color: var(--texto); border-color: rgba(196,18,48,0.4); }
+    .nav-brand { font-size: 0.85rem; font-weight: 600; color: var(--texto); }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: linear-gradient(180deg, rgba(196,18,48,0.09) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-brd);
+      padding: 2.25rem 1.5rem 1.75rem; text-align: center;
+    }
+    .page-eyebrow {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--rojo); margin-bottom: 0.55rem;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; margin-bottom: 0.55rem;
+    }
+    .page-header p { font-size: 0.875rem; color: var(--texto-sec); max-width: 540px; margin: 0 auto 0.8rem; }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(196,18,48,0.15); border: 1px solid rgba(196,18,48,0.35);
+      border-radius: 20px; padding: 0.3rem 0.9rem;
+      font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,.8);
+    }
+
+    /* ── STATS ── */
+    .stats-bar { background: rgba(196,18,48,0.08); border-bottom: 1px solid var(--card-brd); }
+    .stats-inner { max-width: 1260px; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-wrap: wrap; }
+    .stat-item { padding: 0.9rem 2rem; text-align: center; border-right: 1px solid var(--card-brd); }
+    .stat-item:last-child { border-right: none; }
+    .stat-n { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--rojo); display: block; line-height: 1; }
+    .stat-l { font-size: 0.68rem; color: var(--texto-sec); font-weight: 600; margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1260px; margin: 0 auto; padding: 0 1.5rem; }
+    .aut-layout { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; padding: 2rem 0 3rem; align-items: start; }
+
+    /* ── MAP ── */
+    .mapa-col { position: sticky; top: 70px; }
+    .mapa-wrap { background: var(--card-bg); border: 1px solid var(--card-brd); border-radius: 12px; overflow: hidden; }
+    #mapaLeaflet { width: 100%; height: 520px; display: block; }
+    .leaflet-popup-content-wrapper { background: #1a0a10 !important; color: #fff !important; border: 1px solid #2a1020 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; }
+    .leaflet-popup-tip { background: #1a0a10 !important; }
+    .leaflet-popup-close-button { color: #c0a0b0 !important; }
+    .mapa-leyenda { padding: 0.7rem 0.875rem; border-top: 1px solid var(--card-brd); display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .leg-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: var(--texto-sec); }
+    .leg-int  { width: 14px; height: 14px; border-radius: 50%; background: var(--rojo); flex-shrink: 0; border: 2px solid rgba(255,255,255,0.3); }
+    .leg-conc { width: 10px; height: 10px; border-radius: 50%; background: rgba(196,18,48,0.7); flex-shrink: 0; border: 1px solid rgba(255,255,255,0.3); }
+    .leg-com  { width: 9px; height: 9px; border-radius: 50%; background: #c9870e; flex-shrink: 0; border: 1px solid rgba(255,200,80,0.4); }
+
+    /* ── LIST ── */
+    .buscar-wrap { position: relative; margin-bottom: 1.5rem; }
+    .buscar-icon { position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); font-size: 0.88rem; pointer-events: none; }
+    .buscar-input {
+      width: 100%; background: var(--card-bg); border: 1px solid var(--card-brd);
+      border-radius: 10px; color: var(--texto); font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; padding: 0.72rem 1rem 0.72rem 2.4rem; outline: none; transition: border-color 0.2s;
+    }
+    .buscar-input:focus { border-color: var(--rojo); }
+    .buscar-input::placeholder { color: var(--texto-sec); opacity: 0.7; }
+
+    .dept-block { margin-bottom: 2rem; }
+    .dept-title {
+      font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--rojo); margin-bottom: 0.8rem; padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(196,18,48,0.2);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dept-count { color: var(--texto-sec); font-size: 0.6rem; font-weight: 500; text-transform: none; letter-spacing: 0; }
+    .locs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 0.6rem; }
+
+    .loc-block {
+      background: var(--card-bg); border: 1px solid var(--card-brd); border-radius: 10px;
+      padding: 0.875rem 1rem; transition: border-color 0.25s, background 0.25s, transform 0.2s; cursor: pointer;
+    }
+    .loc-block:hover { border-color: rgba(196,18,48,0.35); background: rgba(196,18,48,0.04); }
+    .loc-block.highlighted { border-color: var(--rojo); background: rgba(196,18,48,0.08); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(196,18,48,0.15); }
+    .loc-nombre { font-size: 0.88rem; font-weight: 700; color: var(--texto); margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .loc-tipo { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--texto-sec); margin-left: 0.4rem; opacity: 0.6; }
+
+    .persona { display: flex; align-items: flex-start; gap: 0.4rem; margin-top: 0.35rem; flex-wrap: wrap; }
+    .bdg { font-size: 0.57rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.1rem 0.4rem; border-radius: 4px; flex-shrink: 0; white-space: nowrap; margin-top: 1px; }
+    .bdg-int  { background: rgba(196,18,48,0.22); color: #ff8a9a; border: 1px solid rgba(196,18,48,0.35); }
+    .bdg-conc { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+    .bdg-com  { background: rgba(201,135,14,0.15); color: #fcd34d; border: 1px solid rgba(201,135,14,0.25); }
+
+    .persona-info { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; min-width: 0; }
+    .persona-nombre { font-size: 0.8rem; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .persona-redes { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .tel-link { font-size: 0.7rem; color: rgba(192,160,176,0.55); text-decoration: none; white-space: nowrap; transition: color 0.2s; display: inline-flex; align-items: center; gap: 0.2rem; }
+    .tel-link:hover { color: var(--rojo); }
+    .ig-link { font-size: 0.7rem; color: rgba(131,58,180,0.7); text-decoration: none; white-space: nowrap; transition: color 0.2s; display: inline-flex; align-items: center; gap: 0.2rem; }
+    .ig-link:hover { color: #c86dd7; }
+    .no-res { display: none; color: var(--texto-sec); font-size: 0.9rem; padding: 3rem 0; text-align: center; }
+    .loading-msg { color: var(--texto-sec); font-size: 0.82rem; padding: 2rem 0; text-align: center; }
+
+    @media (max-width: 920px) { .aut-layout { grid-template-columns: 1fr; } .mapa-col { position: static; } #mapaLeaflet { height: 360px; } }
+    @media (max-width: 540px) { .locs-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
+<script>
+(function(){var s=localStorage.getItem('concejalesps_sesion'),t=parseInt(localStorage.getItem('concejalesps_login_time')||'0',10);if(s!=='ok'||(t&&Date.now()-t>8*3600000)){['concejalesps_sesion','concejalesps_usuario','concejalesps_login_time'].forEach(function(k){localStorage.removeItem(k)});window.location.href='login.html';}})();
+</script>
+
 <nav>
-  <a href="index.html" class="nav-logo">
-    <div class="nav-escudo">PS</div>
-    <div class="nav-texto"><strong>Foro Autoridades Locales</strong><span>Partido Socialista · Santa Fe</span></div>
-  </a>
-  <a href="index.html" class="nav-back">← Volver al sitio principal</a>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="index.html" class="btn-volver">← Volver</a>
+      <span class="nav-brand">Red de Autoridades PS · Santa Fe</span>
+    </div>
+  </div>
 </nav>
 
 <div class="page-header">
-  <div class="header-inner">
-    <div class="header-kicker">Directorio oficial · Actualizado 2026</div>
-    <h1>Autoridades locales del<br><em>Partido Socialista</em> en Santa Fe</h1>
-    <p>Intendentes, concejales y presidentes comunales del PS en toda la provincia. Un mapa vivo de nuestra presencia territorial.</p>
-  </div>
+  <div class="page-eyebrow">Foro de Autoridades Locales · Partido Socialista Santa Fe</div>
+  <h1>Autoridades en territorio</h1>
+  <p>Directorio de intendentes, concejales y presidentes comunales socialistas en toda la provincia</p>
+  <div class="header-badge">🗺 Más de 75 autoridades · 15 departamentos</div>
 </div>
 
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat-item"><span class="n" id="statTotal">0</span><div class="l">Autoridades en la red</div></div>
-    <div class="stat-item"><span class="n" id="statIntendenteN">0</span><div class="l">Intendentes</div></div>
-    <div class="stat-item"><span class="n" id="statConcejal">0</span><div class="l">Concejales</div></div>
-    <div class="stat-item"><span class="n" id="statPresidente">0</span><div class="l">Presidentes comunales</div></div>
-    <div class="stat-item"><span class="n" id="statDeptos">0</span><div class="l">Departamentos</div></div>
-    <div class="stat-item"><span class="n" id="statLocalidades">0</span><div class="l">Localidades</div></div>
+    <div class="stat-item"><span class="stat-n" id="sTotal">—</span><div class="stat-l">Total</div></div>
+    <div class="stat-item"><span class="stat-n" id="sInt">—</span><div class="stat-l">Intendentes</div></div>
+    <div class="stat-item"><span class="stat-n" id="sConc">—</span><div class="stat-l">Concejales</div></div>
+    <div class="stat-item"><span class="stat-n" id="sCom">—</span><div class="stat-l">Ptes. Comunales</div></div>
+    <div class="stat-item"><span class="stat-n" id="sLoc">—</span><div class="stat-l">Localidades</div></div>
   </div>
 </div>
 
-<div class="main-layout">
-  <div>
-    <div class="filtros-card">
-      <div class="filtros-row">
-        <span class="filtro-label">Filtrar</span>
-        <input class="filtro-input" type="text" id="buscar" placeholder="🔍 Buscar nombre, localidad...">
-        <select class="filtro-select" id="filtroDepto"><option value="">Todos los departamentos</option></select>
-        <select class="filtro-select" id="filtroCargo"><option value="">Todos los cargos</option><option value="intendente">Intendentes</option><option value="concejal">Concejales</option><option value="presidente">Presidentes comunales</option></select>
-        <button class="btn-reset" onclick="resetFiltros()">Limpiar</button>
+<div class="container">
+  <div class="aut-layout">
+    <div class="mapa-col">
+      <div class="mapa-wrap">
+        <div id="mapaLeaflet"></div>
+        <div class="mapa-leyenda">
+          <div class="leg-item"><span class="leg-int"></span> Intendente</div>
+          <div class="leg-item"><span class="leg-conc"></span> Concejal</div>
+          <div class="leg-item"><span class="leg-com"></span> Pte. Comunal</div>
+        </div>
       </div>
-      <div class="filtros-result" id="filtrosResult"></div>
     </div>
-    <div id="listaDeptos"></div>
-  </div>
-
-  <div>
-    <div class="mapa-card">
-      <div class="mapa-header"><div><h3>🗺 Presencia territorial PS</h3><p>Hacé clic en un punto para ver el detalle</p></div></div>
-      <div id="mapa"></div>
-      <div class="mapa-leyenda">
-        <div class="leyenda-item"><div class="leyenda-dot" style="background:#F59E0B"></div>Intendente</div>
-        <div class="leyenda-item"><div class="leyenda-dot" style="background:#C41230"></div>Concejal</div>
-        <div class="leyenda-item"><div class="leyenda-dot" style="background:#22D3EE"></div>Pte. Comunal</div>
+    <div class="lista-col">
+      <div class="buscar-wrap">
+        <span class="buscar-icon">🔍</span>
+        <input type="text" class="buscar-input" id="buscarInput" placeholder="Buscar por nombre, localidad o departamento…" oninput="filtrar(this.value)">
       </div>
+      <div id="listaDeptos"><div class="loading-msg">Cargando...</div></div>
+      <p class="no-res" id="noRes">Sin resultados para esta búsqueda.</p>
     </div>
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const SHEET_ID='16Y5BqzJauMD_DAbR0HZ3CFk9LhbYe234v3G-3D6-ZBw';
-const TAB=encodeURIComponent('autoridades locales');
+var AS_URL='https://script.google.com/macros/s/AKfycbxaCw6C8RaU8DJu2W-Fv9hYBZr2NQsnMSuPP4QDVIrNapfC49u64uAHNcyuRBltx28P/exec';
 
-const COORDS={
-  'San José de la Esquina':{coords:[-33.218,-61.234],tipo:"municipio"},
-  'Bigand':{coords:[-33.468,-61.185],tipo:"comuna"},
-  'Sunchales':{coords:[-30.944,-61.561],tipo:"municipio"},
-  'San Vicente':{coords:[-31.367,-61.000],tipo:"municipio"},
-  'Eusebia':{coords:[-30.966,-61.617],tipo:"comuna"},
-  'Colonia Raquel':{coords:[-30.817,-61.617],tipo:"comuna"},
-  'Aldao':{coords:[-30.883,-61.450],tipo:"comuna"},
-  'Colonia Margarita':{coords:[-30.833,-61.667],tipo:"comuna"},
-  'Zenon Pereyra':{coords:[-31.000,-61.100],tipo:"comuna"},
-  'Colonia Iturraspe':{coords:[-31.133,-61.500],tipo:"comuna"},
-  'Colonia Maua':{coords:[-31.017,-61.483],tipo:"comuna"},
-  'Villa Constitución':{coords:[-33.229,-60.334],tipo:"municipio"},
-  'Cañada Rica':{coords:[-33.167,-60.233],tipo:"comuna"},
-  'J.B. Molina':{coords:[-33.317,-60.433],tipo:"comuna"},
-  'Sargento Cabral':{coords:[-33.367,-60.500],tipo:"comuna"},
-  'Santa Rosa de Calchines':{coords:[-30.217,-60.783],tipo:"comuna"},
-  'Venado Tuerto':{coords:[-33.744,-61.969],tipo:"municipio"},
-  'Firmat':{coords:[-33.457,-61.487],tipo:"municipio"},
-  'Diego de Alvear':{coords:[-34.033,-62.317],tipo:"comuna"},
-  'Aaron Castellanos':{coords:[-33.800,-61.650],tipo:"comuna"},
-  'Christophersen':{coords:[-33.900,-62.050],tipo:"comuna"},
-  'San Francisco':{coords:[-33.950,-61.650],tipo:"comuna"},
-  'Las Toscas':{coords:[-28.360,-59.260],tipo:"municipio"},
-  'Reconquista':{coords:[-29.150,-59.650],tipo:"municipio"},
-  'Villa Ocampo':{coords:[-28.410,-59.353],tipo:"municipio"},
-  'San Antonio de Obligado':{coords:[-28.517,-59.667],tipo:"comuna"},
-  'Correa':{coords:[-32.917,-61.053],tipo:"comuna"},
-  'Villa Eloisa':{coords:[-32.717,-61.367],tipo:"comuna"},
-  'Recreo':{coords:[-31.483,-60.733],tipo:"municipio"},
-  'San José del Rincón':{coords:[-31.600,-60.567],tipo:"municipio"},
-  'Laguna Paiva':{coords:[-31.283,-60.650],tipo:"municipio"},
-  'Santo Tomé':{coords:[-31.667,-60.767],tipo:"municipio"},
-  'Santo Domingo':{coords:[-30.583,-60.883],tipo:"comuna"},
-  'San Carlos Centro':{coords:[-31.733,-61.100],tipo:"municipio"},
-  'Esteban Rams':{coords:[-29.000,-61.400],tipo:"comuna"},
-  'Juan de Garay':{coords:[-29.350,-61.350],tipo:"comuna"},
-  'Villa Minetti':{coords:[-28.667,-61.017],tipo:"municipio"},
-  'Alvear':{coords:[-33.383,-60.017],tipo:"municipio"},
-  'Pueblo Esther':{coords:[-33.050,-60.683],tipo:"municipio"},
-  'Rosario':{coords:[-32.944,-60.650],tipo:"municipio"},
-  'Villa Gobernador Gálvez':{coords:[-33.033,-60.633],tipo:"municipio"},
-  'Acebal':{coords:[-33.233,-60.783],tipo:"comuna"},
-  'Coronel Domínguez':{coords:[-33.217,-60.567],tipo:"comuna"},
-  'Villa Amelia':{coords:[-33.133,-60.767],tipo:"comuna"},
-  'Suardi':{coords:[-30.533,-62.417],tipo:"municipio"},
-  'Gálvez':{coords:[-32.033,-61.217],tipo:"municipio"},
-  'Barrancas':{coords:[-32.167,-60.783],tipo:"comuna"},
-  'San Jorge':{coords:[-31.883,-61.867],tipo:"municipio"},
-  'El Trébol':{coords:[-31.817,-61.717],tipo:"municipio"},
-  'San Martín de las Escobas':{coords:[-31.800,-61.933],tipo:"comuna"},
-  'La Gallareta':{coords:[-29.433,-60.167],tipo:"comuna"},
-  'Vera':{coords:[-29.467,-60.217],tipo:"municipio"},
+// Datos completos hardcodeados (fuente de verdad)
+var AUTORIDADES=[
+  // CASEROS
+  {d:'Caseros',l:'San José de la Esquina',c:'Intendente',n:'Ezequiel Ruani',t:'3425 31-5947',ig:'',fb:''},
+  {d:'Caseros',l:'San José de la Esquina',c:'Concejal',n:'Yoana Dalbello',t:'3467 43-8952',ig:'',fb:''},
+  {d:'Caseros',l:'San José de la Esquina',c:'Concejal',n:'Juan Pablo Coniglio',t:'3467 41-7291',ig:'',fb:''},
+  {d:'Caseros',l:'Bigand',c:'Pte. Comunal',n:'Natalia Valeri',t:'3416 84-7333',ig:'',fb:''},
+  // CASTELLANOS
+  {d:'Castellanos',l:'Sunchales',c:'Intendente',n:'Pablo Pinotti',t:'3492 32-0854',ig:'',fb:''},
+  {d:'Castellanos',l:'Sunchales',c:'Concejal',n:'José Delmastro',t:'3493 41-6305',ig:'',fb:''},
+  {d:'Castellanos',l:'Sunchales',c:'Concejal',n:'Brenda Torrini',t:'3493 45-5600',ig:'',fb:''},
+  {d:'Castellanos',l:'Sunchales',c:'Concejal',n:'Juano Astor',t:'3493 49-5863',ig:'',fb:''},
+  {d:'Castellanos',l:'San Vicente',c:'Concejal',n:'Juan Carlos Marchese',t:'3401 64-0111',ig:'',fb:''},
+  {d:'Castellanos',l:'Eusebia',c:'Pte. Comunal',n:'Susana Gimenez',t:'3493 44-3782',ig:'',fb:''},
+  {d:'Castellanos',l:'Colonia Raquel',c:'Pte. Comunal',n:'Luciana Peter',t:'3493 43-6850',ig:'',fb:''},
+  {d:'Castellanos',l:'Aldao',c:'Pte. Comunal',n:'Lorena Eberhardt',t:'3493 46-0435',ig:'',fb:''},
+  {d:'Castellanos',l:'Colonia Margarita',c:'Pte. Comunal',n:'Titi Muratore',t:'3492 30-3062',ig:'',fb:''},
+  {d:'Castellanos',l:'Zenón Pereyra',c:'Pte. Comunal',n:'Veronica Gallo',t:'3564 33-5478',ig:'',fb:''},
+  {d:'Castellanos',l:'Colonia Iturraspe',c:'Pte. Comunal',n:'Dario Picco',t:'3492 31-6148',ig:'',fb:''},
+  {d:'Castellanos',l:'Colonia Mauá',c:'Pte. Comunal',n:'Ricardo Garbagnolli',t:'3493 66-2551',ig:'',fb:''},
+  // CONSTITUCIÓN
+  {d:'Constitución',l:'Villa Constitución',c:'Concejal',n:'Diego Martin',t:'3400 41-7834',ig:'',fb:''},
+  {d:'Constitución',l:'Villa Constitución',c:'Concejal',n:'Francisco Bracalenti',t:'3364 64-2204',ig:'',fb:''},
+  {d:'Constitución',l:'Cañada Rica',c:'Pte. Comunal',n:'Oscar Fernandez',t:'3364 56-2696',ig:'',fb:''},
+  {d:'Constitución',l:'J.B. Molina',c:'Pte. Comunal',n:'Ignacio Galligani',t:'3413 58-4766',ig:'',fb:''},
+  {d:'Constitución',l:'Sargento Cabral',c:'Pte. Comunal',n:'Juan Ignacio Genzano',t:'3415 94-4275',ig:'',fb:''},
+  // GARAY
+  {d:'Garay',l:'Santa Rosa de Calchines',c:'Pte. Comunal',n:'Carlos Yossen',t:'3424 87-1117',ig:'',fb:''},
+  // GENERAL LÓPEZ
+  {d:'General López',l:'Venado Tuerto',c:'Concejal',n:'Micaela Mineiro',t:'3462 63-9815',ig:'',fb:''},
+  {d:'General López',l:'Firmat',c:'Concejal',n:'Alina Vargas Amato',t:'3465 59-2384',ig:'',fb:''},
+  {d:'General López',l:'Diego de Alvear',c:'Pte. Comunal',n:'Pablo Sosa',t:'3382 57-1759',ig:'',fb:''},
+  {d:'General López',l:'Aarón Castellanos',c:'Pte. Comunal',n:'Wualther Ramanzin',t:'3382 45-7353',ig:'',fb:''},
+  {d:'General López',l:'Christophersen',c:'Pte. Comunal',n:'Javier Martinez',t:'3462 55-3778',ig:'',fb:''},
+  {d:'General López',l:'San Francisco de Sta. Fe',c:'Pte. Comunal',n:'Ignacio Freytes',t:'3462 63-2255',ig:'',fb:''},
+  // GENERAL OBLIGADO
+  {d:'General Obligado',l:'Las Toscas',c:'Intendente',n:'Ivan Sanchez',t:'3482 63-8006',ig:'',fb:''},
+  {d:'General Obligado',l:'Las Toscas',c:'Concejal',n:'Alejandro Delssin',t:'3482 55-4567',ig:'',fb:''},
+  {d:'General Obligado',l:'Las Toscas',c:'Concejal',n:'Miguel Gutierrez',t:'3482 37-6610',ig:'',fb:''},
+  {d:'General Obligado',l:'Reconquista',c:'Concejal',n:'Marisa Flores',t:'3482 51-4685',ig:'',fb:''},
+  {d:'General Obligado',l:'Villa Ocampo',c:'Concejal',n:'Daina Ramirez',t:'3482 60-4622',ig:'',fb:''},
+  {d:'General Obligado',l:'Villa Ocampo',c:'Concejal',n:'Andrea Cracogna',t:'3482 39-4937',ig:'',fb:''},
+  {d:'General Obligado',l:'San Antonio de Obligado',c:'Pte. Comunal',n:'Jorge Ale',t:'3482 59-1309',ig:'',fb:''},
+  // IRIONDO
+  {d:'Iriondo',l:'Correa',c:'Pte. Comunal',n:'Nahuel Cejas',t:'3471 51-2397',ig:'',fb:''},
+  {d:'Iriondo',l:'Villa Eloisa',c:'Pte. Comunal',n:'Luciano Pallotti',t:'3401 64-5653',ig:'',fb:''},
+  // LA CAPITAL
+  {d:'La Capital',l:'Recreo',c:'Intendente',n:'Omar Colombo',t:'3426 14-0998',ig:'',fb:''},
+  {d:'La Capital',l:'Recreo',c:'Concejal',n:'Omar Picard',t:'3426 29-8463',ig:'',fb:''},
+  {d:'La Capital',l:'San José del Rincón',c:'Concejal',n:'Camila Rodriguez del Curto',t:'3425 35-7954',ig:'',fb:''},
+  {d:'La Capital',l:'Laguna Paiva',c:'Concejal',n:'Melina Andrés',t:'3425 46-2249',ig:'',fb:''},
+  {d:'La Capital',l:'Santo Tomé',c:'Concejal',n:'Alejandra Chena',t:'3424 05-4647',ig:'',fb:''},
+  // LAS COLONIAS
+  {d:'Las Colonias',l:'Santo Domingo',c:'Pte. Comunal',n:'Patricia Arber',t:'3496 44-3742',ig:'',fb:''},
+  {d:'Las Colonias',l:'San Carlos Centro',c:'Concejal',n:'Judith Perren',t:'3404 41-9610',ig:'',fb:''},
+  {d:'Las Colonias',l:'San Carlos Centro',c:'Concejal',n:'Gabriel Otazo',t:'3425 36-5763',ig:'',fb:''},
+  // NUEVE DE JULIO
+  {d:'Nueve de Julio',l:'Esteban Rams',c:'Pte. Comunal',n:'Jose Luis Busto',t:'3491 50-2630',ig:'',fb:''},
+  {d:'Nueve de Julio',l:'Juan de Garay',c:'Pte. Comunal',n:'Leonardo Vera',t:'3491 68-7677',ig:'',fb:''},
+  {d:'Nueve de Julio',l:'Villa Minetti',c:'Concejal',n:'Pedro Junco',t:'3491 69-8608',ig:'',fb:''},
+  // ROSARIO
+  {d:'Rosario',l:'Alvear',c:'Intendente',n:'Carlos Pighin',t:'3413 60-1680',ig:'',fb:''},
+  {d:'Rosario',l:'Alvear',c:'Concejal',n:'Benjamín Perruccio',t:'3417 04-6068',ig:'',fb:''},
+  {d:'Rosario',l:'Alvear',c:'Concejal',n:'Flavia Banfi',t:'3412 09-0213',ig:'',fb:''},
+  {d:'Rosario',l:'Pueblo Esther',c:'Intendente',n:'Martin Gherardi',t:'',ig:'',fb:''},
+  {d:'Rosario',l:'Rosario',c:'Concejal',n:'Federico Lifschitz',t:'3413 49-4950',ig:'',fb:''},
+  {d:'Rosario',l:'Rosario',c:'Concejal',n:'Manuel Sciutto',t:'3412 29-6544',ig:'',fb:''},
+  {d:'Rosario',l:'Rosario',c:'Concejal',n:'Alicia Pino',t:'3412 79-7712',ig:'',fb:''},
+  {d:'Rosario',l:'Villa Gobernador Gálvez',c:'Intendente',n:'Alberto Ricci',t:'3413 51-0594',ig:'',fb:''},
+  {d:'Rosario',l:'Villa Gobernador Gálvez',c:'Concejal',n:'Esteban Lenci',t:'3416 43-3416',ig:'',fb:''},
+  {d:'Rosario',l:'Villa Gobernador Gálvez',c:'Concejal',n:'Patricia González',t:'3413 21-6254',ig:'',fb:''},
+  {d:'Rosario',l:'Villa Gobernador Gálvez',c:'Concejal',n:'José Bulsicco',t:'3415 02-5501',ig:'',fb:''},
+  {d:'Rosario',l:'Acebal',c:'Pte. Comunal',n:'Lala Lucci',t:'3469 69-5941',ig:'',fb:''},
+  {d:'Rosario',l:'Coronel Dominguez',c:'Pte. Comunal',n:'Mónica Villegas',t:'3402 50-6069',ig:'',fb:''},
+  {d:'Rosario',l:'Villa Amelia',c:'Pte. Comunal',n:'Javier Ruggeri',t:'3402 55-9863',ig:'',fb:''},
+  // SAN CRISTÓBAL
+  {d:'San Cristóbal',l:'San Cristóbal',c:'Concejal',n:'Maximiliano Lopez',t:'3416 88-0285',ig:'',fb:''},
+  {d:'San Cristóbal',l:'Suardi',c:'Concejal',n:'Agustin Peretti',t:'3562 52-1673',ig:'',fb:''},
+  {d:'San Cristóbal',l:'Suardi',c:'Concejal',n:'Gonzalo Rui',t:'3562 41-0017',ig:'',fb:''},
+  // SAN JERÓNIMO
+  {d:'San Jerónimo',l:'Gálvez',c:'Concejal',n:'Santiago Pestarini',t:'',ig:'',fb:''},
+  {d:'San Jerónimo',l:'Gálvez',c:'Concejal',n:'Monica Rivelo',t:'3404 49-1935',ig:'',fb:''},
+  {d:'San Jerónimo',l:'Barrancas',c:'Pte. Comunal',n:'Gustavo Ramos',t:'3466 55-9714',ig:'',fb:''},
+  // SAN MARTÍN
+  {d:'San Martín',l:'San Jorge',c:'Concejal',n:'Rodrigo Duín',t:'3406 64-4909',ig:'',fb:''},
+  {d:'San Martín',l:'El Trébol',c:'Concejal',n:'Laura Raspantti',t:'',ig:'',fb:''},
+  {d:'San Martín',l:'San Martín de las Escobas',c:'Pte. Comunal',n:'Marcos Alarcon',t:'3406 45-6869',ig:'',fb:''},
+  // VERA
+  {d:'Vera',l:'La Gallareta',c:'Pte. Comunal',n:'Fernando Nicola',t:'3483 48-2342',ig:'',fb:''},
+  {d:'Vera',l:'Vera',c:'Concejal',n:'Ana Paula Capello',t:'',ig:'',fb:''},
+];
+
+var LATLNG={
+  'Villa Ocampo':[-28.48,-59.36],'Las Toscas':[-28.36,-59.27],'San Antonio de Obligado':[-28.10,-59.69],
+  'Reconquista':[-29.15,-59.64],'Vera':[-29.46,-60.21],'La Gallareta':[-29.43,-59.96],
+  'Villa Minetti':[-29.84,-61.63],'Esteban Rams':[-29.87,-61.40],'Juan de Garay':[-29.97,-61.34],
+  'Suardi':[-30.55,-62.04],'San Cristóbal':[-30.31,-61.73],'Eusebia':[-30.41,-61.64],
+  'Colonia Mauá':[-30.45,-61.48],'Colonia Raquel':[-30.47,-61.71],'Sunchales':[-30.94,-61.55],
+  'Colonia Iturraspe':[-30.75,-61.66],'Zenón Pereyra':[-30.64,-61.58],'Aldao':[-30.78,-61.80],
+  'Colonia Margarita':[-30.89,-61.69],'Santa Rosa de Calchines':[-30.93,-60.18],
+  'Laguna Paiva':[-31.31,-60.66],'San Vicente':[-30.81,-61.32],'Recreo':[-31.48,-60.75],
+  'San José del Rincón':[-31.59,-60.61],'Santo Domingo':[-30.91,-61.22],'Santo Tomé':[-31.67,-60.77],
+  'San Carlos Centro':[-31.05,-61.09],'San Jorge':[-31.89,-61.86],'San Martín de las Escobas':[-31.82,-61.69],
+  'Gálvez':[-32.03,-61.22],'El Trébol':[-32.19,-61.99],'Barrancas':[-32.16,-61.07],
+  'Villa Eloisa':[-32.43,-61.79],'Correa':[-32.61,-61.44],'Rosario':[-32.95,-60.65],
+  'San José de la Esquina':[-33.11,-62.05],'Alvear':[-32.93,-60.39],
+  'Villa Gobernador Gálvez':[-33.03,-60.63],'Pueblo Esther':[-33.07,-60.58],
+  'Villa Constitución':[-33.23,-60.33],'Acebal':[-33.25,-60.83],'Villa Amelia':[-33.20,-61.05],
+  'Bigand':[-33.39,-61.88],'Cañada Rica':[-33.27,-60.19],'J.B. Molina':[-33.38,-60.36],
+  'Sargento Cabral':[-33.44,-60.10],'Coronel Dominguez':[-33.44,-60.80],'Firmat':[-33.46,-61.49],
+  'Aarón Castellanos':[-33.52,-62.09],'Christophersen':[-33.56,-61.94],'San Francisco de Sta. Fe':[-33.60,-61.82],
+  'Venado Tuerto':[-33.73,-61.97],'Diego de Alvear':[-34.03,-62.53],
 };
 
-function normalizarCargo(c){
-  if(!c)return'';
-  const cl=c.toLowerCase().trim();
-  if(cl.includes('intendente'))return'Intendente';
-  if(cl.includes('concejal'))return'Concejal';
-  if(cl.includes('comunal')||cl.includes('pta.')||cl.includes('pte.'))return'Presidente Comunal';
-  return c;
+// Stats
+function renderStats(lista){
+  var l=lista||AUTORIDADES;
+  document.getElementById('sTotal').textContent=l.length;
+  document.getElementById('sInt').textContent=l.filter(function(a){return a.c==='Intendente';}).length;
+  document.getElementById('sConc').textContent=l.filter(function(a){return a.c==='Concejal';}).length;
+  document.getElementById('sCom').textContent=l.filter(function(a){return a.c==='Pte. Comunal';}).length;
+  document.getElementById('sLoc').textContent=[...new Set(l.map(function(a){return a.l;}))].length;
 }
 
-function normalizar(str){
-  return(str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+// Normalizer
+function norm(s){return(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
+
+// Per-localidad data
+var locData={};
+function buildLocData(lista){
+  locData={};
+  lista.forEach(function(a){
+    if(!locData[a.l])locData[a.l]={dept:a.d,hasInt:false,hasConc:false,hasCom:false,personas:[]};
+    if(a.c==='Intendente')locData[a.l].hasInt=true;
+    if(a.c==='Concejal')locData[a.l].hasConc=true;
+    if(a.c==='Pte. Comunal')locData[a.l].hasCom=true;
+    locData[a.l].personas.push(a);
+  });
 }
 
-async function cargarAutoridades(){
-  try{
-    const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB}&tq=select%20*`;
-    const res=await fetch(url);
-    const txt=await res.text();
-    const data=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));
-    const rows=data.table.rows;
-    if(!rows||rows.length<1)return[];
-    // Usar data.table.cols para detectar headers (funciona aunque el Sheet
-    // tenga una fila de título fusionada encima de los encabezados reales)
-    let header=data.table.cols.map(c=>c?c.label:'');
-    let dataRows=rows;
-    if(!header.some(h=>h&&normalizar(String(h)).includes('nombre'))){
-      // cols no tiene los nombres: buscar la fila de encabezado dentro de las rows
-      const hIdx=rows.findIndex(r=>r.c&&r.c.some(c=>c&&c.v&&normalizar(String(c.v)).includes('nombre')));
-      if(hIdx<0)return[];
-      header=rows[hIdx].c.map(c=>c&&c.v!=null?String(c.v):'');
-      dataRows=rows.slice(hIdx+1);
-    }
-    const iDepto=header.findIndex(h=>h&&normalizar(h).includes('departamento'));
-    const iMunic=header.findIndex(h=>h&&normalizar(h).includes('municipio'));
-    const iComuna=header.findIndex(h=>h&&normalizar(h).includes('comuna'));
-    const iCargo=header.findIndex(h=>h&&normalizar(h).includes('cargo'));
-    const iNombre=header.findIndex(h=>h&&normalizar(h).includes('nombre'));
-    const iTel=header.findIndex(h=>h&&(normalizar(h).includes('tel')||normalizar(h).includes('fono')));
-    const iIg=header.findIndex(h=>h&&normalizar(h).includes('instagram'));
-    const iFb=header.findIndex(h=>h&&normalizar(h).includes('facebook'));
-    const result=[];
-    dataRows.forEach(row=>{
-      const cel=row.c;
-      const nombre=(cel[iNombre]&&cel[iNombre].v)||'';
-      if(!nombre.trim())return;
-      const depto=((cel[iDepto]&&cel[iDepto].v)||'').toUpperCase().trim();
-      const municipio=(cel[iMunic]&&cel[iMunic].v)||'';
-      const comuna=(cel[iComuna]&&cel[iComuna].v)||'';
-      const lugar=municipio.trim()||comuna.trim()||depto;
-      const cargo=normalizarCargo((cel[iCargo]&&cel[iCargo].v)||'');
-      const tel=(iTel>=0&&cel[iTel]&&cel[iTel].v)||'';
-      const ig=(iIg>=0&&cel[iIg]&&cel[iIg].v)||'';
-      const fb=(iFb>=0&&cel[iFb]&&cel[iFb].v)||'';
-      const coordData=COORDS[lugar]||COORDS[municipio.trim()]||COORDS[comuna.trim()]||null;
-      result.push({
-        depto,lugar,
-        tipo:coordData?coordData.tipo:(municipio.trim()?'municipio':'comuna'),
-        cargo,nombre,
-        tel:tel.replace(/[^\d\s\-]/g,'').trim(),
-        ig:ig.replace('@','').trim(),
-        fb:fb.replace('@','').trim(),
-        coords:coordData?coordData.coords:null
+// MAP
+var leafletMap=null,leafletMarkers={};
+function renderMapa(){
+  if(leafletMap)return;
+  leafletMap=L.map('mapaLeaflet',{center:[-31.5,-60.9],zoom:6,zoomControl:true,scrollWheelZoom:false,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(leafletMap);
+  L.control.attribution({prefix:false,position:'bottomright'}).addAttribution('© <a href="https://carto.com">CARTO</a>').addTo(leafletMap);
+  // Silueta Santa Fe
+  L.geoJSON({type:'Feature',geometry:{type:'Polygon',coordinates:[[
+    [-63.0,-28.0],[-62.5,-28.0],[-61.5,-28.0],[-60.8,-28.1],[-60.0,-28.3],
+    [-59.7,-28.6],[-59.5,-29.0],[-59.3,-29.5],[-59.3,-30.0],[-59.5,-30.5],
+    [-59.8,-31.0],[-60.0,-31.5],[-60.2,-31.9],[-60.4,-32.3],[-60.4,-32.8],
+    [-60.2,-33.2],[-60.0,-33.7],[-60.0,-34.0],[-60.2,-34.3],[-60.6,-34.6],
+    [-61.2,-34.7],[-61.8,-34.5],[-62.3,-34.1],[-62.8,-33.7],[-63.2,-33.0],
+    [-63.2,-32.0],[-63.2,-31.0],[-63.1,-29.5],[-63.0,-28.5],[-63.0,-28.0]
+  ]]}},{style:{color:'#C41230',weight:1.5,fillOpacity:0,opacity:0.35,dashArray:'5 4'}}).addTo(leafletMap);
+  updateMapMarkers(AUTORIDADES);
+}
+
+function updateMapMarkers(lista){
+  Object.values(leafletMarkers).forEach(function(m){leafletMap.removeLayer(m.marker);});
+  leafletMarkers={};
+  buildLocData(lista);
+  Object.keys(locData).forEach(function(loc){
+    var ll=LATLNG[loc];
+    if(!ll)return;
+    var info=locData[loc];
+    var tipo=info.hasInt?'int':(info.hasConc?'conc':'com');
+    var color=tipo==='com'?'#c9870e':'#C41230';
+    var radius=tipo==='int'?9:(tipo==='conc'?6:5);
+    var marker=L.circleMarker(ll,{radius:radius,color:color,fillColor:color,fillOpacity:tipo==='int'?1:0.78,weight:tipo==='int'?2.5:1.5,opacity:1}).addTo(leafletMap);
+    var popHtml='<div style="font-size:.82rem;min-width:150px"><div style="font-weight:700;color:#e88;margin-bottom:4px;font-size:.9rem">'+esc(loc)+'</div>'
+      +info.personas.map(function(p){
+        return '<div style="margin-bottom:3px"><span style="font-size:.72rem;color:#aaa">'+esc(p.c)+'</span> '+esc(p.n)
+          +(p.ig?' <span style="color:#c86dd7;font-size:.7rem">@'+esc(p.ig)+'</span>':'')+'</div>';
+      }).join('')+'</div>';
+    marker.bindPopup(popHtml);
+    marker.on('click',function(){hilite(loc);});
+    leafletMarkers[loc]={marker:marker,tipo:tipo};
+  });
+}
+
+// LIST
+function badge(c){
+  if(c==='Intendente')return'<span class="bdg bdg-int">Intendente</span>';
+  if(c==='Concejal')return'<span class="bdg bdg-conc">Concejal</span>';
+  return'<span class="bdg bdg-com">Pte. Comunal</span>';
+}
+
+function renderLista(q){
+  q=(q||'').toLowerCase().trim();
+  var container=document.getElementById('listaDeptos');
+  var noRes=document.getElementById('noRes');
+  var lista=q?AUTORIDADES.filter(function(a){return(norm(a.n)+' '+norm(a.l)+' '+norm(a.d)).indexOf(norm(q))!==-1;}):AUTORIDADES;
+  if(!lista.length){container.innerHTML='';noRes.style.display='block';dimDots({});return;}
+  noRes.style.display='none';
+  renderStats(lista);
+  var deptos={};
+  lista.forEach(function(a){
+    if(!deptos[a.d])deptos[a.d]={};
+    if(!deptos[a.d][a.l])deptos[a.d][a.l]=[];
+    deptos[a.d][a.l].push(a);
+  });
+  var html='';
+  Object.keys(deptos).sort().forEach(function(dept){
+    var locs=deptos[dept];
+    var nP=lista.filter(function(a){return a.d===dept;}).length;
+    html+='<div class="dept-block"><div class="dept-title">Dpto. '+esc(dept)+' <span class="dept-count">'+nP+' autoridad'+(nP!==1?'es':'')+'</span></div><div class="locs-grid">';
+    Object.keys(locs).sort().forEach(function(loc){
+      var pers=locs[loc].slice().sort(function(a,b){var o={Intendente:0,Concejal:1,'Pte. Comunal':2};return(o[a.c]||3)-(o[b.c]||3);});
+      var lid='loc-'+loc.replace(/[^a-zA-Z0-9]/g,'_');
+      html+='<div class="loc-block" id="'+lid+'" onclick="hilite(\''+escJ(loc)+'\')">';
+      html+='<div class="loc-nombre">'+esc(loc)+'</div>';
+      pers.forEach(function(p){
+        html+='<div class="persona">'+badge(p.c)+'<div class="persona-info"><span class="persona-nombre">'+esc(p.n)+'</span>';
+        html+='<div class="persona-redes">';
+        if(p.t)html+='<a href="https://wa.me/549'+p.t.replace(/\s|-/g,'')+ '" class="tel-link" target="_blank">📞 '+esc(p.t)+'</a>';
+        if(p.ig)html+='<a href="https://instagram.com/'+esc(p.ig)+'" class="ig-link" target="_blank">📷 @'+esc(p.ig)+'</a>';
+        html+='</div></div></div>';
       });
+      html+='</div>';
     });
-    return result;
-  }catch(e){console.warn('Error cargando Sheet:',e);return[];}
+    html+='</div></div>';
+  });
+  container.innerHTML=html;
+  // Dim dots not in current filter
+  var matchLocs={};
+  lista.forEach(function(a){matchLocs[a.l]=true;});
+  dimDots(matchLocs);
+  // Rebuild map markers for filtered data
+  if(leafletMap)updateMapMarkers(lista);
 }
 
-function colorCargo(c){if(c==='Intendente')return'#F59E0B';if(c==='Concejal')return'#E8192C';return'#22D3EE'}
-function classBadge(c){if(c==='Intendente')return'cargo-intendente';if(c==='Concejal')return'cargo-concejal';return'cargo-presidente'}
-
-function calcStats(data){
-  return{
-    total:data.length,
-    intendentes:data.filter(a=>a.cargo==='Intendente').length,
-    concejales:data.filter(a=>a.cargo==='Concejal').length,
-    presidentes:data.filter(a=>a.cargo==='Presidente Comunal').length,
-    deptos:[...new Set(data.map(a=>a.depto))].length,
-    localidades:[...new Set(data.map(a=>a.lugar))].length
-  }
+var activeLocEl=null;
+function hilite(loc){
+  if(activeLocEl)activeLocEl.classList.remove('highlighted');
+  var lid='loc-'+loc.replace(/[^a-zA-Z0-9]/g,'_');
+  var el=document.getElementById(lid);
+  if(el){el.classList.add('highlighted');el.scrollIntoView({behavior:'smooth',block:'center'});activeLocEl=el;}
+  var m=leafletMarkers[loc];
+  if(m&&leafletMap){leafletMap.setView(m.marker.getLatLng(),Math.max(leafletMap.getZoom(),9),{animate:true});m.marker.openPopup();}
 }
 
-function renderStats(data){
-  const s=calcStats(data);
-  document.getElementById('statTotal').textContent=s.total;
-  document.getElementById('statIntendenteN').textContent=s.intendentes;
-  document.getElementById('statConcejal').textContent=s.concejales;
-  document.getElementById('statPresidente').textContent=s.presidentes;
-  document.getElementById('statDeptos').textContent=s.deptos;
-  document.getElementById('statLocalidades').textContent=s.localidades;
-}
-
-
-// Datos de población - Censo INDEC 2010 (fuente oficial)
-const POBLACION={
-  'Rosario':{hab:948312,censo:'2010'},
-  'Villa Gobernador Gálvez':{hab:83638,censo:'2010'},
-  'Reconquista':{hab:80229,censo:'2010'},
-  'Venado Tuerto':{hab:71936,censo:'2010'},
-  'Santo Tomé':{hab:68778,censo:'2010'},
-  'Sunchales':{hab:33527,censo:'2010'},
-  'Villa Constitución':{hab:45785,censo:'2010'},
-  'Las Toscas':{hab:21844,censo:'2010'},
-  'Vera':{hab:21960,censo:'2010'},
-  'San Jorge':{hab:20197,censo:'2010'},
-  'Gálvez':{hab:20048,censo:'2010'},
-  'Firmat':{hab:17904,censo:'2010'},
-  'San Cristóbal':{hab:17424,censo:'2010'},
-  'El Trébol':{hab:13254,censo:'2010'},
-  'Laguna Paiva':{hab:12321,censo:'2010'},
-  'San Carlos Centro':{hab:14872,censo:'2010'},
-  'Recreo':{hab:14000,censo:'2010'},
-  'Alvear':{hab:14000,censo:'2010'},
-  'Villa Ocampo':{hab:13200,censo:'2010'},
-  'San José del Rincón':{hab:11000,censo:'2010'},
-};
-
-const map=L.map('mapa',{center:[-31.2,-60.5],zoom:6,scrollWheelZoom:false});
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',maxZoom:19}).addTo(map);
-
-// Silueta de la Provincia de Santa Fe (polígono simplificado, ref. IGN)
-const SANTA_FE_GJ={type:'Feature',properties:{name:'Santa Fe'},geometry:{type:'Polygon',coordinates:[[
-  [-63.0,-28.0],[-62.5,-28.0],[-61.5,-28.0],[-60.8,-28.1],[-60.0,-28.3],
-  [-59.7,-28.6],[-59.5,-29.0],[-59.3,-29.5],[-59.3,-30.0],[-59.5,-30.5],
-  [-59.8,-31.0],[-60.0,-31.5],[-60.2,-31.9],[-60.4,-32.3],[-60.4,-32.8],
-  [-60.2,-33.2],[-60.0,-33.7],[-60.0,-34.0],[-60.2,-34.3],[-60.6,-34.6],
-  [-61.2,-34.7],[-61.8,-34.5],[-62.3,-34.1],[-62.8,-33.7],[-63.2,-33.0],
-  [-63.2,-32.0],[-63.2,-31.0],[-63.1,-29.5],[-63.0,-28.5],[-63.0,-28.0]
-]]}};
-L.geoJSON(SANTA_FE_GJ,{style:{color:'#C41230',weight:2,fillColor:'#C41230',fillOpacity:0.05,opacity:0.5}}).addTo(map);
-
-let marcadores=[];
-function renderMapa(data){
-  marcadores.forEach(m=>map.removeLayer(m));marcadores=[];
-  const grupos={};
-  data.filter(a=>a.coords).forEach(a=>{const k=a.coords.join(',');if(!grupos[k])grupos[k]=[];grupos[k].push(a)});
-  Object.entries(grupos).forEach(([k,arr])=>{
-    const[lat,lon]=k.split(',').map(Number);
-    const color=colorCargo(arr[0].cargo);
-    const sz=Math.min(12+arr.length*3,26);
-    const icon=L.divIcon({html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;">${arr.length>1?arr.length:''}</div>`,className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]});
-    const html=arr.map(p=>{
-      const pob=POBLACION[p.lugar]||POBLACION[p.lugar.trim()];
-      return`<div style="margin-bottom:${arr.length>1?'8px':'0'};padding-bottom:${arr.length>1?'8px':'0'};border-bottom:${arr.length>1?'1px solid rgba(255,255,255,.1)':'none'}"><div class="popup-cargo" style="color:${colorCargo(p.cargo)}">${p.cargo}</div><div class="popup-nombre">${p.nombre}</div><div class="popup-lugar">${p.lugar} · <em>${p.tipo==='municipio'?'Municipio':'Comuna'}</em></div>${pob?`<div style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:3px">👥 ${pob.hab.toLocaleString('es-AR')} hab. · INDEC ${pob.censo}</div>`:''}<div style="font-size:.72rem;color:rgba(255,255,255,.45);margin-top:1px">📍 ${p.depto}</div>${p.ig?`<div style="font-size:.75rem;margin-top:4px"><a href="https://instagram.com/${p.ig}" target="_blank" style="color:#833AB4;font-weight:600">📷 @${p.ig}</a></div>`:''}</div>`;
-    }).join('');
-    const marker=L.marker([lat,lon],{icon}).addTo(map).bindPopup(html,{maxWidth:240});
-    marcadores.push(marker);
+function dimDots(matchLocs){
+  if(!leafletMarkers)return;
+  Object.keys(leafletMarkers).forEach(function(loc){
+    var m=leafletMarkers[loc];
+    if(!Object.keys(matchLocs).length||matchLocs[loc]){
+      m.marker.setStyle({fillOpacity:m.tipo==='int'?1:0.78,opacity:1});
+    }else{
+      m.marker.setStyle({fillOpacity:0.1,opacity:0.2});
+    }
   });
 }
 
-let DATOS_FILTRADOS=[];
-let TODOS=[];
+function filtrar(q){renderLista(q);}
 
-function renderLista(data){
-  const container=document.getElementById('listaDeptos');container.innerHTML='';
-  const deptos=[...new Set(data.map(a=>a.depto))].sort();
-  if(deptos.length===0){container.innerHTML='<div class="empty-state"><span>🔍</span>No encontramos resultados.</div>';return}
-  deptos.forEach((depto,idx)=>{
-    const personas=data.filter(a=>a.depto===depto);
-    const i=personas.filter(p=>p.cargo==='Intendente').length;
-    const cv=personas.filter(p=>p.cargo==='Concejal').length;
-    const p2=personas.filter(p=>p.cargo==='Presidente Comunal').length;
-    const resumen=[i?`${i} intend.`:'',cv?`${cv} concej.`:'',p2?`${p2} ptes.`:''].filter(Boolean).join(' · ');
-    const div=document.createElement('div');div.className='depto-section';div.setAttribute('data-depto',depto);
-    div.innerHTML=`<div class="depto-header${idx===0?' open':''}" onclick="toggleDepto(this)"><div class="depto-nombre"><span class="depto-badge">${depto}</span><span>${personas.length} ${personas.length===1?'autoridad':'autoridades'}</span></div><div class="depto-count"><span style="color:var(--texto-suave);font-size:.72rem">${resumen}</span><span class="depto-arrow">▼</span></div></div><div class="depto-body${idx===0?' open':''}">
-    ${personas.map(p=>`<div class="autoridad-row"><span class="cargo-badge ${classBadge(p.cargo)}">${p.cargo}</span><div class="aut-lugar"><strong>${p.lugar}</strong>${p.tipo==='municipio'?'Municipio':'Comuna'}</div><div class="aut-nombre">${p.nombre}</div><div class="aut-ig">${p.ig||p.fb||p.tel?`${p.ig?`<a href="https://instagram.com/${p.ig}" target="_blank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> @${p.ig}</a>`:''}<br><small>${p.fb?`<a href="https://facebook.com/${p.fb}" target="_blank" style="color:#1877F2;font-weight:600;font-size:.72rem;text-decoration:none">📘 ${p.fb}</a>`:''}${p.tel?`<a href="https://wa.me/549${p.tel.replace(/\D/g,'')}" target="_blank" style="color:#25D366;font-weight:600;font-size:.72rem;text-decoration:none;margin-left:${p.fb?'8px':'0'}">💬 ${p.tel}</a>`:''}</small>`:'<span class="ig-sin">sin redes</span>'}</div></div>`).join('')}
-    </div>`;
-    container.appendChild(div);
-  });
-  const n=data.length;const l=[...new Set(data.map(a=>a.lugar))].length;
-  document.getElementById('filtrosResult').innerHTML=`Mostrando <strong>${n} autoridades</strong> en <strong>${l} localidades</strong>.`;
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escJ(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+
+// Async: cargar ig/fb desde Apps Script y actualizar tarjetas
+function cargarRedes(){
+  fetch(AS_URL+'?action=getAutoridades')
+    .then(function(r){return r.json();})
+    .then(function(json){
+      if(!json.ok||!json.data)return;
+      var redesMap={};
+      json.data.forEach(function(d){
+        var key=norm(d.nombre);
+        if(d.ig||d.fb)redesMap[key]={ig:(d.ig||'').replace('@','').trim(),fb:(d.fb||'').replace('@','').trim()};
+      });
+      var updated=false;
+      AUTORIDADES.forEach(function(a){
+        var key=norm(a.n);
+        if(redesMap[key]){a.ig=redesMap[key].ig||'';a.fb=redesMap[key].fb||'';updated=true;}
+      });
+      if(updated)renderLista(document.getElementById('buscarInput').value);
+    })
+    .catch(function(){/* falla silenciosamente */});
 }
 
-function toggleDepto(header){header.classList.toggle('open');header.nextElementSibling.classList.toggle('open')}
-
-function poblarFiltroDepto(){
-  const sel=document.getElementById('filtroDepto');
-  sel.innerHTML='<option value="">Todos los departamentos</option>';
-  [...new Set(TODOS.map(a=>a.depto))].sort().forEach(d=>{const opt=document.createElement('option');opt.value=d;opt.textContent=d;sel.appendChild(opt)});
-}
-
-function filtrarDatos(){
-  const texto=normalizar(document.getElementById('buscar').value.trim());
-  const depto=document.getElementById('filtroDepto').value;
-  const cargo=document.getElementById('filtroCargo').value;
-  return TODOS.filter(a=>{
-    if(depto&&a.depto!==depto)return false;
-    if(cargo){const cL=cargo.toLowerCase();if(cL==='intendente'&&a.cargo!=='Intendente')return false;if(cL==='concejal'&&a.cargo!=='Concejal')return false;if(cL==='presidente'&&a.cargo!=='Presidente Comunal')return false}
-    if(texto){const h=normalizar(`${a.nombre} ${a.lugar} ${a.depto} ${a.cargo}`);if(!h.includes(texto))return false}
-    return true;
-  });
-}
-
-function actualizarVista(){const data=filtrarDatos();renderStats(data);renderLista(data);renderMapa(data)}
-function resetFiltros(){document.getElementById('buscar').value='';document.getElementById('filtroDepto').value='';document.getElementById('filtroCargo').value='';actualizarVista()}
-
-document.getElementById('buscar').addEventListener('input',actualizarVista);
-document.getElementById('filtroDepto').addEventListener('change',actualizarVista);
-document.getElementById('filtroCargo').addEventListener('change',actualizarVista);
-map.on('focus',()=>map.scrollWheelZoom.enable());map.on('blur',()=>map.scrollWheelZoom.disable());
-
-// Carga inicial
-document.getElementById('listaDeptos').innerHTML='<div class="empty-state"><span>⏳</span>Cargando datos...</div>';
-cargarAutoridades().then(data=>{
-  TODOS=data;
-  poblarFiltroDepto();
-  actualizarVista();
-});
+// INIT
+renderStats();
+renderMapa();
+renderLista('');
+cargarRedes();
 </script>
 </body>
 </html>
