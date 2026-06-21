@@ -768,9 +768,7 @@ const CONCEJALES_EXT = {
   "Agustin Peretti": {
     foto: "https://drive.google.com/thumbnail?id=1znBV_D5S4YUQjvWGRUtjCv6DLEP5iiBA&sz=w400",
     bio: "Tengo 35 años y soy concejal de la ciudad de Suardi. Además, estudiante de Abogacía. Mi trabajo legislativo se enfoca en promover proyectos vinculados a la transparencia y modernización del Estado, el desarrollo productivo, la sostenibilidad ambiental y las políticas de prevención y acompañamiento frente a los consumos problemáticos. Estoy convencido de que la participación ciudadana y el diálogo son fundamentales para construir una comunidad más justa e inclusiva.",
-    proyectos: [
-      {tipo:"Salud y Acción Social", titulo:"Campaña preventiva sobre los riesgos del juego con apuestas online", link:"https://drive.google.com/file/d/1cHw82TlTk2JIYhY61zyRjPMeWVQZlNiK/view?usp=sharing"}
-    ]
+    proyectos: []
   }
 };
 
@@ -923,29 +921,18 @@ Enviado desde concejalesps.vercel.app`;
 
 // Carga instagram/facebook desde el Sheet de liga de concejales
 (async function cargarRedesSociales(){
+  // --- Cargar ig/fb desde Apps Script (tab "autoridades locales") ---
   try{
-    const SHEET='16Y5BqzJauMD_DAbR0HZ3CFk9LhbYe234v3G-3D6-ZBw';
-    // --- Cargar ig/fb desde tab "autoridades locales" ---
-    const TAB=encodeURIComponent('autoridades locales');
-    const url=`https://docs.google.com/spreadsheets/d/${SHEET}/gviz/tq?tqx=out:json&sheet=${TAB}&tq=select%20*`;
-    const res=await fetch(url);
-    const txt=await res.text();
-    const data=JSON.parse(txt.slice(txt.indexOf('{'),txt.lastIndexOf('}')+1));
-    const rows=data.table.rows;
-    const header=rows[0].c.map(c=>c?c.v:'');
-    const iNombre=header.findIndex(h=>h&&h.toLowerCase().includes('nombre'));
-    const iIg=header.findIndex(h=>h&&h.toLowerCase().includes('instagram'));
-    const iFb=header.findIndex(h=>h&&h.toLowerCase().includes('facebook'));
-    if(iNombre>=0&&iIg>=0){
-      rows.slice(1).forEach(row=>{
-        const cel=row.c;
-        const nombre=(cel[iNombre]&&cel[iNombre].v)||'';
-        const ig=(cel[iIg]&&cel[iIg].v)||'';
-        const fb=(iFb>=0&&cel[iFb]&&cel[iFb].v)||'';
+    const AS='https://script.google.com/macros/s/AKfycbxaCw6C8RaU8DJu2W-Fv9hYBZr2NQsnMSuPP4QDVIrNapfC49u64uAHNcyuRBltx28P/exec';
+    const res=await fetch(AS+'?action=getAutoridades');
+    const json=await res.json();
+    if(json.ok&&json.data){
+      json.data.forEach(d=>{
+        const nombre=(d.nombre||'').trim();
         const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
         if(concejal){
-          if(ig) concejal.ig=ig.replace('@','');
-          if(fb) concejal.fb=fb.replace('@','');
+          if(d.ig) concejal.ig=d.ig.replace('@','').trim();
+          if(d.fb) concejal.fb=d.fb.replace('@','').trim();
         }
       });
     }
@@ -960,25 +947,38 @@ Enviado desde concejalesps.vercel.app`;
     const data2=JSON.parse(txt2.slice(txt2.indexOf('{'),txt2.lastIndexOf('}')+1));
     const rows2=data2.table.rows;
     // Columnas fijas (0-indexed): NOMBRE=3, IG=6, CELULAR=8, FOTO=9, BIO=10, ORD_TITULO=11, ORD_AREA=12, ORD_DESC=13, ORD_LINK=14
-    rows2.forEach(row=>{
+    // Detect headers from first row
+    const hdrs2=rows2[0]&&rows2[0].c?rows2[0].c.map(x=>x&&x.v?String(x.v).toLowerCase().trim():''):[];
+    const iN2=hdrs2.findIndex(h=>h.includes('nombre'));
+    const iIg2=hdrs2.findIndex(h=>h.includes('instagram'));
+    const iFb2=hdrs2.findIndex(h=>h.includes('facebook'));
+    const iFoto2=hdrs2.findIndex(h=>h.includes('foto'));
+    const iBio2=hdrs2.findIndex(h=>h.includes('bio'));
+    const iOrdN=hdrs2.findIndex(h=>h.includes('ordenanza')||h.includes('proyecto')||h.includes('ord_'));
+    // Fallback to fixed indices if headers not found
+    const gN=iN2>=0?iN2:3, gIg=iIg2>=0?iIg2:6, gFb=iFb2>=0?iFb2:-1;
+    const gFoto=iFoto2>=0?iFoto2:9, gBio=iBio2>=0?iBio2:10;
+    const startRow2=iN2>=0?1:0;
+    rows2.slice(startRow2).forEach(row=>{
       const cel=row.c;
-      const val=i=>(cel[i]&&cel[i].v!=null)?String(cel[i].v).trim():'';
-      const nombre=val(3);
+      const val=i=>(i>=0&&cel[i]&&cel[i].v!=null)?String(cel[i].v).trim():'';
+      const nombre=val(gN);
       if(!nombre)return;
-      const foto=val(9);
-      const bio=val(10);
+      const foto=val(gFoto);
+      const bio=val(gBio);
       const ordTitulo=val(11);
       const ordArea=val(12);
       const ordLink=val(14);
-      if(!foto&&!bio&&!ordTitulo)return;
       const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
       if(concejal){
         const ext=CONCEJALES_EXT[concejal.n]||{foto:'',bio:'',proyectos:[]};
-        if(foto&&!ext.foto){let furl=foto.startsWith('http')?foto.replace('drive.google.com/uc?id=','drive.google.com/thumbnail?id=')+'&sz=w400':'https://drive.google.com/thumbnail?id='+foto+'&sz=w400';ext.foto=furl;}
+        if(foto&&!ext.foto){const furl=foto.startsWith('http')?foto.replace('drive.google.com/uc?id=','drive.google.com/thumbnail?id=').replace(/(&sz=[^&]*)/,'')+'&sz=w400':'https://drive.google.com/thumbnail?id='+foto+'&sz=w400';ext.foto=furl;}
         if(bio&&!ext.bio) ext.bio=bio;
-        const ig=val(6);
+        const ig=val(gIg);
         if(ig) concejal.ig=ig.replace('@','').trim();
-        if(ordTitulo&&!(ext.proyectos||[]).some(p=>p.titulo===ordTitulo)){
+        const fb=val(gFb);
+        if(fb) concejal.fb=fb.replace('@','').trim();
+        const normTit=t=>t.replace(/[“”‘’]/g,'"');if(ordTitulo&&!(ext.proyectos||[]).some(p=>normTit(p.titulo)===normTit(ordTitulo))){
           if(!ext.proyectos)ext.proyectos=[];
           ext.proyectos.push({tipo:ordArea||'Proyecto',titulo:ordTitulo,link:ordLink||''});
         }
