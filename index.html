@@ -766,7 +766,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
 // Datos extendidos por concejal — foto, bio y proyectos se completan luego
 const CONCEJALES_EXT = {
   "Agustin Peretti": {
-    foto: "https://drive.google.com/uc?id=1znBV_D5S4YUQjvWGRUtjCv6DLEP5iiBA",
+    foto: "https://drive.google.com/thumbnail?id=1znBV_D5S4YUQjvWGRUtjCv6DLEP5iiBA&sz=w400",
     bio: "Tengo 35 años y soy concejal de la ciudad de Suardi. Además, estudiante de Abogacía. Mi trabajo legislativo se enfoca en promover proyectos vinculados a la transparencia y modernización del Estado, el desarrollo productivo, la sostenibilidad ambiental y las políticas de prevención y acompañamiento frente a los consumos problemáticos. Estoy convencido de que la participación ciudadana y el diálogo son fundamentales para construir una comunidad más justa e inclusiva.",
     proyectos: [
       {tipo:"Salud y Acción Social", titulo:"Campaña preventiva sobre los riesgos del juego con apuestas online", link:"https://drive.google.com/file/d/1cHw82TlTk2JIYhY61zyRjPMeWVQZlNiK/view?usp=sharing"}
@@ -974,7 +974,7 @@ Enviado desde concejalesps.vercel.app`;
       const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
       if(concejal){
         const ext=CONCEJALES_EXT[concejal.n]||{foto:'',bio:'',proyectos:[]};
-        if(foto&&!ext.foto) ext.foto=foto.startsWith('http')?foto:'https://drive.google.com/uc?id='+foto;
+        if(foto&&!ext.foto){let furl=foto.startsWith('http')?foto.replace('drive.google.com/uc?id=','drive.google.com/thumbnail?id=')+'&sz=w400':'https://drive.google.com/thumbnail?id='+foto+'&sz=w400';ext.foto=furl;}
         if(bio&&!ext.bio) ext.bio=bio;
         const ig=val(6);
         if(ig) concejal.ig=ig.replace('@','').trim();
