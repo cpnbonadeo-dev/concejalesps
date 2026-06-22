@@ -1013,26 +1013,26 @@ Enviado desde concejalesps.vercel.app`;
     const gN=iN2>=0?iN2:3, gIg=iIg2>=0?iIg2:6, gFb=iFb2>=0?iFb2:-1;
     const gFoto=iFoto2>=0?iFoto2:9, gBio=iBio2>=0?iBio2:10;
     const startRow2=iN2>=0?1:0;
-    // Tab “concejales” = solo perfil (bio, foto, contacto). Ordenanzas vienen del banco de iniciativas.
+    // Tab "concejales" = solo perfil (bio, foto, contacto). Ordenanzas vienen del banco de iniciativas.
     rows2.slice(startRow2).forEach(row=>{
       const cel=row.c;
-      const val=i=>(i>=0&&cel[i]&&cel[i].v!=null)?String(cel[i].v).trim():’’;
+      const val=i=>(i>=0&&cel[i]&&cel[i].v!=null)?String(cel[i].v).trim():'';
       const nombre=val(gN);
       if(!nombre)return;
       const foto=val(gFoto);
       const bio=val(gBio);
       const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
       if(concejal){
-        const ext=CONCEJALES_EXT[concejal.n]||{foto:’’,bio:’’,proyectos:[]};
-        if(foto&&!ext.foto){const furl=foto.startsWith(‘http’)?foto.replace(‘drive.google.com/uc?id=’,’drive.google.com/thumbnail?id=’).replace(/(&sz=[^&]*)/,’’)+’&sz=w400’:’https://drive.google.com/thumbnail?id=’+foto+’&sz=w400’;ext.foto=furl;}
+        const ext=CONCEJALES_EXT[concejal.n]||{foto:'',bio:'',proyectos:[]};
+        if(foto&&!ext.foto){const furl=foto.startsWith('http')?foto.replace('drive.google.com/uc?id=','drive.google.com/thumbnail?id=').replace(/(&sz=[^&]*)/,'')+'&sz=w400':'https://drive.google.com/thumbnail?id='+foto+'&sz=w400';ext.foto=furl;}
         if(bio&&!ext.bio) ext.bio=bio;
         const ig=val(gIg);
-        if(ig) concejal.ig=ig.replace(‘@’,’’).trim();
+        if(ig) concejal.ig=ig.replace('@','').trim();
         const fb=val(gFb);
-        if(fb) concejal.fb=fb.replace(‘@’,’’).trim();
+        if(fb) concejal.fb=fb.replace('@','').trim();
         const probRaw=val(16);
         if(probRaw&&!ext.problemas){
-          ext.problemas=probRaw.split(‘|’).map(function(s){return s.trim();}).filter(Boolean);
+          ext.problemas=probRaw.split('|').map(function(s){return s.trim();}).filter(Boolean);
         }
         CONCEJALES_EXT[concejal.n]=ext;
       }
