@@ -288,12 +288,12 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     </div>
   </a>
   <ul class="nav-menu">
-    <li><a href="#banco">Banco de Iniciativas</a></li>
-    <li><a href="#problemas">Problemas</a></li>
-    <li><a href="#ods">ODS 2030</a></li>
-    <li><a href="#biblioteca">Biblioteca Legal</a></li>
+    <li><a href="#banco">Buscador</a></li>
+    <li><a href="#ejes">Por Ejes</a></li>
+    <li><a href="#problemas">Por Problemas</a></li>
+    <li><a href="#ods">Por ODS</a></li>
+    <li><a href="#biblioteca">Marco normativo</a></li>
     <li><a href="#localidades">Localidades</a></li>
-    <li><a href="autoridades.html">Directorio y mapa</a></li>
     <li><a href="#capacitaciones">Capacitaciones</a></li>
     <li><a href="#agenda">Agenda</a></li>
     <li><a href="#" onclick="localStorage.removeItem('ps_foro_auth');window.location.href='login.html';return false;" style="color:rgba(255,255,255,.35);font-size:.72rem;">Salir</a></li>
@@ -308,7 +308,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <a href="#ods" onclick="cerrarMenu()">🌐 ODS 2030</a>
   <a href="#biblioteca" onclick="cerrarMenu()">📚 Biblioteca Legal</a>
   <a href="#localidades" onclick="cerrarMenu()">📍 Localidades</a>
-  <a href="autoridades.html" onclick="cerrarMenu()">🏛 Directorio y mapa</a>
+  <a href="#localidades" onclick="cerrarMenu()">🏛 Directorio y mapa</a>
   <a href="#capacitaciones" onclick="cerrarMenu()">🎓 Capacitaciones</a>
   <a href="#agenda" onclick="cerrarMenu()">📅 Agenda</a>
   <a href="#concejales" onclick="cerrarMenu()">👥 Concejales</a>
@@ -331,8 +331,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       </div>
     </div>
     <div class="hero-panel">
-      <a href="autoridades.html" class="panel-stat"><div class="stat-num">+70</div><div class="stat-text"><strong>Autoridades en la red</strong><span>Ver directorio completo →</span></div></a>
-      <a href="#banco" class="panel-stat"><div class="stat-num">7</div><div class="stat-text"><strong>Áreas temáticas</strong><span>Ir al banco de iniciativas →</span></div></a>
+      <a href="#localidades" class="panel-stat"><div class="stat-num">+75</div><div class="stat-text"><strong>Autoridades en la red</strong><span>Ver directorio completo →</span></div></a>
+      <a href="#banco" class="panel-stat"><div class="stat-num">13</div><div class="stat-text"><strong>Áreas temáticas</strong><span>Ir al banco de iniciativas →</span></div></a>
       <a href="#concejales" class="panel-stat"><div class="stat-num" style="font-size:2.8rem;">38</div><div class="stat-text"><strong>Concejales</strong><span>Ver directorio y proyectos →</span></div></a>
       <a href="#banco" onclick="return true" class="panel-stat" style="cursor:pointer;" onclick="event.preventDefault();abrirFormProyecto()"><div class="stat-num">+100</div><div class="stat-text"><strong>Proyectos disponibles</strong><span>Subí el tuyo →</span></div></a>
     </div>
@@ -417,8 +417,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <div class="container" style="position:relative;z-index:1;">
     <div class="section-header">
       <div class="tag tag-rojo">Banco de Iniciativas</div>
-      <h2 class="section-title">Proyectos organizados por área</h2>
-      <p class="section-desc">Un repositorio compartido de ordenanzas, resoluciones y proyectos que funcionaron. Si lo usás, mejorás tu gestión. Si aportás, fortalecés a todo el bloque.</p>
+      <h2 class="section-title">Buscador de iniciativas</h2>
+      <p class="section-desc">Búscá ordenanzas y proyectos del banco PS Santa Fe. Por tema, concejal, problema o ODS.</p>
     </div>
     <!-- Buscador libre banco -->
     <div style="margin-bottom:2rem;">
@@ -433,6 +433,20 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       </div>
     </div>
 
+    <!-- Panel resultados banco -->
+    <div id="banco-panel" style="display:none;margin-top:2rem;background:linear-gradient(145deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);border-radius:14px;padding:1.5rem;"></div>
+
+  </div>
+</section>
+
+<section id="ejes" class="section" style="background:var(--gris-suave);position:relative;overflow:hidden;">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="right:-40px;bottom:-40px;width:300px;height:300px;opacity:.05;filter:sepia(1) saturate(3) hue-rotate(310deg) brightness(1.2);">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-header">
+      <div class="tag tag-rojo">Ordenanzas por eje</div>
+      <h2 class="section-title">13 áreas temáticas</h2>
+      <p class="section-desc">Filtrá las iniciativas del banco por área temática. Cada eje agrupa ordenanzas y proyectos del bloque PS.</p>
+    </div>
     <div class="banco-grid">
       <div onclick="filtrarPorArea('Gobierno, Transparencia y Modernización del Estado')" class="banco-card reveal" style="--card-accent:#C41230;cursor:pointer"><div class="banco-emoji">🏛️</div><h3>Gobierno, Transparencia y Modernización del Estado</h3><p>Ética pública, acceso a la información, anticorrupción y modernización del Estado local.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
       <div onclick="filtrarPorArea('Hacienda y Presupuesto')" class="banco-card reveal" style="--card-accent:#F39C12;cursor:pointer"><div class="banco-emoji">💰</div><h3>Hacienda y Presupuesto</h3><p>Tasas municipales, presupuesto participativo, compras y contrataciones.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
@@ -449,12 +463,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div onclick="filtrarPorArea('Participación Ciudadana')" class="banco-card reveal" style="--card-accent:#16A085;cursor:pointer"><div class="banco-emoji">🗣️</div><h3>Participación Ciudadana</h3><p>Presupuesto participativo, banca ciudadana y audiencias públicas.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
       <div class="banco-card banco-card-subir reveal" onclick="abrirFormProyecto()"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">Sumar proyecto →</span></div></div>
     </div>
-    <!-- Panel resultados banco -->
-    <div id="banco-panel" style="display:none;margin-top:2rem;background:linear-gradient(145deg,#150205 0%,#1A0C0F 50%,#2A0810 100%);border-radius:14px;padding:1.5rem;"></div>
-
   </div>
 </section>
-
 <section id="problemas" class="section" style="background:#0D0509">
 <div class="container">
     <div class="section-header">
@@ -487,8 +497,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
 <section id="biblioteca" class="section">
   <div class="container">
     <div class="section-header biblioteca-header">
-      <div class="tag tag-blanco">Biblioteca Legal</div>
-      <h2 class="section-title" style="color:white">El marco normativo que toda concejal debe conocer</h2>
+      <div class="tag tag-blanco">Marco normativo</div>
+      <h2 class="section-title" style="color:white">Marco normativo</h2>
       <p class="section-desc" style="color:rgba(255,255,255,.5)">Desde la Constitución Nacional hasta las leyes provinciales. Todos los textos fundamentales, en un solo lugar.</p>
     </div>
     <div class="biblio-categorias">
@@ -518,7 +528,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <div class="container">
     <div class="section-header-center">
       <div class="tag tag-rojo">Localidades</div>
-      <h2 class="section-title">Gobiernos locales donde gobernamos</h2>
+      <h2 class="section-title">Nuestra presencia en Santa Fe</h2>
       <p class="section-desc">Tenemos Concejales activos en estos gobiernos locales de toda la provincia.</p>
     </div>
     <p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:1.5rem;background:rgba(196,18,48,.06);border-left:3px solid var(--rojo);padding:.75rem 1rem;border-radius:0 8px 8px 0;">
@@ -575,7 +585,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
         <div class="dept" style="font-size:.68rem;">Int.: Alberto Ricci · Rosario</div>
       </a>
     </div>
-    <div style="text-align:center;"><a href="autoridades.html" class="btn btn-rojo">🗺 Ver gobiernos locales</a></div>
+    <div style="text-align:center;"><a href="#localidades" class="btn btn-rojo">🗺 Ver gobiernos locales</a></div>
   </div>
 </section>
 
@@ -589,7 +599,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     </div>
     <div id="gridConcejales" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-bottom:2rem;"></div>
     <div style="text-align:center;margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <a href="autoridades.html" class="btn btn-rojo">🗺 Ver directorio completo</a>
+      <a href="#localidades" class="btn btn-rojo">🗺 Ver directorio completo</a>
       <a href="#sumarse" class="btn btn-ghost" style="background:rgba(196,18,48,.08);color:var(--rojo);border:1px solid rgba(196,18,48,.2)">📤 Subí tu iniciativa</a>
     </div>
   </div>
@@ -754,8 +764,8 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <p>Espacio de encuentro, intercambio y formación de Concejales socialistas en la provincia de Santa Fe.</p>
       <a href="mailto:autoridadeslocales@gmail.com" class="footer-email">✉ autoridadeslocales@gmail.com</a>
     </div>
-    <div class="footer-col"><h5>Contenido</h5><ul><li><a href="#banco">Banco de Iniciativas</a></li><li><a href="#biblioteca">Biblioteca Legal</a></li><li><a href="#capacitaciones">Capacitaciones</a></li><li><a href="#agenda">Agenda</a></li></ul></div>
-    <div class="footer-col"><h5>El foro</h5><ul><li><a href="autoridades.html">Directorio y mapa</a></li><li><a href="#localidades">Localidades</a></li><li><a href="#rol">El rol del concejal</a></li></ul></div>
+    <div class="footer-col"><h5>Contenido</h5><ul><li><a href="#banco">Banco de Iniciativas</a></li><li><a href="#biblioteca">Marco normativo</a></li><li><a href="#capacitaciones">Capacitaciones</a></li><li><a href="#agenda">Agenda</a></li></ul></div>
+    <div class="footer-col"><h5>El foro</h5><ul><li><a href="#localidades">Directorio y mapa</a></li><li><a href="#localidades">Localidades</a></li><li><a href="#rol">El rol del concejal</a></li></ul></div>
     <div class="footer-col"><h5>Áreas temáticas</h5><ul><li><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank">Gobierno</a></li><li><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank">Género · DDHH</a></li><li><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank">Transparencia</a></li><li><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank">Desarrollo Humano</a></li></ul></div>
   </div>
   <div class="footer-bottom" style="position:relative;z-index:1;"><span><strong>Foro Autoridades Locales PS Santa Fe</strong> · Red de concejales socialistas de la provincia</span><span>Santa Fe, Argentina · 2026</span></div>
@@ -795,22 +805,22 @@ const CONCEJALES = [
   {n:"Judith Perren",l:"San Carlos Centro",d:"Las Colonias",ig:"",fb:"",mail:"",cel:"3404419610"},
   {n:"Gabriel Otazo",l:"San Carlos Centro",d:"Las Colonias",ig:"",fb:"",mail:"",cel:"3425365763"},
   {n:"Pedro Junco",l:"Villa Minetti",d:"9 de Julio",ig:"",fb:"",mail:"",cel:"3491698608"},
-  {n:"Benjamín Perruccio",l:"Alvear",d:"Rosario",ig:"",fb:"",mail:"",cel:"3417046068"},
-  {n:"Flavia Banfi",l:"Alvear",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412090213"},
-  {n:"Federico Lifschitz",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3413494950"},
-  {n:"Manuel Sciutto",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412296544"},
-  {n:"Alicia Pino",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412797712"},
-  {n:"Esteban Lenci",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3416433416"},
-  {n:"Patricia González",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3413216254"},
-  {n:"José Bulsicco",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3415025501"},
-  {n:"Maximiliano Lopez",l:"San Cristóbal",d:"San Cristóbal",ig:"",fb:"",mail:"",cel:"3416880285"},
+  {n:"Benjamín Perruccio",l:"Alvear",d:"Rosario",ig:"",fb:"",mail:"",cel:"3417046068",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=31"},
+  {n:"Flavia Banfi",l:"Alvear",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412090213",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=32"},
+  {n:"Federico Lifschitz",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3413494950",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=33"},
+  {n:"Manuel Sciutto",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412296544",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=34"},
+  {n:"Alicia Pino",l:"Rosario",d:"Rosario",ig:"",fb:"",mail:"",cel:"3412797712",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=35"},
+  {n:"Esteban Lenci",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3416433416",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=36"},
+  {n:"Patricia González",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3413216254",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=37"},
+  {n:"José Bulsicco",l:"Villa Gobernador Gálvez",d:"Rosario",ig:"",fb:"",mail:"",cel:"3415025501",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=38"},
+  {n:"Maximiliano Lopez",l:"San Cristóbal",d:"San Cristóbal",ig:"",fb:"",mail:"",cel:"3416880285",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=26"},
   {n:"Agustin Peretti",l:"Suardi",d:"San Cristóbal",ig:"",fb:"",mail:"",cel:"3562521673"},
-  {n:"Gonzalo Rui",l:"Suardi",d:"San Cristóbal",ig:"",fb:"",mail:"",cel:"3562410017"},
-  {n:"Santiago Pestarini",l:"Gálvez",d:"San Jerónimo",ig:"",fb:"",mail:"",cel:""},
-  {n:"Monica Rivelo",l:"Gálvez",d:"San Jerónimo",ig:"",fb:"",mail:"",cel:"3404491935"},
-  {n:"Rodrigo Duín",l:"San Jorge",d:"San Martín",ig:"",fb:"",mail:"",cel:"3406644909"},
-  {n:"Laura Raspantti",l:"El Trébol",d:"San Martín",ig:"",fb:"",mail:"",cel:""},
-  {n:"Ana Paula Capello",l:"Vera",d:"Vera",ig:"",fb:"",mail:"",cel:""},
+  {n:"Gonzalo Rui",l:"Suardi",d:"San Cristóbal",ig:"",fb:"",mail:"",cel:"3562410017",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=25"},
+  {n:"Santiago Pestarini",l:"Gálvez",d:"San Jerónimo",ig:"",fb:"",mail:"",cel:"",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=27"},
+  {n:"Monica Rivelo",l:"Gálvez",d:"San Jerónimo",ig:"",fb:"",mail:"",cel:"3404491935",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=28"},
+  {n:"Rodrigo Duín",l:"San Jorge",d:"San Martín",ig:"",fb:"",mail:"",cel:"3406644909",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=29"},
+  {n:"Laura Raspantti",l:"El Trébol",d:"San Martín",ig:"",fb:"",mail:"",cel:"",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=39"},
+  {n:"Ana Paula Capello",l:"Vera",d:"Vera",ig:"",fb:"",mail:"",cel:"",form:"https://script.google.com/macros/s/AKfycbw3a4fCNxymVJEG6mmKlq6su5XDSQ6o3TeoQgaZvUg/dev?rowId=30"},
 ];
 
 function ini(nombre){const p=nombre.trim().split(' ');return(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase();}
@@ -843,6 +853,8 @@ function abrirConcejal(nombre){
   m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:flex;align-items:flex-start;justify-content:flex-end;backdrop-filter:blur(6px);padding:0;';
   m.onclick=e=>{if(e.target===m)cerrarConcejal();};
 
+  const formUrl=c.form||'';
+  const formBtn=formUrl?'<a href="'+formUrl+'" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);border-radius:8px;padding:.45rem .9rem;font-size:.72rem;font-weight:600;text-decoration:none;">✏️ Completar perfil</a>':'';
   const waMsg=encodeURIComponent('Hola! saqué tu número del foro de autoridades locales del PS. ¿Cómo estás?');
   const waBtn=c.cel?`<a href="https://wa.me/549${c.cel.replace(/\D/g,'')}?text=${waMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:#25D36615;border:1px solid #25D36640;color:#25D366;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">💬 WhatsApp</a>`:'';
   const igBtn=c.ig?`<a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:#833AB415;border:1px solid #833AB440;color:#c374e8;border-radius:8px;padding:.45rem .9rem;font-size:.78rem;font-weight:600;text-decoration:none;">📷 Instagram</a>`:'';
@@ -914,7 +926,7 @@ function abrirConcejal(nombre){
           <div style="font-size:.7rem;color:rgba(255,255,255,.35);">Depto. ${c.d}</div>
         </div>
       </div>
-      ${(waBtn||igBtn||fbBtn||mailBtn)?`<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem;">${waBtn}${igBtn}${fbBtn}${mailBtn}</div>`:''}
+      ${(waBtn||igBtn||fbBtn||mailBtn)?`<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem;">${waBtn}${igBtn}${fbBtn}${mailBtn}${formBtn}</div>`:''}
     </div>
     <div style="padding:1.75rem;flex:1;">
       ${bio?`<div style="margin-bottom:1.5rem;"><div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);font-weight:700;margin-bottom:.6rem;">Acerca de</div><p style="font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7;">${bio}</p></div>`
@@ -991,6 +1003,28 @@ Enviado desde concejalesps.vercel.app`;
         }
       });
     }
+
+    // --- Facebook desde 'autoridades locales' ---
+    try{
+      const TAB_AUTO=encodeURIComponent('autoridades locales');
+      const urlAuto=`https://docs.google.com/spreadsheets/d/${SHEET}/gviz/tq?tqx=out:json&sheet=${TAB_AUTO}&tq=select%20*`;
+      const resAuto=await fetch(urlAuto);
+      const txtAuto=await resAuto.text();
+      const dataAuto=JSON.parse(txtAuto.slice(txtAuto.indexOf('{'),txtAuto.lastIndexOf('}')+1));
+      dataAuto.table.rows.slice(1).forEach(row=>{
+        const cel=row.c;
+        const va=i=>(i>=0&&cel[i]&&cel[i].v!=null)?String(cel[i].v).trim():'';
+        const nomAuto=va(4);
+        const fbRaw=va(7);
+        if(!nomAuto||!fbRaw||fbRaw==='---'||fbRaw==='—')return;
+        const fbMatch=fbRaw.match(/@([\w.]+)/);
+        if(!fbMatch)return;
+        const fbHandle=fbMatch[1];
+        const _na=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+        const conc=CONCEJALES.find(c=>_na(c.n)===_na(nomAuto));
+        if(conc&&!conc.fb)conc.fb=fbHandle;
+      });
+    }catch(eFb){console.warn('Facebook load failed:',eFb);}
   }catch(e){console.warn('No se pudieron cargar redes sociales:',e);}
   // --- Cargar perfiles (foto, bio, proyectos) desde tab "concejales" ---
   try{
