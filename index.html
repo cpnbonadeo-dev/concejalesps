@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Foro Autoridades Locales · Partido Socialista Santa Fe</title>
-<script>if(!localStorage.getItem('concejalesps_sesion')){window.location.href='login.html'}</script>
+<script>if(!localStorage.getItem('ps_foro_auth')){window.location.href='login.html'}</script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -296,7 +296,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <li><a href="autoridades.html">Directorio y mapa</a></li>
     <li><a href="#capacitaciones">Capacitaciones</a></li>
     <li><a href="#agenda">Agenda</a></li>
-    <li><a href="#" onclick="localStorage.removeItem('concejalesps_sesion');window.location.href='login.html';return false;" style="color:rgba(255,255,255,.35);font-size:.72rem;">Salir</a></li>
+    <li><a href="#" onclick="localStorage.removeItem('ps_foro_auth');window.location.href='login.html';return false;" style="color:rgba(255,255,255,.35);font-size:.72rem;">Salir</a></li>
   </ul>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
     <span></span><span></span><span></span>
@@ -312,7 +312,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   <a href="#capacitaciones" onclick="cerrarMenu()">🎓 Capacitaciones</a>
   <a href="#agenda" onclick="cerrarMenu()">📅 Agenda</a>
   <a href="#concejales" onclick="cerrarMenu()">👥 Concejales</a>
-  <a href="#" onclick="localStorage.removeItem('concejalesps_sesion');window.location.href='login.html';return false;" style="color:rgba(196,18,48,.6)">🚪 Salir</a>
+  <a href="#" onclick="localStorage.removeItem('ps_foro_auth');window.location.href='login.html';return false;" style="color:rgba(196,18,48,.6)">🚪 Salir</a>
 </div>
 
 <section id="inicio" style="position:relative;">
