@@ -142,7 +142,7 @@
 </head>
 <body>
 <script>
-(function(){var s=localStorage.getItem('concejalesps_sesion'),t=parseInt(localStorage.getItem('concejalesps_login_time')||'0',10);if(s!=='ok'||(t&&Date.now()-t>8*3600000)){['concejalesps_sesion','concejalesps_usuario','concejalesps_login_time'].forEach(function(k){localStorage.removeItem(k)});window.location.href='login.html';}})();
+if(!localStorage.getItem('ps_foro_auth')){window.location.href='login.html';}
 </script>
 
 <nav>
