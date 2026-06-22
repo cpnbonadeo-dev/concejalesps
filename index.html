@@ -1400,28 +1400,139 @@ const ODS_DATA=[
           <p style="font-size:.8rem;color:rgba(255,255,255,.9);line-height:1.55;">${o.local}</p>
         </div>
         ${(o.ejemplos||[]).length?`<div style="margin-top:.5rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:.35rem;">Ejemplos de ordenanzas</div><ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:.3rem;">${(o.ejemplos||[]).map(e=>`<li style="font-size:.75rem;color:rgba(255,255,255,.8);">✦ ${e}</li>`).join('')}</ul></div>`:''}
-        <button onclick="event.stopPropagation();filtrarPorOds(${o.n})" style="margin-top:.85rem;width:100%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:.5rem;color:white;font-size:.75rem;font-weight:700;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,.25)'" onmouseleave="this.style.background='rgba(255,255,255,.15)'">📂 Ver ordenanzas del banco →</button>
+        <button onclick="event.stopPropagation();filtrarPorOds(${o.n})" style="margin-top:.75rem;width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);border-radius:8px;padding:.5rem .75rem;font-size:.75rem;font-weight:700;cursor:pointer;" onmouseenter="this.style.background='rgba(0,0,0,.4)'" onmouseleave="this.style.background='rgba(0,0,0,.25)'">Ver ordenanzas relacionadas →</button>
       </div>
     </div>`).join('');
 })();
 
 function toggleOds(n){
   const card=document.getElementById('ods-card-'+n);
-  const det=document.getElementById('ods-detail-'+n);
-  const open=det.style.display==='block';
-  det.style.display=open?'none':'block';
-  card.classList.toggle('expanded',!open);
-  card.style.transform='';
-  card.style.boxShadow=open?'0 2px 12px rgba(0,0,0,.35)':'0 4px 20px rgba(0,0,0,.5)';
+  const detail=document.getElementById('ods-detail-'+n);
+  const isOpen=card.classList.contains('expanded');
+  document.querySelectorAll('[id^="ods-card-"]').forEach(c=>{
+    c.classList.remove('expanded');
+    const d=document.getElementById(c.id.replace('ods-card-','ods-detail-'));
+    if(d)d.style.display='none';
+    c.style.transform='';
+    c.style.boxShadow='0 2px 12px rgba(0,0,0,.35)';
+  });
+  if(!isOpen){
+    card.classList.add('expanded');
+    detail.style.display='block';
+    card.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 }
 
-function handleSumarse(e){
+function abrirFormProyecto(){
+  const m=document.getElementById('modal-proyecto');
+  if(m){m.style.display='flex';}
+}
+function cerrarFormProyecto(){
+  const m=document.getElementById('modal-proyecto');
+  if(m){m.style.display='none';}
+  const f=document.getElementById('form-proyecto');
+  if(f)f.reset();
+}
+
+async function enviarProyecto(e){
   e.preventDefault();
-  const btn=e.target.querySelector('.btn-full');
-  btn.textContent='✅ ¡Te sumamos al foro! Te contactamos pronto.';
-  btn.style.background='#27AE60';
-  setTimeout(()=>{btn.textContent='Sumarme al foro →';btn.style.background='';e.target.reset()},4000);
+  const nombre=document.getElementById('pf-nombre')?.value||'';
+  const localidad=document.getElementById('pf-localidad')?.value||'';
+  const titulo=document.getElementById('pf-titulo')?.value||'';
+  const area=document.getElementById('pf-area')?.value||'';
+  const problema=document.getElementById('pf-problema')?.value||'';
+  const ods=document.getElementById('pf-ods')?.value||'';
+  const link=document.getElementById('pf-link')?.value||'';
+  const desc=document.getElementById('pf-desc')?.value||'';
+  const body=`Nombre: ${nombre}\nLocalidad: ${localidad}\nTítulo: ${titulo}\nÁrea: ${area}\nProblema: ${problema}\nODS: ${ods}\nLink: ${link}\nDescripción: ${desc}`;
+  const mailto=`mailto:cpn.bonadeo@gmail.com?subject=${encodeURIComponent('Proyecto para el Banco de Iniciativas: '+titulo)}&body=${encodeURIComponent(body)}`;
+  window.location.href=mailto;
+  setTimeout(cerrarFormProyecto,1000);
 }
 </script>
+
+<!-- MODAL: Subir proyecto al banco -->
+<div id="modal-proyecto" onclick="if(event.target===this)cerrarFormProyecto()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:700;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);">
+  <div style="background:#120207;border:1px solid rgba(196,18,48,.25);border-top:4px solid #C41230;border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;position:relative;">
+    <div style="padding:2rem 2rem 0;">
+      <button onclick="cerrarFormProyecto()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.07);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.55);font-size:.95rem;line-height:1;">&#x2715;</button>
+      <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C41230;margin-bottom:.4rem;">Banco de Iniciativas</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:white;margin-bottom:.35rem;">Sub&#237; tu proyecto</h2>
+      <p style="font-size:.83rem;color:rgba(255,255,255,.45);margin-bottom:1.75rem;line-height:1.6;">Complet&#225; los datos y te generamos el mail listo para enviar. La ordenanza queda disponible para toda la red.</p>
+    </div>
+    <form id="form-proyecto" onsubmit="enviarProyecto(event)" style="padding:0 2rem 2rem;display:flex;flex-direction:column;gap:.85rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">Tu nombre *</label>
+          <input id="pf-nombre" type="text" required placeholder="Nombre y apellido" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">Localidad *</label>
+          <input id="pf-localidad" type="text" required placeholder="Tu municipio o comuna" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">T&#237;tulo de la ordenanza / proyecto *</label>
+        <input id="pf-titulo" type="text" required placeholder="Ej: Ordenanza de puntos limpios de reciclado" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">&#193;rea tem&#225;tica *</label>
+          <select id="pf-area" required style="width:100%;background:#1a0a10;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <option value="">Selecion&#225;</option>
+            <option>Gobierno, Transparencia y Modernizaci&#243;n del Estado</option>
+            <option>Hacienda y Presupuesto</option>
+            <option>Desarrollo Productivo y Empleo</option>
+            <option>Ambiente y Sustentabilidad</option>
+            <option>Obras y Servicios P&#250;blicos</option>
+            <option>Planeamiento Urbano</option>
+            <option>Movilidad y Tr&#225;nsito</option>
+            <option>Salud y Acci&#243;n Social</option>
+            <option>Educaci&#243;n y Cultura</option>
+            <option>Deporte y Recreaci&#243;n</option>
+            <option>G&#233;neros y Derechos Humanos</option>
+            <option>Seguridad y Convivencia ciudadana</option>
+            <option>Participaci&#243;n Ciudadana</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">Problema que resuelve</label>
+          <select id="pf-problema" style="width:100%;background:#1a0a10;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+            <option value="">Selecion&#225;</option>
+            <option>Infraestructura</option>
+            <option>Servicios b&#225;sicos</option>
+            <option>Basurales</option>
+            <option>Ambiente</option>
+            <option>Animales sueltos</option>
+            <option>Seguridad vial</option>
+            <option>Transporte</option>
+            <option>Empleo joven</option>
+            <option>H&#225;bitat y vivienda</option>
+            <option>Salud</option>
+            <option>Consumo problem&#225;tico</option>
+            <option>G&#233;nero y DDHH</option>
+            <option>Educaci&#243;n y cultura</option>
+            <option>Transparencia</option>
+            <option>Participaci&#243;n</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">ODS vinculados (separados por coma)</label>
+        <input id="pf-ods" type="text" placeholder="Ej: ODS 11, ODS 12" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">Link al PDF (opcional)</label>
+        <input id="pf-link" type="url" placeholder="https://drive.google.com/..." style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;">Descripci&#243;n breve</label>
+        <textarea id="pf-desc" rows="3" placeholder="&#191;Qu&#233; hace esta ordenanza? &#191;En qu&#233; municipio se aprob&#243;? &#191;Funcion&#243;?" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.65rem .85rem;color:white;font-family:inherit;font-size:.88rem;outline:none;resize:vertical;" onfocus="this.style.borderColor='#C41230'" onblur="this.style.borderColor='rgba(255,255,255,.1)'"></textarea>
+      </div>
+      <button type="submit" style="background:linear-gradient(135deg,#C41230,#8B0A1F);color:white;border:none;border-radius:10px;padding:.85rem 1.5rem;font-size:.92rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.5rem;letter-spacing:.03em;transition:all .2s;" onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(196,18,48,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">Generar mail &#8594;</button>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
