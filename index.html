@@ -326,7 +326,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <p style="color:rgba(255,255,255,.5);font-size:.95rem;line-height:1.7;margin-bottom:1.75rem;max-width:500px;">Un espacio donde concejales socialistas de toda Santa Fe comparten ordenanzas, experiencias y herramientas para gobernar mejor.</p>
       <blockquote class="hero-quote" style="margin-bottom:2rem;">La única chance de revertir el descreimiento está en manos de quienes gobiernan cerca. Lo que funcionó en un municipio puede servir en otro. <strong style="color:rgba(255,255,255,.8);font-style:normal;">Compartir no es perder protagonismo. Es multiplicarlo.</strong></blockquote>
       <div class="hero-btns">
-        <button onclick="abrirFormProyecto()" class="btn btn-rojo">📤 Sumar mi proyecto</button>
+        <a href="#sumarse" class="btn btn-rojo">📤 Sumar mi proyecto</a>
         <a href="#ejes" class="btn btn-ghost">📚 Banco de proyectos</a>
       </div>
     </div>
@@ -334,7 +334,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <a href="autoridades.html" class="panel-stat"><div class="stat-num">+75</div><div class="stat-text"><strong>Autoridades en la red</strong><span>Ver directorio completo →</span></div></a>
       <a href="#ejes" class="panel-stat"><div class="stat-num">13</div><div class="stat-text"><strong>Áreas temáticas</strong><span>Ir al banco de iniciativas →</span></div></a>
       <a href="#concejales" class="panel-stat"><div class="stat-num" style="font-size:2.8rem;">38</div><div class="stat-text"><strong>Concejales</strong><span>Ver directorio y proyectos →</span></div></a>
-      <a href="#banco" onclick="return true" class="panel-stat" style="cursor:pointer;" onclick="event.preventDefault();abrirFormProyecto()"><div class="stat-num">+100</div><div class="stat-text"><strong>Proyectos disponibles</strong><span>Subí el tuyo →</span></div></a>
+      <a href="#banco" onclick="return true" class="panel-stat" style="cursor:pointer;" href="https://forms.gle/VUsYtWeVtQMn59uu5" target="_blank"><div class="stat-num">+100</div><div class="stat-text"><strong>Proyectos disponibles</strong><span>Subí el tuyo →</span></div></a>
     </div>
   </div>
 </section>
@@ -461,7 +461,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div onclick="filtrarPorArea('Géneros y Derechos Humanos')" class="banco-card reveal" style="--card-accent:#C0392B;cursor:pointer"><div class="banco-emoji">⚖️</div><h3>Géneros y Derechos Humanos</h3><p>Género, diversidad y derechos humanos a escala local.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
       <div onclick="filtrarPorArea('Seguridad y Convivencia ciudadana')" class="banco-card reveal" style="--card-accent:#2980B9;cursor:pointer"><div class="banco-emoji">🛡️</div><h3>Seguridad y Convivencia ciudadana</h3><p>Convivencia urbana, prevención y control.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
       <div onclick="filtrarPorArea('Participación Ciudadana')" class="banco-card reveal" style="--card-accent:#16A085;cursor:pointer"><div class="banco-emoji">🗣️</div><h3>Participación Ciudadana</h3><p>Presupuesto participativo, banca ciudadana y audiencias públicas.</p><div class="banco-card-footer"><span class="banco-ver">Ver ordenanzas →</span><a href="https://drive.google.com/drive/folders/1h_o7je2ff5E2hot9VFMyQNHIiPTLnzf9" target="_blank" onclick="event.stopPropagation()" style="font-size:.7rem;color:rgba(0,0,0,.35);">Drive ↗</a></div></div>
-      <div class="banco-card banco-card-subir reveal" onclick="abrirFormProyecto()"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">Sumar proyecto →</span></div></div>
+      <a href="https://forms.gle/VUsYtWeVtQMn59uu5" target="_blank" class="banco-card banco-card-subir reveal" style="text-decoration:none;"><div class="banco-emoji">➕</div><h3>Subí tu iniciativa</h3><p>Compartí una ordenanza, resolución o proyecto que haya funcionado en tu municipio. Si sirvió ahí, puede servir en el de al lado.</p><div class="banco-card-footer"><span class="banco-ver" style="color:var(--gris-texto)">📤 Abrir form →</span></div></a>
     </div>
   </div>
 </section>
@@ -1333,7 +1333,7 @@ const PROBLEMAS=[
         ${p.ods.map(o=>`<span onclick="event.stopPropagation();filtrarPorOds(${o.n})" title="Ver ODS ${o.n}" style="display:inline-flex;align-items:center;background:${o.c}25;border:1px solid ${o.c}60;color:${o.c};border-radius:20px;font-size:.7rem;font-weight:700;padding:.22rem .6rem;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='${o.c}45'" onmouseleave="this.style.background='${o.c}25'">ODS&nbsp;${o.n}</span>`).join('')}
       </div>
     </div>`).join('')+`
-    <div onclick="abrirFormProyecto()" style="background:rgba(196,18,48,.05);border:1px dashed rgba(196,18,48,.35);border-radius:14px;padding:1.6rem;transition:all .22s;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;"
+    <div onclick="window.open('https://forms.gle/VUsYtWeVtQMn59uu5','_blank')" style="background:rgba(196,18,48,.05);border:1px dashed rgba(196,18,48,.35);border-radius:14px;padding:1.6rem;transition:all .22s;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;"
          onmouseenter="this.style.background='rgba(196,18,48,.12)';this.style.borderColor='rgba(196,18,48,.6)';this.style.transform='translateY(-3px)'"
          onmouseleave="this.style.background='rgba(196,18,48,.05)';this.style.borderColor='rgba(196,18,48,.35)';this.style.transform=''">
       <div style="font-size:2.6rem;line-height:1;margin-bottom:.75rem;">➕</div>
