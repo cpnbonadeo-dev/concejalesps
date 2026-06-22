@@ -984,7 +984,7 @@ Enviado desde concejalesps.vercel.app`;
     if(json.ok&&json.data){
       json.data.forEach(d=>{
         const nombre=(d.nombre||'').trim();
-        const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
+        const _nn=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const concejal=CONCEJALES.find(c=>_nn(c.n)===_nn(nombre));
         if(concejal){
           if(d.ig) concejal.ig=d.ig.replace('@','').trim();
           if(d.fb) concejal.fb=d.fb.replace('@','').trim();
@@ -1021,7 +1021,7 @@ Enviado desde concejalesps.vercel.app`;
       if(!nombre)return;
       const foto=val(gFoto);
       const bio=val(gBio);
-      const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===nombre.toLowerCase().trim());
+      const _nn=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const concejal=CONCEJALES.find(c=>_nn(c.n)===_nn(nombre));
       if(concejal){
         const ext=CONCEJALES_EXT[concejal.n]||{foto:'',bio:'',proyectos:[]};
         if(foto&&!ext.foto){const furl=foto.startsWith('http')?foto.replace('drive.google.com/uc?id=','drive.google.com/thumbnail?id=').replace(/(&sz=[^&]*)/,'')+'&sz=w400':'https://drive.google.com/thumbnail?id='+foto+'&sz=w400';ext.foto=furl;}
@@ -1054,7 +1054,7 @@ Enviado desde concejalesps.vercel.app`;
         const concNombre=v(4); // col E: CONCEJAL/A
         const link=v(9);     // col J: LINK AL PDF / DRIVE
         if(!titulo||!concNombre)return;
-        const concejal=CONCEJALES.find(c=>c.n.toLowerCase().trim()===concNombre.toLowerCase().trim());
+        const _n=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();const concejal=CONCEJALES.find(c=>_n(c.n)===_n(concNombre));
         if(!concejal)return;
         const ext=CONCEJALES_EXT[concejal.n]||{foto:'',bio:'',proyectos:[]};
         if(!ext.proyectos)ext.proyectos=[];
