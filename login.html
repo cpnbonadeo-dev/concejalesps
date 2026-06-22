@@ -1,310 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red de Concejales PS · Santa Fe — Acceso</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceso · Foro PS Santa Fe</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;-webkit-font-smoothing:antialiased;position:relative;overflow:hidden;background-image:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(250,35,35,.35) 0%,transparent 65%),radial-gradient(ellipse 60% 40% at 0% 100%,rgba(196,18,48,.2) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 100% 50%,rgba(196,18,48,.15) 0%,transparent 60%)}
+.bg-logo{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:0;pointer-events:none}
+.bg-logo img{width:min(75vw,75vh);opacity:.18;filter:drop-shadow(0 0 80px rgba(250,35,35,.7))}
+.login-box{position:relative;z-index:1;background:rgba(10,2,5,.8);border:1px solid rgba(196,18,48,.35);backdrop-filter:blur(24px)}
 
-    :root {
-      --bg:       #0D0509;
-      --rojo:     #C41230;
-      --rojo-osc: #8a0c20;
-      --texto:    #ffffff;
-      --texto-sec:#c0a0b0;
-      --card-bg:  #1a0a10;
-      --card-brd: #2a1020;
-    }
+.login-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3rem 2.5rem;width:100%;max-width:400px;text-align:center}
 
-    body {
-      background: var(--bg);
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
-    }
+.login-logo{width:64px;height:64px;margin:0 auto 1.5rem;display:block}
+.login-logo-fallback{width:64px;height:64px;border-radius:50%;background:#C41230;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:1.5rem;color:white}
 
-    /* Fondo decorativo */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -40%;
-      left: -20%;
-      width: 80vw;
-      height: 80vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,18,48,0.07) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -40%;
-      right: -20%;
-      width: 60vw;
-      height: 60vw;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,18,48,0.05) 0%, transparent 70%);
-      pointer-events: none;
-    }
+h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:white;margin-bottom:.4rem}
+.subtitulo{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:2rem;letter-spacing:.02em}
 
-    .login-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-brd);
-      border-top: 4px solid var(--rojo);
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      width: 100%;
-      max-width: 420px;
-      position: relative;
-      z-index: 1;
-    }
+.campo{margin-bottom:1rem;text-align:left}
+.campo label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.campo input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:.75rem 1rem;color:white;font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s}
+.campo input:focus{border-color:#C41230;background:rgba(255,255,255,.1)}
+.campo input::placeholder{color:rgba(255,255,255,.25)}
 
-    .ps-rose-logo {
-      width: 44px;
-      height: auto;
-      flex-shrink: 0;
-    }
+.btn-login{width:100%;background:#C41230;color:white;border:none;padding:.9rem;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:.5rem;letter-spacing:.02em}
+.btn-login:hover{background:#E8192C}
 
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      justify-content: center;
-    }
+.error{background:rgba(232,25,44,.15);border:1px solid rgba(232,25,44,.3);color:#FF8A8E;font-size:.8rem;padding:.65rem .9rem;border-radius:8px;margin-top:1rem;display:none;text-align:left}
+.error.visible{display:block}
 
-    .logo-texto {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-      line-height: 1.3;
-    }
-
-    .login-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--texto);
-      margin-bottom: 0.4rem;
-      text-align: center;
-    }
-
-    .login-subtitle {
-      font-size: 0.875rem;
-      color: var(--texto-sec);
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--texto-sec);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.4rem;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--card-brd);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      color: var(--texto);
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus,
-    input[type="password"]:focus {
-      border-color: var(--rojo);
-    }
-
-    input[type="text"]::placeholder,
-    input[type="password"]::placeholder {
-      color: rgba(192,160,176,0.4);
-    }
-
-    .btn-login {
-      width: 100%;
-      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-osc) 100%);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.85rem 1.5rem;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      margin-top: 0.5rem;
-    }
-
-    .btn-login:hover { opacity: 0.9; }
-    .btn-login:active { transform: scale(0.99); }
-
-    .error-msg {
-      display: none;
-      background: rgba(196,18,48,0.12);
-      border: 1px solid rgba(196,18,48,0.3);
-      border-radius: 8px;
-      padding: 0.7rem 1rem;
-      font-size: 0.875rem;
-      color: #ff8a9a;
-      margin-top: 1rem;
-      text-align: center;
-    }
-
-    .error-msg.visible { display: block; }
-
-    .footer-login {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.78rem;
-      color: rgba(192,160,176,0.5);
-    }
-
-    .footer-login a {
-      color: var(--rojo);
-      text-decoration: none;
-    }
-  </style>
+.footer-text{margin-top:2rem;font-size:.7rem;color:rgba(255,255,255,.2);line-height:1.6}
+</style>
 </head>
 <body>
 
-  <div class="login-card">
-    <div class="logo-wrap">
-      <img src="logo-header.svg" class="ps-rose-logo" alt="Partido Socialista">
-      <span class="logo-texto">Red de Concejales<br>PS · Santa Fe</span>
+<div class="bg-logo">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
+       alt="" aria-hidden="true"
+       onerror="this.style.display='none'">
+</div>
+
+<div class="login-box">
+  <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg"
+       alt="PS Santa Fe" class="login-logo"
+       onerror="this.style.display='none';document.querySelector('.login-logo-fallback').style.display='flex'">
+  <div class="login-logo-fallback" style="display:none">PS</div>
+
+  <h1>Foro Autoridades Locales</h1>
+  <p class="subtitulo">Partido Socialista · Provincia de Santa Fe</p>
+
+  <form onsubmit="acceder(event)">
+    <div class="campo">
+      <label>Usuario</label>
+      <input type="text" id="usuario" placeholder="tu.nombre" autocomplete="username" autocapitalize="none">
     </div>
+    <div class="campo">
+      <label>Contraseña</label>
+      <input type="password" id="clave" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button type="submit" class="btn-login">Ingresar al foro →</button>
+    <div class="error" id="error">Usuario o contraseña incorrectos. Verificá tus datos o contactá al administrador.</div>
+  </form>
 
-    <h1 class="login-title">Bienvenidos</h1>
-    <p class="login-subtitle">Ingresá con tus datos de acceso</p>
+  <p class="footer-text">¿No tenés acceso? Escribinos a<br>autoridadeslocales@gmail.com</p>
+</div>
 
-    <form id="loginForm" autocomplete="off" novalidate>
-      <div class="form-group">
-        <label for="usuario">Usuario</label>
-        <input type="text" id="usuario" name="usuario" placeholder="tu.nombre" autocomplete="username" required>
-      </div>
-      <div class="form-group">
-        <label for="clave">Contraseña</label>
-        <input type="password" id="clave" name="clave" placeholder="••••••••" autocomplete="current-password" required>
-      </div>
-      <button type="submit" class="btn-login">Ingresar</button>
-      <div class="error-msg" id="errorMsg">Usuario o contraseña incorrectos.</div>
-    </form>
+<script>
+/* ═══════════════════════════════════════════
+   USUARIOS DEL FORO
+   Formato: "usuario": "contraseña"
+   Para agregar un usuario: agregá una línea
+   Para cambiar clave: cambiá el valor
+   ═══════════════════════════════════════════ */
+const USUARIOS = {
+  "admin":               "pssantafe2026",
 
-    <p class="footer-login">
-      ¿Problemas para ingresar? Escribí a
-      <a href="mailto:autoridadeslocales@gmail.com">autoridadeslocales@gmail.com</a>
-    </p>
-  </div>
+  /* ── CASEROS ── */
+  "yoana.dalbello":      "caseros2026",
+  "juanpablo.coniglio":  "caseros2026",
 
-  <script>
-    // Si ya hay sesión activa, ir directo al sitio
-    if (localStorage.getItem('concejalesps_sesion') === 'ok') {
-      window.location.href = 'index.html';
-    }
+  /* ── CASTELLANOS ── */
+  "pablo.pinotti":       "sunchales2026",
+  "jose.delmastro":      "sunchales2026",
+  "brenda.torrini":      "sunchales2026",
+  "juano.astor":         "sunchales2026",
+  "jc.marchese":         "castellanos2026",
 
-    const USUARIOS = {
-      "admin": "pssantafe2026",
-      // CASEROS
-      "yoana.dalbello":        "sanjosedelaesquina2026",
-      "juanpablo.coniglio":    "sanjosedelaesquina2026",
-      // CASTELLANOS
-      "jose.delmastro":        "sunchales2026",
-      "brenda.torrini":        "sunchales2026",
-      "juano.astor":           "sunchales2026",
-      "juancarlos.marchese":   "sanvicente2026",
-      // CONSTITUCIÓN
-      "diego.martin":          "villaconstitucion2026",
-      "francisco.bracalenti":  "villaconstitucion2026",
-      // GRAL. LÓPEZ
-      "micaela.mineiro":       "venadotuerto2026",
-      "alina.vargas":          "firmat2026",
-      // GRAL. OBLIGADO
-      "alejandro.delssin":     "lastoscas2026",
-      "miguel.gutierrez":      "lastoscas2026",
-      "marisa.flores":         "reconquista2026",
-      "daina.ramirez":         "villaocampo2026",
-      "andrea.cracogna":       "villaocampo2026",
-      // LA CAPITAL
-      "omar.picard":           "recreo2026",
-      "camila.rodriguez":      "sanjosedelrincon2026",
-      "melina.andres":         "lagunapaiva2026",
-      "alejandra.chena":       "santotome2026",
-      // LAS COLONIAS
-      "judith.perren":         "sancarloscentro2026",
-      "gabriel.otazo":         "sancarloscentro2026",
-      // 9 DE JULIO
-      "pedro.junco":           "villaminetti2026",
-      // ROSARIO
-      "benjamin.perruccio":    "alvear2026",
-      "flavia.banfi":          "alvear2026",
-      "federico.lifschitz":    "rosario2026",
-      "manuel.sciutto":        "rosario2026",
-      "alicia.pino":           "rosario2026",
-      "esteban.lenci":         "villagobernadorgalvez2026",
-      "patricia.gonzalez":     "villagobernadorgalvez2026",
-      "jose.bulsicco":         "villagobernadorgalvez2026",
-      "maximiliano.lopez":     "sancristobal2026",
-      // SAN CRISTÓBAL
-      "agustin.peretti":       "suardi2026",
-      "gonzalo.rui":           "suardi2026",
-      // SAN JERÓNIMO
-      "santiago.pestarini":    "galvez2026",
-      "monica.rivelo":         "galvez2026",
-      // SAN MARTÍN
-      "rodrigo.duin":          "sanjorge2026",
-      "laura.raspantti":       "eltrebol2026",
-      // VERA
-      "ana.capello":           "vera2026",
-    };
+  /* ── CONSTITUCIÓN ── */
+  "diego.martin":        "vconstitucion2026",
+  "francisco.bracalenti":"vconstitucion2026",
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const usuario = document.getElementById('usuario').value.trim().toLowerCase();
-      const clave   = document.getElementById('clave').value;
-      const errorEl = document.getElementById('errorMsg');
+  /* ── GENERAL LÓPEZ ── */
+  "micaela.mineiro":     "venadotuerto2026",
+  "alina.vargas":        "firmat2026",
 
-      if (USUARIOS[usuario] && USUARIOS[usuario] === clave) {
-        localStorage.setItem('concejalesps_sesion', 'ok');
-        localStorage.setItem('concejalesps_usuario', usuario);
-        localStorage.setItem('concejalesps_login_time', Date.now().toString());
-        window.location.href = 'index.html';
-      } else {
-        errorEl.classList.add('visible');
-        document.getElementById('clave').value = '';
-        document.getElementById('clave').focus();
-      }
-    });
+  /* ── GENERAL OBLIGADO ── */
+  "ivan.sanchez":        "lastoscas2026",
+  "alejandro.delssin":   "lastoscas2026",
+  "miguel.gutierrez":    "lastoscas2026",
+  "marisa.flores":       "reconquista2026",
+  "daina.ramirez":       "villaocampo2026",
+  "andrea.cracogna":     "villaocampo2026",
 
-    // Ocultar error al escribir
-    document.getElementById('usuario').addEventListener('input', () =>
-      document.getElementById('errorMsg').classList.remove('visible'));
-    document.getElementById('clave').addEventListener('input', () =>
-      document.getElementById('errorMsg').classList.remove('visible'));
-  </script>
+  /* ── LA CAPITAL ── */
+  "omar.colombo":        "recreo2026",
+  "omar.picard":         "recreo2026",
+  "camila.rodriguez":    "rincon2026",
+  "melina.andres":       "lagunapaiva2026",
+  "alejandra.chena":     "santotome2026",
+
+  /* ── LAS COLONIAS ── */
+  "judith.perren":       "sancarloscent2026",
+  "gabriel.otazo":       "sancarloscent2026",
+
+  /* ── ROSARIO ── */
+  "carlos.pighin":       "alvear2026",
+  "benjamin.perruccio":  "alvear2026",
+  "flavia.banfi":        "alvear2026",
+  "martin.gherardi":     "puebloesther2026",
+  "alberto.ricci":       "vggalvez2026",
+  "esteban.lenci":       "vggalvez2026",
+  "patricia.gonzalez":   "vggalvez2026",
+  "jose.bulsicco":       "vggalvez2026",
+  "federico.lifschitz":  "rosario2026",
+  "manuel.sciutto":      "rosario2026",
+  "alicia.pino":         "rosario2026",
+  "maxi.lopez":          "rosario2026",
+
+  /* ── SAN CRISTÓBAL ── */
+  "agustin.peretti":     "suardi2026",
+  "gonzalo.rui":         "suardi2026",
+
+  /* ── SAN JERÓNIMO ── */
+  "santiago.pestarini":  "galvez2026",
+  "monica.rivelo":       "galvez2026",
+
+  /* ── SAN MARTÍN ── */
+  "rodrigo.duin":        "sanjorge2026",
+  "laura.raspantti":     "eltrebol2026",
+
+  /* ── VERA ── */
+  "anapaulacapello":     "vera2026",
+};
+
+function acceder(e) {
+  e.preventDefault();
+  const u = document.getElementById('usuario').value.trim().toLowerCase();
+  const c = document.getElementById('clave').value;
+  const err = document.getElementById('error');
+
+  if (USUARIOS[u] && USUARIOS[u] === c) {
+    localStorage.setItem('ps_foro_auth', btoa(u + ':' + Date.now()));
+    localStorage.setItem('ps_foro_user', u);
+    window.location.href = 'index.html';
+  } else {
+    err.classList.add('visible');
+    document.getElementById('clave').value = '';
+    document.getElementById('clave').focus();
+  }
+}
+
+/* Si ya está logueado, ir directo */
+if (localStorage.getItem('ps_foro_auth')) {
+  window.location.href = 'index.html';
+}
+</script>
 </body>
 </html>
