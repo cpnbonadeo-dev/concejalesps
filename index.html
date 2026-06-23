@@ -1223,8 +1223,8 @@ async function cargarDatosBanco() {
           notas:    r.c[10]?.v || '',
         })).filter(r => {
           if (!r.titulo) return false;
-          const key = r.titulo.toLowerCase().trim() + '|' + (r.concejal||'').toLowerCase().trim();
-          if (seen.has(key)) return false;
+          const key = (r.titulo||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+          if (!key || seen.has(key)) return false;
           seen.add(key);
           return true;
         });
