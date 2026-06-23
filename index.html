@@ -439,7 +439,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </div>
 </section>
 
-<section id="ejes" class="section" style="background:#0D0509;position:relative;overflow:hidden;">
+<section id="ejes" class="section" style="background:var(--gris-suave);position:relative;overflow:hidden;">
   <img src="https://temporal.pssantafe.org/wp-content/themes/theme-template-websimple/public/images/logo-header.svg" aria-hidden="true" class="rosa-deco" style="right:-40px;bottom:-40px;width:300px;height:300px;opacity:.05;filter:sepia(1) saturate(3) hue-rotate(310deg) brightness(1.2);">
   <div class="container" style="position:relative;z-index:1;">
     <div class="section-header">
@@ -465,7 +465,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     </div>
   </div>
 </section>
-<section id="problemas" class="section" style="background:var(--gris-suave)">
+<section id="problemas" class="section" style="background:#0D0509">
 <div class="container">
     <div class="section-header">
       <div class="tag" style="background:rgba(196,18,48,.2);color:#FF6B7A;">Problemas del territorio</div>
@@ -1198,31 +1198,45 @@ window.addEventListener('scroll',()=>{
 const BANCO_SHEET_ID = '16Y5BqzJauMD_DAbR0HZ3CFk9LhbYe234v3G-3D6-ZBw';
 let _bancoDatos = null;
 
+let _bancoDatosPromise = null;
 async function cargarDatosBanco() {
   if (_bancoDatos) return _bancoDatos;
-  const url = `https://docs.google.com/spreadsheets/d/${BANCO_SHEET_ID}/gviz/tq?tqx=out:json&sheet=banco%20de%20iniciativas&headers=1`;
-  try {
-    const resp = await fetch(url);
-    const text = await resp.text();
-    const json = JSON.parse(text.substring(text.indexOf('(') + 1, text.lastIndexOf(')')));
-    _bancoDatos = (json.table.rows || []).map(r => ({
-      titulo:   r.c[0]?.v || '',
-      area:     r.c[1]?.v || '',
-      problema: r.c[2]?.v || '',
-      ods:      r.c[3]?.v || '',
-      concejal: r.c[4]?.v || '',
-      localidad:r.c[5]?.v || '',
-      depto:    r.c[6]?.v || '',
-      anio:     r.c[7]?.v || '',
-      estado:   r.c[8]?.v || '',
-      link:     r.c[9]?.v || '',
-      notas:    r.c[10]?.v || '',
-    })).filter(r => r.titulo);
-    return _bancoDatos;
-  } catch(e) {
-    console.error('Error cargando banco:', e);
-    return [];
+  if (!_bancoDatosPromise) {
+    _bancoDatosPromise = (async () => {
+      const url = `https://docs.google.com/spreadsheets/d/${BANCO_SHEET_ID}/gviz/tq?tqx=out:json&sheet=banco%20de%20iniciativas&headers=1`;
+      try {
+        const resp = await fetch(url);
+        const text = await resp.text();
+        const json = JSON.parse(text.substring(text.indexOf('(') + 1, text.lastIndexOf(')')));
+        const seen = new Set();
+        _bancoDatos = (json.table.rows || []).map(r => ({
+          titulo:   r.c[0]?.v || '',
+          area:     r.c[1]?.v || '',
+          problema: r.c[2]?.v || '',
+          ods:      r.c[3]?.v || '',
+          concejal: r.c[4]?.v || '',
+          localidad:r.c[5]?.v || '',
+          depto:    r.c[6]?.v || '',
+          anio:     r.c[7]?.v || '',
+          estado:   r.c[8]?.v || '',
+          link:     r.c[9]?.v || '',
+          notas:    r.c[10]?.v || '',
+        })).filter(r => {
+          if (!r.titulo) return false;
+          const key = r.titulo.toLowerCase().trim() + '|' + (r.concejal||'').toLowerCase().trim();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        return _bancoDatos;
+      } catch(e) {
+        console.error('Error cargando banco:', e);
+        _bancoDatos = [];
+        return _bancoDatos;
+      }
+    })();
   }
+  return _bancoDatosPromise;
 }
 
 function _renderPanel(panelId, items, label) {
@@ -1282,8 +1296,11 @@ async function filtrarPorArea(area) {
   const panel = document.getElementById('banco-panel');
   panel.innerHTML = '<div style="text-align:center;padding:1.5rem;color:rgba(0,0,0,.4);">Cargando ordenanzas…</div>';
   panel.style.display = 'block';
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   const datos = await cargarDatosBanco();
-  _renderPanel('banco-panel', datos.filter(r => r.area === area), area);
+  const _nm = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+  _renderPanel('banco-panel', datos.filter(r => _nm(r.area) === _nm(area)), area);
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 async function filtrarPorProblema(problema) {
