@@ -373,7 +373,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div>
         <div class="tag" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);margin-bottom:.75rem;">Presencia territorial</div>
         <h2 class="section-title" style="color:white;margin-bottom:.75rem;">Más de 70 autoridades en 15 departamentos</h2>
-        <p style="color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;margin-bottom:1.5rem;">El círculo muestra cuántas Concejales, intendentes y presidentes comunales tenemos en cada departamento.</p>
+        <p style="color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;margin-bottom:1.5rem;">El círculo muestra cuántos concejales tenemos en cada departamento.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem;">
           <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:1rem;text-align:center;"><span style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:#E8192C;display:block;">7</span><span style="font-size:.72rem;color:rgba(255,255,255,.5);">Intendentes</span></div>
           <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:1rem;text-align:center;"><span style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:#E8192C;display:block;">38</span><span style="font-size:.72rem;color:rgba(255,255,255,.5);">Concejales</span></div>
@@ -470,7 +470,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <div class="section-header">
       <div class="tag" style="background:rgba(196,18,48,.2);color:#FF6B7A;">Problemas del territorio</div>
       <h2 class="section-title" style="color:white;">Los 15 problemas más frecuentes en la gestión local</h2>
-      <p class="section-desc" style="color:rgba(255,255,255,.5);">Estos son los 15 temas que más aparecen en los concejos santafesinos. En el Banco, cada iniciativa está etiquetada con uno o más: #Infraestructura · #Servicios básicos · #Basurales · #Ambiente · #Animales sueltos · #Seguridad vial · #Transporte · #Empleo joven · #Hábitat y vivienda · #Salud · #Consumo problemático · #Género y DDHH · #Educación y cultura · #Transparencia · #Participación</p>
+      <p class="section-desc" style="color:rgba(255,255,255,.5);">Los mismos problemas, en distintas ciudades, con distintos nombres. Como concejal sabés de qué hablamos: los escuchaste en el barrio, los ves en cada sesión. Hacé clic en el que más te interpela y encontrá ordenanzas de otros que ya dieron el paso.</p>
     </div>
     <div id="problemas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;"></div>
     <div style="display:none" id="problemas-subir-placeholder">
@@ -796,7 +796,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
       <div class="logo"><div class="logo-escudo" style="width:38px;height:38px;font-size:1rem">PS</div><div class="logo-text"><strong style="font-size:.88rem">Foro Autoridades Locales</strong><span>Partido Socialista · Santa Fe</span></div></div>
       <p>Espacio de encuentro, intercambio y formación de Concejales socialistas en la provincia de Santa Fe.</p>
       <a href="mailto:autoridadeslocales@gmail.com" class="footer-email">✉ autoridadeslocales@gmail.com</a>
-      <p style="margin-top:.75rem;font-size:.78rem;color:rgba(255,255,255,.35);font-style:normal;"><strong style="color:rgba(255,255,255,.5);">Pablo Pinotti</strong> · Presidente del Foro de Autoridades Locales del Partido Socialista</p>
+      <p style="margin-top:.75rem;font-size:.78rem;color:rgba(255,255,255,.35);font-style:normal;"><strong style="color:rgba(255,255,255,.5);">Pablo Pinotti</strong> · Presidente del Foro de Autoridades Locales</p>
     </div>
     <div class="footer-col"><h5>Contenido</h5><ul><li><a href="#banco">Banco de Iniciativas</a></li><li><a href="#biblioteca">Marco normativo</a></li><li><a href="#capacitaciones">Capacitaciones</a></li><li><a href="#agenda">Agenda</a></li></ul></div>
     <div class="footer-col"><h5>El foro</h5><ul><li><a href="#localidades">Directorio y mapa</a></li><li><a href="#localidades">Localidades</a></li><li><a href="#rol">El rol del concejal</a></li></ul></div>
@@ -1375,7 +1375,8 @@ const PROBLEMAS=[
          onmouseenter="this.style.background='rgba(196,18,48,.1)';this.style.borderColor='rgba(196,18,48,.35)';this.style.transform='translateY(-3px)'"
          onmouseleave="this.style.background='rgba(255,255,255,.04)';this.style.borderColor='rgba(255,255,255,.07)';this.style.transform=''">
       <div style="font-size:2.6rem;line-height:1;margin-bottom:.75rem;">${p.icono}</div>
-      <div style="font-weight:700;font-size:.9rem;color:white;margin-bottom:.5rem;line-height:1.35;">${p.desc}</div>
+      <div style="font-weight:700;font-size:.9rem;color:white;margin-bottom:.35rem;line-height:1.35;">${p.desc}</div>
+      <div style="font-size:.65rem;font-weight:700;color:rgba(196,18,48,.55);letter-spacing:.02em;margin-bottom:.65rem;">#${p.key}</div>
       <div style="font-size:.7rem;color:rgba(196,18,48,.7);margin-bottom:.75rem;font-weight:600;">Ver ordenanzas →</div>
       <div style="font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.2);margin-bottom:.45rem;">ODS vinculados</div>
       <div style="display:flex;gap:.35rem;flex-wrap:wrap;">
