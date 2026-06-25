@@ -303,16 +303,16 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
   </button>
 </nav>
 <div class="nav-dropdown" id="nav-dropdown">
+  <a href="#concejales" onclick="cerrarMenu()">👥 Concejales</a>
   <a href="#banco" onclick="cerrarMenu()">📂 Banco de Iniciativas</a>
   <a href="#problemas" onclick="cerrarMenu()">🗺 Problemas del territorio</a>
   <a href="#ods" onclick="cerrarMenu()">🌐 ODS 2030</a>
   <a href="#biblioteca" onclick="cerrarMenu()">📚 Biblioteca Legal</a>
-  <a href="#localidades" onclick="cerrarMenu()">📍 Localidades</a>
-  <a href="#localidades" onclick="cerrarMenu()">🏛 Directorio y mapa</a>
+  <a href="autoridades.html" onclick="cerrarMenu()">🏛 Mapa y autoridades locales</a>
   <a href="#capacitaciones" onclick="cerrarMenu()">🎓 Capacitaciones</a>
   <a href="#agenda" onclick="cerrarMenu()">📅 Agenda</a>
-  <a href="#concejales" onclick="cerrarMenu()">👥 Concejales</a>
-  <a href="#" onclick="localStorage.removeItem('ps_foro_auth');window.location.href='login.html';return false;" style="color:rgba(196,18,48,.6)">🚪 Salir</a>
+  <a href="https://forms.gle/VUsYtWeVtQMn59uu5" target="_blank" onclick="cerrarMenu()" style="color:#C41230;font-weight:700;">➕ Subí tu iniciativa</a>
+  <a href="#" onclick="localStorage.removeItem('ps_foro_auth');window.location.href='login.html';return false;" style="color:rgba(255,255,255,.3);font-size:.85rem;">🚪 Salir</a>
 </div>
 
 <section id="inicio" style="position:relative;">
@@ -533,7 +533,6 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     <p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:1.5rem;background:rgba(196,18,48,.06);border-left:3px solid var(--rojo);padding:.75rem 1rem;border-radius:0 8px 8px 0;">
       Gobernamos el ejecutivo en <strong>7 municipios</strong> y conducimos <strong>28 comunas</strong> de Santa Fe. Tenemos Concejales en más de 30 gobiernos locales en 15 departamentos.
     </p>
-    <div style="text-align:center;margin-bottom:1.5rem;"><a href="autoridades.html" style="display:inline-flex;align-items:center;gap:.5rem;background:#C41230;color:white;border-radius:10px;padding:.75rem 1.5rem;font-size:.9rem;font-weight:700;text-decoration:none;">🗺️ Ver directorio completo y mapa →</a></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1rem;">
       <a href="https://www.sunchales.gob.ar" target="_blank" class="loc-card reveal" style="text-decoration:none;background:white;">
         <div style="font-size:1.75rem;margin-bottom:.5rem;">🌆</div>
@@ -585,7 +584,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
         <div class="dept" style="font-size:.68rem;">Int.: Alberto Ricci · Rosario</div>
       </a>
     </div>
-    <div style="text-align:center;"><a href="#localidades" class="btn btn-rojo">🗺 Ver gobiernos locales</a></div>
+    <div style="text-align:center;"><a href="autoridades.html" class="btn btn-rojo" style="font-size:.95rem;padding:.75rem 1.75rem;">🗺️ Ver mapa y autoridades locales →</a></div>
   </div>
 </section>
 
@@ -599,8 +598,7 @@ footer{background:linear-gradient(160deg,#150205,#1A0C0F);padding:3rem 2rem 2rem
     </div>
     <div id="gridConcejales" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-bottom:2rem;"></div>
     <div style="text-align:center;margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <a href="#localidades" class="btn btn-rojo">🗺 Ver directorio completo</a>
-      <a href="#sumarse" class="btn btn-ghost" style="background:rgba(196,18,48,.08);color:var(--rojo);border:1px solid rgba(196,18,48,.2)">📤 Subí tu iniciativa</a>
+      <a href="https://forms.gle/VUsYtWeVtQMn59uu5" target="_blank" class="btn btn-rojo" style="font-size:1rem;padding:.85rem 2rem;font-weight:800;letter-spacing:.02em;">➕ Subí tu iniciativa</a>
     </div>
   </div>
 </section>
