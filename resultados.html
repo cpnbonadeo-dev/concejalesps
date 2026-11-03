@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resultados — PS Castellanos</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#ccd6f6;min-height:100vh}
+.hdr{background:#111827;border-bottom:1px solid #1e2a3a;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.hdr-title{font-size:15px;font-weight:800;color:#60a5fa;letter-spacing:.5px}
+.hdr-sub{font-size:11px;color:#445;margin-top:2px}
+.reload-btn{background:none;border:1px solid #2a3a5a;color:#60a5fa;border-radius:12px;padding:5px 12px;font-size:11px;cursor:pointer;font-weight:700}
+.reload-btn:hover{border-color:#60a5fa;background:rgba(96,165,250,.1)}
+.container{max-width:900px;margin:0 auto;padding:16px}
+.kpi-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.kpi-box{flex:1;min-width:100px;background:#111827;border:1px solid #1e2a3a;border-radius:10px;padding:12px 14px;text-align:center}
+.kpi-val{font-size:22px;font-weight:800;color:#60a5fa}
+.kpi-lbl{font-size:10px;color:#445;margin-top:2px;text-transform:uppercase;letter-spacing:.6px}
+.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#445;margin:16px 0 8px}
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:16px}
+.loc-card{background:#111827;border:1px solid #1e2a3a;border-radius:10px;padding:10px 12px;transition:border-color .2s}
+.loc-card.e-actuar{border-left:3px solid #22c55e}
+.loc-card.e-intentar{border-left:3px solid #f59e0b}
+.loc-card.e-no{border-left:3px solid #ef4444}
+.loc-card.e-no_se{border-left:3px solid #64748b}
+.loc-card.e-none{border-left:3px solid #1e2a3a;opacity:.6}
+.loc-name{font-size:12px;font-weight:700;color:#ccd}
+.loc-tipo{font-size:9px;color:#445;margin-top:1px}
+.loc-eval{font-size:11px;margin-top:6px}
+.loc-eval.e-actuar{color:#22c55e}
+.loc-eval.e-intentar{color:#f59e0b}
+.loc-eval.e-no{color:#ef4444}
+.loc-eval.e-no_se{color:#64748b}
+.loc-eval.e-none{color:#2a3a5a}
+.loc-authors{font-size:9px;color:#445;margin-top:3px}
+.table-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#0d1117;color:#445;text-transform:uppercase;letter-spacing:.5px;padding:7px 10px;border-bottom:1px solid #1e2a3a;text-align:left;font-size:10px}
+td{padding:7px 10px;border-bottom:1px solid #111827;color:#99aacc}
+tr:hover td{background:#111827}
+.pill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700}
+.pill-actuar{background:rgba(34,197,94,.15);color:#22c55e}
+.pill-intentar{background:rgba(245,158,11,.15);color:#f59e0b}
+.pill-no{background:rgba(239,68,68,.15);color:#ef4444}
+.pill-no_se{background:rgba(100,116,139,.15);color:#94a3b8}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#889}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+.loading{text-align:center;padding:40px;color:#445;font-size:13px}
+.tab-row{display:flex;gap:4px;margin-bottom:14px}
+.tab-btn{padding:5px 14px;border-radius:10px;border:1px solid #1e2a3a;background:none;color:#445;font-size:11px;font-weight:700;cursor:pointer}
+.tab-btn.active{background:rgba(96,165,250,.15);border-color:#60a5fa;color:#60a5fa}
+.filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filter-sel{background:#111827;border:1px solid #1e2a3a;color:#ccd;border-radius:8px;padding:5px 10px;font-size:11px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div>
+    <div class="hdr-title">📊 Resultados — PS Castellanos</div>
+    <div class="hdr-sub" id="lastUpdate">Cargando...</div>
+  </div>
+  <button class="reload-btn" onclick="loadData()">↺ Actualizar</button>
+</div>
+<div class="container">
+  <div id="main"><div class="loading">Cargando datos...</div></div>
+</div>
+
+<script>
+const SUPA_URL="https://ikaadszatnbmzjrjvmkv.supabase.co";
+const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrYWFkc3phdG5ibXpqcmp2bWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1Mjc1ODMsImV4cCI6MjA5NzEwMzU4M30.QS4ClCaryH56pGAVc4ICS_eHC1LZmvQFrR4KNri3GSs";
+
+const BASE=[
+  {id:"rafaela",n:"Rafaela",G:true},{id:"sunchales",n:"Sunchales",G:true},{id:"frontera",n:"Frontera",G:true},{id:"san_vicente",n:"San Vicente",G:true},{id:"humberto",n:"Humberto Primo",G:true},{id:"maria_juana",n:"Maria Juana",G:true},{id:"col_aldao",n:"Colonia Aldao",G:false},{id:"angelica",n:"Angelica",G:false},{id:"ataliva",n:"Ataliva",G:false},{id:"aurelia",n:"Aurelia",G:false},{id:"bauer_sigel",n:"Bauer y Sigel",G:false},{id:"bella_italia",n:"Bella Italia",G:false},{id:"col_bicha",n:"Col. Bicha",G:false},{id:"col_bigand",n:"Col. Bigand",G:false},{id:"castellanos_c",n:"Castellanos",G:false},{id:"col_cello",n:"Colonia Cello",G:false},{id:"col_iturraspe",n:"Col. Iturraspe",G:false},{id:"col_margarita",n:"Col. Margarita",G:false},{id:"maua",n:"Maua",G:false},{id:"col_raquel",n:"Colonia Raquel",G:false},{id:"coronel_fraga",n:"Coronel Fraga",G:false},{id:"plaza_cluc",n:"Plaza Clucellas",G:false},{id:"egusquiza",n:"Egusquiza",G:false},{id:"esmeralda",n:"Esmeralda",G:false},{id:"est_cluc",n:"Est. Clucellas",G:false},{id:"eusebia",n:"Eusebia y Carolina",G:false},{id:"eustolia",n:"Eustolia",G:false},{id:"fidela",n:"Fidela",G:false},{id:"galisteo",n:"Galisteo",G:false},{id:"garibaldi",n:"Garibaldi",G:false},{id:"hugentobler",n:"Hugentobler",G:false},{id:"josefina",n:"Josefina",G:false},{id:"lehmann",n:"Lehmann",G:false},{id:"pte_roca",n:"Presidente Roca",G:false},{id:"pueblo_marini",n:"Pueblo Marini",G:false},{id:"ramona",n:"Ramona",G:false},{id:"saguier",n:"Saguier",G:false},{id:"san_antonio",n:"San Antonio",G:false},{id:"sta_clara",n:"Sta. Clara de Saguier",G:false},{id:"susana",n:"Susana",G:false},{id:"tacural",n:"Tacural",G:false},{id:"tacurales",n:"Tacurales",G:false},{id:"vila",n:"Vila",G:false},{id:"villa_san_jose",n:"Villa San Jose",G:false},{id:"virginia",n:"Virginia",G:false},{id:"zenon_pereyra",n:"Zenon Pereyra",G:false}
+];
+
+const EVAL_DEF={
+  actuar: {ico:'✅', txt:'Tenemos oportunidades', cls:'actuar'},
+  intentar:{ico:'🔄', txt:'Hay que intentarlo',    cls:'intentar'},
+  no:      {ico:'🚫', txt:'No conviene ahora',      cls:'no'},
+  no_se:   {ico:'🤷', txt:'Sin conocimiento',       cls:'no_se'},
+};
+
+let curView='grid', filterAutor='todos';
+
+async function supa(path){
+  const r=await fetch(`${SUPA_URL}/rest/v1/${path}`,{headers:{"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY}});
+  return r.json();
+}
+
+async function loadData(){
+  document.getElementById('lastUpdate').textContent='Actualizando...';
+  const [evals, vncs] = await Promise.all([
+    supa('evaluaciones?select=autor,evaluacion,localidad_id,localidad_n,created_at&order=created_at.desc'),
+    supa('vinculos?select=localidad,autor,nombre,tipo,created_at&order=created_at.desc&limit=500'),
+  ]);
+
+  const now=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('lastUpdate').textContent=`Actualizado ${now} · ${evals.length} evaluaciones de ${new Set(evals.map(e=>e.autor)).size} persona/s`;
+
+  render(evals, vncs);
+}
+
+function render(evals, vncs){
+  // Build maps
+  const byLoc={};   // locId → {evaluaciones: [], consensus: key}
+  const byAutor={}; // autor → count
+  BASE.forEach(b=>{ byLoc[b.id]={evals:[],vncs:[]}; });
+
+  evals.forEach(e=>{
+    if(byLoc[e.localidad_id]) byLoc[e.localidad_id].evals.push(e);
+    byAutor[e.autor]=(byAutor[e.autor]||0)+1;
+  });
+  vncs.forEach(v=>{
+    if(byLoc[v.localidad]) byLoc[v.localidad].vncs.push(v);
+  });
+
+  // Consensus: most common eval per locality
+  BASE.forEach(b=>{
+    const es=byLoc[b.id].evals;
+    if(!es.length){byLoc[b.id].consensus=null;return;}
+    const cnt={};
+    es.forEach(e=>cnt[e.evaluacion]=(cnt[e.evaluacion]||0)+1);
+    byLoc[b.id].consensus=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0];
+    byLoc[b.id].votes=cnt;
+  });
+
+  const autores=Object.keys(byAutor).sort();
+  const totalEval=BASE.filter(b=>byLoc[b.id].evals.length>0).length;
+  const totalVncs=vncs.length;
+
+  // KPIs
+  const evalCounts={actuar:0,intentar:0,no:0,no_se:0};
+  BASE.forEach(b=>{if(byLoc[b.id].consensus)evalCounts[byLoc[b.id].consensus]++;});
+
+  const filteredEvals = filterAutor==='todos' ? evals : evals.filter(e=>e.autor===filterAutor);
+
+  let html=`
+  <div class="kpi-row">
+    <div class="kpi-box"><div class="kpi-val">${evals.length}</div><div class="kpi-lbl">Evaluaciones cargadas</div></div>
+    <div class="kpi-box"><div class="kpi-val">${totalEval}/${BASE.length}</div><div class="kpi-lbl">Localidades evaluadas</div></div>
+    <div class="kpi-box"><div class="kpi-val">${Object.keys(byAutor).length}</div><div class="kpi-lbl">Participantes</div></div>
+    <div class="kpi-box"><div class="kpi-val">${totalVncs}</div><div class="kpi-lbl">Vínculos registrados</div></div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-box" style="border-left:3px solid #22c55e"><div class="kpi-val" style="color:#22c55e">${evalCounts.actuar}</div><div class="kpi-lbl">✅ Oportunidades</div></div>
+    <div class="kpi-box" style="border-left:3px solid #f59e0b"><div class="kpi-val" style="color:#f59e0b">${evalCounts.intentar}</div><div class="kpi-lbl">🔄 Intentarlo</div></div>
+    <div class="kpi-box" style="border-left:3px solid #ef4444"><div class="kpi-val" style="color:#ef4444">${evalCounts.no}</div><div class="kpi-lbl">🚫 No conviene</div></div>
+    <div class="kpi-box" style="border-left:3px solid #64748b"><div class="kpi-val" style="color:#94a3b8">${evalCounts.no_se}</div><div class="kpi-lbl">🤷 Sin conocimiento</div></div>
+  </div>
+
+  <div class="filter-row">
+    <span style="font-size:11px;color:#445;font-weight:700">Filtrar por persona:</span>
+    <select class="filter-sel" onchange="filterAutor=this.value;render(window._evals,window._vncs)">
+      <option value="todos">Todos</option>
+      ${autores.map(a=>`<option value="${a}" ${filterAutor===a?'selected':''}>${a} (${byAutor[a]})</option>`).join('')}
+    </select>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab-btn ${curView==='grid'?'active':''}" onclick="curView='grid';render(window._evals,window._vncs)">🗺 Vista localidades</button>
+    <button class="tab-btn ${curView==='tabla'?'active':''}" onclick="curView='tabla';render(window._evals,window._vncs)">📋 Vista detalle</button>
+  </div>`;
+
+  if(curView==='grid'){
+    html+=`<div class="legend">
+      <span class="leg-item"><span class="leg-dot" style="background:#22c55e"></span>Tenemos oportunidades</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#f59e0b"></span>Hay que intentarlo</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#ef4444"></span>No conviene ahora</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#64748b"></span>Sin conocimiento</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#1e2a3a"></span>Sin evaluar</span>
+    </div>
+    <div class="loc-grid">`;
+
+    const viewEvals = filterAutor==='todos' ? null : filteredEvals;
+
+    BASE.forEach(b=>{
+      const ld=byLoc[b.id];
+      let consensus=null;
+      if(viewEvals){
+        const mine=viewEvals.filter(e=>e.localidad_id===b.id);
+        if(mine.length) consensus=mine[mine.length-1].evaluacion;
+      } else {
+        consensus=ld.consensus;
+      }
+      const def=consensus?EVAL_DEF[consensus]:null;
+      const cls=consensus?`e-${consensus}`:'e-none';
+      const vncCnt=ld.vncs.length;
+      const authors=[...new Set(ld.evals.map(e=>e.autor))].join(', ');
+
+      html+=`<div class="loc-card ${cls}">
+        <div class="loc-name">${b.n}</div>
+        <div class="loc-tipo">${b.G?'Municipio':'Comuna'}${vncCnt>0?` · ${vncCnt} vínculo${vncCnt>1?'s':''}`:''}
+        </div>
+        <div class="loc-eval ${cls}">${def?def.ico+' '+def.txt:'— Sin evaluar'}</div>
+        ${authors?`<div class="loc-authors">${authors}</div>`:''}
+      </div>`;
+    });
+    html+=`</div>`;
+  } else {
+    // Tabla detalle
+    const rowsEvals = filterAutor==='todos' ? evals : filteredEvals;
+    html+=`<div class="section-title">Evaluaciones (${rowsEvals.length})</div>
+    <div class="table-wrap"><table>
+      <tr><th>Localidad</th><th>Evaluación</th><th>Persona</th><th>Fecha</th></tr>
+      ${rowsEvals.map(e=>{
+        const def=EVAL_DEF[e.evaluacion]||{ico:'?',txt:e.evaluacion};
+        const ts=e.created_at?new Date(e.created_at).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+        return `<tr><td>${e.localidad_n||e.localidad_id}</td><td><span class="pill pill-${e.evaluacion}">${def.ico} ${def.txt}</span></td><td>${e.autor}</td><td>${ts}</td></tr>`;
+      }).join('')}
+    </table></div>`;
+  }
+
+  document.getElementById('main').innerHTML=html;
+  window._evals=evals; window._vncs=vncs;
+}
+
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS Castellanos — Resultados en vivo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0f1a;color:#ccd6f6;min-height:100vh;display:flex;flex-direction:column}
+
+/* HEADER */
+.hdr{background:#0d1422;border-bottom:2px solid #1e2a3a;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.hdr-left{display:flex;align-items:center;gap:14px}
+.logo{font-size:28px}
+.hdr-titles{}
+.hdr-title{font-size:18px;font-weight:900;color:#60a5fa;letter-spacing:.5px}
+.hdr-sub{font-size:12px;color:#3a5070;margin-top:1px}
+.hdr-right{display:flex;align-items:center;gap:14px}
+.live-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.live-txt{font-size:11px;color:#22c55e;font-weight:700}
+.countdown{font-size:11px;color:#2a4060;font-weight:700}
+.fullscreen-btn{background:none;border:1px solid #1e2a3a;color:#445;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer}
+.fullscreen-btn:hover{border-color:#60a5fa;color:#60a5fa}
+
+/* KPIs */
+.kpi-bar{display:flex;gap:0;border-bottom:1px solid #1e2a3a;flex-shrink:0}
+.kpi{flex:1;padding:14px 20px;text-align:center;border-right:1px solid #1e2a3a}
+.kpi:last-child{border-right:none}
+.kpi-val{font-size:30px;font-weight:900;line-height:1}
+.kpi-lbl{font-size:10px;color:#3a5070;margin-top:4px;text-transform:uppercase;letter-spacing:.7px}
+.kpi-sub{font-size:11px;color:#2a4060;margin-top:2px}
+
+/* PROGRESS BAR */
+.prog-wrap{height:6px;background:#0d1422;display:flex;flex-shrink:0}
+.prog-actuar{background:#22c55e;transition:width .8s ease}
+.prog-intentar{background:#f59e0b;transition:width .8s ease}
+.prog-no{background:#ef4444;transition:width .8s ease}
+.prog-no_se{background:#64748b;transition:width .8s ease}
+.prog-none{background:#1e2a3a;transition:width .8s ease}
+
+/* GRID */
+.grid-wrap{flex:1;padding:16px 20px;overflow-y:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+
+/* LOC CARDS */
+.lc{border-radius:10px;padding:11px 13px;border:1px solid #1e2a3a;background:#0d1422;transition:all .6s ease;position:relative;overflow:hidden}
+.lc::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:#1e2a3a;transition:background .6s}
+.lc.e-actuar::before{background:#22c55e}
+.lc.e-intentar::before{background:#f59e0b}
+.lc.e-no::before{background:#ef4444}
+.lc.e-no_se::before{background:#64748b}
+.lc.e-actuar{background:rgba(34,197,94,.06)}
+.lc.e-intentar{background:rgba(245,158,11,.06)}
+.lc.e-no{background:rgba(239,68,68,.06)}
+.lc.e-no_se{background:rgba(100,116,139,.06)}
+.lc-name{font-size:12px;font-weight:800;color:#ccd;line-height:1.2}
+.lc-tipo{font-size:9px;color:#2a4060;margin-top:1px}
+.lc-eval{font-size:11px;font-weight:700;margin-top:7px;min-height:16px}
+.lc.e-actuar .lc-eval{color:#22c55e}
+.lc.e-intentar .lc-eval{color:#f59e0b}
+.lc.e-no .lc-eval{color:#ef4444}
+.lc.e-no_se .lc-eval{color:#64748b}
+.lc.e-none .lc-eval{color:#1e2a3a}
+.lc-votes{font-size:9px;color:#2a4060;margin-top:3px}
+.lc-vnc{position:absolute;top:8px;right:8px;background:rgba(96,165,250,.15);color:#60a5fa;font-size:8px;font-weight:700;border-radius:6px;padding:1px 5px}
+
+/* LEGEND */
+.legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:8px 20px;border-top:1px solid #1e2a3a;background:#0d1422;flex-shrink:0}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:#3a5070}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="logo">🗳</div>
+    <div class="hdr-titles">
+      <div class="hdr-title">PS Castellanos — Mirada territorial</div>
+      <div class="hdr-sub">Evaluación en vivo · Depto. Castellanos, Santa Fe</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <span class="live-dot"></span>
+    <span class="live-txt">EN VIVO</span>
+    <span class="countdown" id="cdtxt">↺ en 30s</span>
+    <button class="fullscreen-btn" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()">⛶ Pantalla completa</button>
+  </div>
+</div>
+
+<div class="kpi-bar" id="kpiBar">
+  <div class="kpi"><div class="kpi-val" style="color:#60a5fa">—</div><div class="kpi-lbl">Evaluaciones</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:#60a5fa">—</div><div class="kpi-lbl">Localidades cubiertas</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:#22c55e">—</div><div class="kpi-lbl">✅ Oportunidades</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:#f59e0b">—</div><div class="kpi-lbl">🔄 Hay que intentarlo</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:#ef4444">—</div><div class="kpi-lbl">🚫 No conviene</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:#64748b">—</div><div class="kpi-lbl">🤷 Sin conocimiento</div></div>
+</div>
+
+<div class="prog-wrap" id="progBar">
+  <div class="prog-none" style="width:100%"></div>
+</div>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid"><div style="color:#2a4060;padding:40px;text-align:center;grid-column:1/-1">Cargando datos...</div></div>
+</div>
+
+<div class="legend">
+  <span class="leg"><span class="leg-dot" style="background:#22c55e"></span>Tenemos oportunidades de ganar</span>
+  <span class="leg"><span class="leg-dot" style="background:#f59e0b"></span>Hay que intentarlo</span>
+  <span class="leg"><span class="leg-dot" style="background:#ef4444"></span>No conviene hacer nada ahora</span>
+  <span class="leg"><span class="leg-dot" style="background:#64748b"></span>Sin conocimiento</span>
+  <span class="leg"><span class="leg-dot" style="background:#1e2a3a"></span>Sin evaluar</span>
+  <span id="lastTs" style="margin-left:auto;font-size:10px;color:#2a4060"></span>
+</div>
+
+<script>
+const SUPA_URL="https://ikaadszatnbmzjrjvmkv.supabase.co";
+const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrYWFkc3phdG5ibXpqcmp2bWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1Mjc1ODMsImV4cCI6MjA5NzEwMzU4M30.QS4ClCaryH56pGAVc4ICS_eHC1LZmvQFrR4KNri3GSs";
+
+const BASE=[
+  {id:"rafaela",n:"Rafaela",G:true},{id:"sunchales",n:"Sunchales",G:true},{id:"frontera",n:"Frontera",G:true},{id:"san_vicente",n:"San Vicente",G:true},{id:"humberto",n:"Humberto Primo",G:true},{id:"maria_juana",n:"Maria Juana",G:true},{id:"col_aldao",n:"Colonia Aldao",G:false},{id:"angelica",n:"Angelica",G:false},{id:"ataliva",n:"Ataliva",G:false},{id:"aurelia",n:"Aurelia",G:false},{id:"bauer_sigel",n:"Bauer y Sigel",G:false},{id:"bella_italia",n:"Bella Italia",G:false},{id:"col_bicha",n:"Col. Bicha",G:false},{id:"col_bigand",n:"Col. Bigand",G:false},{id:"castellanos_c",n:"Castellanos",G:false},{id:"col_cello",n:"Colonia Cello",G:false},{id:"col_iturraspe",n:"Col. Iturraspe",G:false},{id:"col_margarita",n:"Col. Margarita",G:false},{id:"maua",n:"Maua",G:false},{id:"col_raquel",n:"Colonia Raquel",G:false},{id:"coronel_fraga",n:"Coronel Fraga",G:false},{id:"plaza_cluc",n:"Plaza Clucellas",G:false},{id:"egusquiza",n:"Egusquiza",G:false},{id:"esmeralda",n:"Esmeralda",G:false},{id:"est_cluc",n:"Est. Clucellas",G:false},{id:"eusebia",n:"Eusebia y Carolina",G:false},{id:"eustolia",n:"Eustolia",G:false},{id:"fidela",n:"Fidela",G:false},{id:"galisteo",n:"Galisteo",G:false},{id:"garibaldi",n:"Garibaldi",G:false},{id:"hugentobler",n:"Hugentobler",G:false},{id:"josefina",n:"Josefina",G:false},{id:"lehmann",n:"Lehmann",G:false},{id:"pte_roca",n:"Presidente Roca",G:false},{id:"pueblo_marini",n:"Pueblo Marini",G:false},{id:"ramona",n:"Ramona",G:false},{id:"saguier",n:"Saguier",G:false},{id:"san_antonio",n:"San Antonio",G:false},{id:"sta_clara",n:"Sta. Clara de Saguier",G:false},{id:"susana",n:"Susana",G:false},{id:"tacural",n:"Tacural",G:false},{id:"tacurales",n:"Tacurales",G:false},{id:"vila",n:"Vila",G:false},{id:"villa_san_jose",n:"Villa San Jose",G:false},{id:"virginia",n:"Virginia",G:false},{id:"zenon_pereyra",n:"Zenon Pereyra",G:false}
+];
+
+const EVAL={
+  actuar: {ico:'✅',txt:'Oportunidades de ganar'},
+  intentar:{ico:'🔄',txt:'Hay que intentarlo'},
+  no:     {ico:'🚫',txt:'No conviene'},
+  no_se:  {ico:'🤷',txt:'Sin conocimiento'},
+};
+
+let cdInterval, cdVal=30;
+
+async function loadData(){
+  const [evals, vncs]=await Promise.all([
+    fetch(`${SUPA_URL}/rest/v1/evaluaciones?select=autor,evaluacion,localidad_id&order=created_at.desc`,{headers:{"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY}}).then(r=>r.json()),
+    fetch(`${SUPA_URL}/rest/v1/vinculos?select=localidad&limit=1000`,{headers:{"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY}}).then(r=>r.json()),
+  ]);
+
+  const byLoc={};
+  BASE.forEach(b=>{byLoc[b.id]={votes:{},vncs:0}});
+  evals.forEach(e=>{
+    if(byLoc[e.localidad_id])
+      byLoc[e.localidad_id].votes[e.evaluacion]=(byLoc[e.localidad_id].votes[e.evaluacion]||0)+1;
+  });
+  vncs.forEach(v=>{ if(byLoc[v.localidad]) byLoc[v.localidad].vncs++; });
+
+  // Consensus per loc
+  BASE.forEach(b=>{
+    const v=byLoc[b.id].votes;
+    const keys=Object.keys(v);
+    byLoc[b.id].consensus=keys.length?keys.sort((a,c)=>v[c]-v[a])[0]:null;
+    byLoc[b.id].total=keys.reduce((s,k)=>s+v[k],0);
+  });
+
+  // KPIs
+  const cnt={actuar:0,intentar:0,no:0,no_se:0,none:0};
+  BASE.forEach(b=>{
+    const c=byLoc[b.id].consensus;
+    if(c) cnt[c]++; else cnt.none++;
+  });
+  const covered=BASE.length-cnt.none;
+  const total=evals.length;
+
+  document.getElementById('kpiBar').innerHTML=`
+    <div class="kpi"><div class="kpi-val" style="color:#60a5fa">${total}</div><div class="kpi-lbl">Evaluaciones</div><div class="kpi-sub">${new Set(evals.map(e=>e.autor)).size} persona/s</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#60a5fa">${covered}<span style="font-size:16px;color:#2a4060">/${BASE.length}</span></div><div class="kpi-lbl">Localidades cubiertas</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#22c55e">${cnt.actuar}</div><div class="kpi-lbl">✅ Oportunidades</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#f59e0b">${cnt.intentar}</div><div class="kpi-lbl">🔄 Intentarlo</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#ef4444">${cnt.no}</div><div class="kpi-lbl">🚫 No conviene</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:#64748b">${cnt.no_se}</div><div class="kpi-lbl">🤷 Sin conocimiento</div></div>`;
+
+  // Progress bar
+  const tot=BASE.length;
+  document.getElementById('progBar').innerHTML=
+    `<div class="prog-actuar" style="width:${cnt.actuar/tot*100}%"></div>`+
+    `<div class="prog-intentar" style="width:${cnt.intentar/tot*100}%"></div>`+
+    `<div class="prog-no" style="width:${cnt.no/tot*100}%"></div>`+
+    `<div class="prog-no_se" style="width:${cnt.no_se/tot*100}%"></div>`+
+    `<div class="prog-none" style="width:${cnt.none/tot*100}%"></div>`;
+
+  // Grid — municipalities first
+  const sorted=[...BASE].sort((a,b)=>{
+    if(a.G!==b.G) return b.G-a.G;
+    const ca=byLoc[a.id].consensus, cb=byLoc[b.id].consensus;
+    if(ca&&!cb) return -1; if(!ca&&cb) return 1;
+    return 0;
+  });
+
+  document.getElementById('grid').innerHTML=sorted.map(b=>{
+    const ld=byLoc[b.id];
+    const c=ld.consensus;
+    const def=c?EVAL[c]:null;
+    const votes=Object.entries(ld.votes).map(([k,n])=>`${EVAL[k]?.ico||k}×${n}`).join(' ');
+    return `<div class="lc ${c?'e-'+c:'e-none'}">
+      ${ld.vncs>0?`<div class="lc-vnc">🔗${ld.vncs}</div>`:''}
+      <div class="lc-name">${b.n}</div>
+      <div class="lc-tipo">${b.G?'Municipio':'Comuna'}</div>
+      <div class="lc-eval">${def?def.ico+' '+def.txt:'— Sin evaluar'}</div>
+      ${votes?`<div class="lc-votes">${votes}</div>`:''}
+    </div>`;
+  }).join('');
+
+  const now=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('lastTs').textContent=`Última actualización: ${now}`;
+
+  // Reset countdown
+  clearInterval(cdInterval);
+  cdVal=30;
+  document.getElementById('cdtxt').textContent=`↺ en ${cdVal}s`;
+  cdInterval=setInterval(()=>{
+    cdVal--;
+    document.getElementById('cdtxt').textContent=`↺ en ${cdVal}s`;
+    if(cdVal<=0){ cdVal=30; loadData(); }
+  },1000);
+}
+
+loadData();
+</script>
+</body>
+</html>
